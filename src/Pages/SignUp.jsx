@@ -22,24 +22,13 @@ function SignUp() {
   return (
     <Box backgroundColor={bgColor}>
       <Navbar />
-      <Container
-        maxW="container.xl"
-        // backgroundColor="green.300"
-        p={0}
-      >
-        <Flex
-          h="100vh"
-          py={20}
-          // backgroundColor="red.300"
-          justifyContent="center"
-        >
+      <Container maxW="container.xl" p={0}>
+        <Flex h="100vh" py={20} justifyContent="center">
           <VStack
-            // display={"flex"}
             borderRadius={20}
             bg={bgColor}
             boxShadow="2xl"
             w="28rem"
-            // h="35rem"
             paddingX={25}
             marginTop={4}
             alignItems="center"
@@ -48,7 +37,6 @@ function SignUp() {
               {" "}
               Signup
             </Heading>
-            {/* <Text>This is a label for the above heading.. </Text> */}
             <SimpleGrid columns={2} columnGap={3} rowGap={6} width="full">
               <GridItem colSpan={2}>
                 <FormControl>

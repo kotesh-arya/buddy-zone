@@ -3,8 +3,6 @@ import {
   Box,
   Button,
   Flex,
-  Heading,
-  Input,
   useColorModeValue,
   VStack,
   Icon,
@@ -18,13 +16,12 @@ function Bookmarks() {
   const btnBg = useColorModeValue("gray.300", "gray.900");
 
   return (
-    <div>
+    <Box>
       <Sidebar />
       <Navbar />
       <Flex
         width={"90%"}
         marginRight="auto"
-        //  bg={"red"}
         justifyContent={"center"}
         padding={"80px 20px"}
       >
@@ -37,7 +34,6 @@ function Bookmarks() {
             width="20%"
           >
             <Button bg={btnBg}>
-              {" "}
               <Icon as={AiOutlineArrowUp} marginRight="2px" />
               Newest
             </Button>
@@ -51,7 +47,7 @@ function Bookmarks() {
         </VStack>
         <Suggestionbar />
       </Flex>
-    </div>
+    </Box>
   );
 }
 

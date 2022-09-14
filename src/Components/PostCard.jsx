@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Flex,
-  Heading,
-  Image,
-  Text,
-  VStack,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Flex, Image, Text, useColorModeValue } from "@chakra-ui/react";
 import {
   FaRegBookmark,
   FaRegHeart,
@@ -20,12 +12,16 @@ function PostCard() {
   const bgColor = useColorModeValue("gray.50", "gray.900");
 
   return (
-    <Box bg={bgColor} boxShadow={"2xl"} borderRadius={"15px"} width={"35rem"}>
-      <Flex bg={bgColor} flexDirection={"column"}>
+    <Box
+      bg={bgColor}
+      boxShadow={"2xl"}
+      marginBottom={"2rem"}
+      borderRadius={"15px"}
+      width={"35rem"}
+    >
+      <Flex bg={bgColor} borderRadius={"15px"} flexDirection={"column"}>
         <Flex
           bg={"WhiteAlpha"}
-          // bg={"pink"}
-          // flexDirection={"row"}
           display={"flex"}
           alignItems="center"
           justifyContent={"space-between"}
@@ -35,18 +31,15 @@ function PostCard() {
           <Box display={"flex"} alignItems="center">
             <Avatar
               marginRight={"10px"}
-              name="Dan Abrahmov"
+              name="Kotesh Mudila"
               src="https://avatars.githubusercontent.com/u/69259490?v=4"
             />
 
             <Text as="strong">Kotesh Mudila</Text>
           </Box>
-          {/* <Text as="strong">@KoteshMudila</Text> */}
           <Icon as={FaRegBookmark} />
         </Flex>
         <Flex
-          // bg={"WhiteAlpha"}
-          // bg={"green.50"}
           flexDirection={"column"}
           alignItems="flex-start"
           padding={" 0 2rem "}

@@ -5,7 +5,6 @@ import {
   Button,
   Divider,
   Flex,
-  Heading,
   Input,
   Text,
   VStack,
@@ -22,7 +21,6 @@ function Suggestionbar() {
       width={"23rem"}
       padding={" 2rem 1rem"}
       bg={bgColor}
-      // border={"2px solid #08a0e9"}
       borderRadius={"10px"}
       position={"fixed"}
       right={"0"}
@@ -30,11 +28,7 @@ function Suggestionbar() {
       marginRight={"2rem"}
     >
       <Box>
-        <Input
-          //  bg="green.600"
-          width={"90%"}
-          placeholder="Search Friends..."
-        />
+        <Input width={"90%"} placeholder="Search Friends..." />
       </Box>
       <Box bg="black.600">
         <VStack>
@@ -43,7 +37,6 @@ function Suggestionbar() {
             flexDirection={"row"}
             justifyContent={"space-between"}
             alignItems={"center"}
-            // bg={"white"}
             width={"full"}
           >
             <Text as={"strong"}>Who to Follow </Text>
@@ -55,15 +48,12 @@ function Suggestionbar() {
             flexDirection={"row"}
             justifyContent={"space-between"}
             alignItems={"center"}
-            // bg={"white"}
             width={"full"}
           >
-            <Box 
-            // bg={"red"}
-             width={"60%"} display={"flex"} alignItems={"center"}>
-              {" "}
-              <Avatar marginRight={"10px"}
-                name="Dan Abrahmov"
+            <Box width={"60%"} display={"flex"} alignItems={"center"}>
+              <Avatar
+                marginRight={"10px"}
+                name="Kotesh Mudila"
                 src="https://avatars.githubusercontent.com/u/69259490?v=4"
               />
               <Text as={"strong"}>User 1</Text>
@@ -75,15 +65,12 @@ function Suggestionbar() {
             flexDirection={"row"}
             justifyContent={"space-between"}
             alignItems={"center"}
-            // bg={"white"}
             width={"full"}
           >
-            <Box 
-            // bg={"red"}
-             width={"60%"} display={"flex"} alignItems={"center"}>
-              {" "}
-              <Avatar marginRight={"10px"}
-                name="Dan Abrahmov"
+            <Box width={"60%"} display={"flex"} alignItems={"center"}>
+              <Avatar
+                marginRight={"10px"}
+                name="Kotesh Mudila"
                 src="https://avatars.githubusercontent.com/u/69259490?v=4"
               />
               <Text as={"strong"}>User 2</Text>
@@ -95,15 +82,12 @@ function Suggestionbar() {
             flexDirection={"row"}
             justifyContent={"space-between"}
             alignItems={"center"}
-            // bg={"white"}
             width={"full"}
           >
-            <Box 
-            // bg={"red"}
-             width={"60%"} display={"flex"} alignItems={"center"}>
-              {" "}
-              <Avatar marginRight={"10px"}
-                name="Dan Abrahmov"
+            <Box width={"60%"} display={"flex"} alignItems={"center"}>
+              <Avatar
+                marginRight={"10px"}
+                name="Kotesh Mudila"
                 src="https://avatars.githubusercontent.com/u/69259490?v=4"
               />
               <Text as={"strong"}>User 3</Text>
@@ -115,15 +99,12 @@ function Suggestionbar() {
             flexDirection={"row"}
             justifyContent={"space-between"}
             alignItems={"center"}
-            // bg={"white"}
             width={"full"}
           >
-            <Box 
-            // bg={"red"}
-             width={"60%"} display={"flex"} alignItems={"center"}>
-              {" "}
-              <Avatar marginRight={"10px"}
-                name="Dan Abrahmov"
+            <Box width={"60%"} display={"flex"} alignItems={"center"}>
+              <Avatar
+                marginRight={"10px"}
+                name="Kotesh Mudila"
                 src="https://avatars.githubusercontent.com/u/69259490?v=4"
               />
               <Text as={"strong"}>User 4</Text>
@@ -135,15 +116,12 @@ function Suggestionbar() {
             flexDirection={"row"}
             justifyContent={"space-between"}
             alignItems={"center"}
-            // bg={"white"}
             width={"full"}
           >
-            <Box 
-            // bg={"red"}
-             width={"60%"} display={"flex"} alignItems={"center"}>
-              {" "}
-              <Avatar marginRight={"10px"}
-                name="Dan Abrahmov"
+            <Box width={"60%"} display={"flex"} alignItems={"center"}>
+              <Avatar
+                marginRight={"10px"}
+                name="Kotesh Mudila"
                 src="https://avatars.githubusercontent.com/u/69259490?v=4"
               />
               <Text as={"strong"}>User 5</Text>

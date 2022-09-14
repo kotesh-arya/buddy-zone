@@ -1,25 +1,86 @@
 import React from "react";
-import { Box, Flex, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  useColorModeValue,
+  VStack,
+  Image,
+  Avatar,
+  Text,
+} from "@chakra-ui/react";
 import { Navbar } from "../Components/Navbar";
 import { Sidebar } from "../Components/Sidebar";
+import { Suggestionbar } from "../Components/Suggestionbar";
+import { PostCard } from "../Components/PostCard";
 function Profile() {
+
   return (
-    <div>
+    <Box>
+      <Sidebar />
       <Navbar />
       <Flex
-        // bg={"green"}
-        justifyContent={"space-between"}
-        padding={"80px 20px"}
+        width={"92%"}
+        marginRight="auto"
+        justifyContent={"center"}
+        padding={"80px 10px"}
+        flexDirection={"row"}
       >
-        <Sidebar />
-        <VStack bg="tomato" width={"40rem"} height="80px">
-          ji
+        <VStack height="80px" width={"100%"} spacing={12}>
+          <Flex
+            justifyContent={"space-between"}
+            width="60%"
+            height={"15rem"}
+            position={"relative"}
+          >
+            <Box position={"absolute"} width={"100%"} marginTop={"13rem"}>
+              <Avatar
+                margin={"auto"}
+                size="2xl"
+                name="Kotesh Mudila"
+                src="https://avatars.githubusercontent.com/u/69259490?v=4"
+              />
+            </Box>
+
+            <Image
+              borderRadius={"20px"}
+              width={"100%"}
+              objectFit={"cover"}
+              src="https://wallpapercave.com/wp/wp4447988.jpg"
+            />
+          </Flex>
+          <VStack paddingTop={"3rem"}>
+            <Heading as={"strong"}>Kotesh Mudila</Heading>
+            <Text as={"strong"}>@kotesharya</Text>
+            <Text as={"strong"}>0 Following | 2 Followers</Text>
+
+            <Text as={"strong"}>My Website: _________</Text>
+            <Text as={"strong"}>Bio: Blended Being</Text>
+            <Button bg={"#08a0e9"}>
+              <Text>Edit profile</Text>
+            </Button>
+            <Button bg={"transparent"} border={"1px solid red"}>
+              <Text>Logout</Text>
+            </Button>
+          </VStack>
+          <Box
+            width={"100%"}
+            display={"flex"}
+            flexDirection={"column"}
+            alignItems={"center"}
+            justifyContent={"space-between"}
+          >
+            <Heading marginRight={"25rem"} marginBottom={"1rem"}>
+              Recent Posts
+            </Heading>
+            <PostCard />
+            <PostCard />
+          </Box>
         </VStack>
-        <Box bg="tomato" width={"20rem"} height="80px">
-          bu
-        </Box>
+        <Suggestionbar />
       </Flex>
-    </div>
+    </Box>
   );
 }
 

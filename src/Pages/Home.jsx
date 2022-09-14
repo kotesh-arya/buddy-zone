@@ -2,8 +2,6 @@ import {
   Box,
   Button,
   Flex,
-  Heading,
-  Input,
   useColorModeValue,
   VStack,
   Icon,
@@ -23,13 +21,12 @@ function Home() {
   const btnBg = useColorModeValue("gray.300", "gray.900");
 
   return (
-    <div>
+    <Box>
       <Sidebar />
       <Navbar />
       <Flex
         width={"90%"}
         marginRight="auto"
-        //  bg={"red"}
         justifyContent={"center"}
         padding={"80px 20px"}
       >
@@ -42,7 +39,6 @@ function Home() {
             width="40%"
           >
             <Button bg={btnBg}>
-              {" "}
               <Icon as={AiFillFire} marginRight="2px" />
               Trending
             </Button>
@@ -60,7 +56,7 @@ function Home() {
         </VStack>
         <Suggestionbar />
       </Flex>
-    </div>
+    </Box>
   );
 }
 
