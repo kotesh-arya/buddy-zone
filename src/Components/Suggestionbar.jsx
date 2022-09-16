@@ -8,15 +8,14 @@ import {
   Text,
   VStack,
   useColorModeValue,
-  Heading,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { UserMiniCard } from "./UserMiniCard";
+
 function Suggestionbar() {
   const bgColor = useColorModeValue("gray.50", "gray.900");
   const { users } = useSelector((store) => store.users);
   console.log(users);
-
   return (
     <Box
       display={"flex"}

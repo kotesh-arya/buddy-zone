@@ -14,7 +14,7 @@ export const users = [
     password: "koteshmudila@123",
     createdAt: formatDate(),
     updatedAt: formatDate(),
-    userProfile: "",
+    userProfile: "https://avatars.githubusercontent.com/u/69259490?v=4",
   },
   {
     _id: uuid(),

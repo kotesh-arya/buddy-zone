@@ -13,7 +13,10 @@ import { Navbar } from "../Components/Navbar";
 import { Sidebar } from "../Components/Sidebar";
 import { Suggestionbar } from "../Components/Suggestionbar";
 import { PostCard } from "../Components/PostCard";
+import { useSelector } from "react-redux";
 function Profile() {
+  const { user } = useSelector((store) => store.singleUser);
+  console.log(user);
 
   return (
     <Box>
@@ -37,8 +40,8 @@ function Profile() {
               <Avatar
                 margin={"auto"}
                 size="2xl"
-                name="Kotesh Mudila"
-                src="https://avatars.githubusercontent.com/u/69259490?v=4"
+                name={`${user?.firstName} ${user?.lastName}`}
+                src={user?.userProfile}
               />
             </Box>
 
@@ -50,18 +53,31 @@ function Profile() {
             />
           </Flex>
           <VStack paddingTop={"3rem"}>
-            <Heading as={"strong"}>Kotesh Mudila</Heading>
-            <Text as={"strong"}>@kotesharya</Text>
+            <Heading as={"strong"}>
+              {user?.firstname} {user?.lastname}
+            </Heading>
+            <Text as={"strong"}>@{user?.username}</Text>
             <Text as={"strong"}>0 Following | 2 Followers</Text>
 
             <Text as={"strong"}>My Website: _________</Text>
             <Text as={"strong"}>Bio: Blended Being</Text>
-            <Button bg={"#08a0e9"}>
-              <Text>Edit profile</Text>
-            </Button>
-            <Button bg={"transparent"} border={"1px solid red"}>
-              <Text>Logout</Text>
-            </Button>
+
+            {user?.username === "koteshmudila" ? (
+              <Box>
+                <Button bg={"#08a0e9"}>
+                  <Text>Edit profile</Text>
+                </Button>
+                <Button bg={"transparent"} border={"1px solid red"}>
+                  <Text>Logout</Text>
+                </Button>
+              </Box>
+            ) : (
+              <Box>
+                <Button bg={"#08a0e9"}>
+                  <Text>Follow</Text>
+                </Button>
+              </Box>
+            )}
           </VStack>
           <Box
             width={"100%"}
@@ -73,7 +89,7 @@ function Profile() {
             <Heading marginRight={"25rem"} marginBottom={"1rem"}>
               Recent Posts
             </Heading>
-            <PostCard />
+            <PostCard  />
             <PostCard />
           </Box>
         </VStack>

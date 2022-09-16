@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { getAllPostsService } from "../../services/UserServices/getAllPostsService";
+import { getAllPostsService } from "../../services/PostServices/getAllPostsService";
 //initial state for the slice
 
 const initialState = {
