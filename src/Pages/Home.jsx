@@ -15,10 +15,14 @@ import {
 
 import { Navbar } from "../Components/Navbar";
 import { Sidebar } from "../Components/Sidebar";
-import { PostCard } from "../Components/PostCard";
 import { Suggestionbar } from "../Components/Suggestionbar";
+import { useSelector } from "react-redux";
+import { PostCard } from "../Components/PostCard";
+
 function Home() {
   const btnBg = useColorModeValue("gray.300", "gray.900");
+  const { posts } = useSelector((store) => store.posts);
+  console.log(posts);
 
   return (
     <Box>
@@ -51,8 +55,9 @@ function Home() {
               Oldest
             </Button>
           </Flex>
-          <PostCard />
-          <PostCard />
+          {posts.map((post) => {
+            return <PostCard key={post._id} {...post} />;
+          })}
         </VStack>
         <Suggestionbar />
       </Flex>

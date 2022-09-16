@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Avatar,
   Box,
   Button,
   Divider,
@@ -9,9 +8,14 @@ import {
   Text,
   VStack,
   useColorModeValue,
+  Heading,
 } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
+import { UserMiniCard } from "./UserMiniCard";
 function Suggestionbar() {
   const bgColor = useColorModeValue("gray.50", "gray.900");
+  const { users } = useSelector((store) => store.users);
+  console.log(users);
 
   return (
     <Box
@@ -24,110 +28,31 @@ function Suggestionbar() {
       borderRadius={"10px"}
       position={"fixed"}
       right={"0"}
-      height={"30rem"}
+      // height={"30rem"}
       marginRight={"2rem"}
     >
       <Box>
         <Input width={"90%"} placeholder="Search Friends..." />
       </Box>
       <Box bg="black.600">
-        <VStack>
+        <VStack
+        //  bg="green.600"
+        >
           <Flex
             display={"flex"}
             flexDirection={"row"}
             justifyContent={"space-between"}
             alignItems={"center"}
             width={"full"}
+            marginTop={"2rem"}
           >
             <Text as={"strong"}>Who to Follow </Text>
             <Button bg={"#08a0e9"}>Show more</Button>
           </Flex>
           <Divider />
-          <Flex
-            display={"flex"}
-            flexDirection={"row"}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-            width={"full"}
-          >
-            <Box width={"60%"} display={"flex"} alignItems={"center"}>
-              <Avatar
-                marginRight={"10px"}
-                name="Kotesh Mudila"
-                src="https://avatars.githubusercontent.com/u/69259490?v=4"
-              />
-              <Text as={"strong"}>User 1</Text>
-            </Box>
-            <Button bg={"#08a0e9"}>Follow +</Button>
-          </Flex>
-          <Flex
-            display={"flex"}
-            flexDirection={"row"}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-            width={"full"}
-          >
-            <Box width={"60%"} display={"flex"} alignItems={"center"}>
-              <Avatar
-                marginRight={"10px"}
-                name="Kotesh Mudila"
-                src="https://avatars.githubusercontent.com/u/69259490?v=4"
-              />
-              <Text as={"strong"}>User 2</Text>
-            </Box>
-            <Button bg={"#08a0e9"}>Follow +</Button>
-          </Flex>
-          <Flex
-            display={"flex"}
-            flexDirection={"row"}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-            width={"full"}
-          >
-            <Box width={"60%"} display={"flex"} alignItems={"center"}>
-              <Avatar
-                marginRight={"10px"}
-                name="Kotesh Mudila"
-                src="https://avatars.githubusercontent.com/u/69259490?v=4"
-              />
-              <Text as={"strong"}>User 3</Text>
-            </Box>
-            <Button bg={"#08a0e9"}>Follow +</Button>
-          </Flex>
-          <Flex
-            display={"flex"}
-            flexDirection={"row"}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-            width={"full"}
-          >
-            <Box width={"60%"} display={"flex"} alignItems={"center"}>
-              <Avatar
-                marginRight={"10px"}
-                name="Kotesh Mudila"
-                src="https://avatars.githubusercontent.com/u/69259490?v=4"
-              />
-              <Text as={"strong"}>User 4</Text>
-            </Box>
-            <Button bg={"#08a0e9"}>Follow +</Button>
-          </Flex>
-          <Flex
-            display={"flex"}
-            flexDirection={"row"}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-            width={"full"}
-          >
-            <Box width={"60%"} display={"flex"} alignItems={"center"}>
-              <Avatar
-                marginRight={"10px"}
-                name="Kotesh Mudila"
-                src="https://avatars.githubusercontent.com/u/69259490?v=4"
-              />
-              <Text as={"strong"}>User 5</Text>
-            </Box>
-            <Button bg={"#08a0e9"}>Follow +</Button>
-          </Flex>
+          {users.map((user) => {
+            return <UserMiniCard key={user._id} {...user} />;
+          })}
         </VStack>
       </Box>
     </Box>

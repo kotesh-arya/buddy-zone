@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import { FiMoreVertical } from "react-icons/fi";
 import { Icon, Avatar } from "@chakra-ui/react";
-function PostCard() {
+function PostCard({ username, content, userProfile }) {
   const bgColor = useColorModeValue("gray.50", "gray.900");
 
   return (
@@ -29,13 +29,9 @@ function PostCard() {
           borderRadius={"15px"}
         >
           <Box display={"flex"} alignItems="center">
-            <Avatar
-              marginRight={"10px"}
-              name="Kotesh Mudila"
-              src="https://avatars.githubusercontent.com/u/69259490?v=4"
-            />
+            <Avatar marginRight={"10px"} name={username} src={userProfile} />
 
-            <Text as="strong">Kotesh Mudila</Text>
+            <Text as="strong">{username}</Text>
           </Box>
           <Icon as={FaRegBookmark} />
         </Flex>
@@ -44,13 +40,13 @@ function PostCard() {
           alignItems="flex-start"
           padding={" 0 2rem "}
         >
-          <Image
+          {/* <Image
             width={"100%"}
             objectFit={"cover"}
-            src="https://avatars.githubusercontent.com/u/69259490?v=4"
-          />
-          <Text margin={" 10px 15px"} as="strong">
-            #NewProfilePic
+            src="https://avatars.githubusercontent.com/u/69259490?v=4"    this image should be conditionally rendered
+          /> */}
+          <Text textAlign={"left"} margin={" 10px 15px"} as="strong">
+            {content}
           </Text>
         </Flex>
 

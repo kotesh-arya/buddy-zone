@@ -4,7 +4,6 @@ import {
   Button,
   Flex,
   Heading,
-  useColorModeValue,
   VStack,
   Image,
   Avatar,
