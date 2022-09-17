@@ -2,7 +2,7 @@ import "./App.css";
 import { SignIn } from "../src/Pages/SignIn";
 import { SignUp } from "./Pages/SignUp";
 import { Routes, Route } from "react-router-dom";
-import { Home, Explore, Bookmarks, Profile } from "../src/Pages";
+import { Home, Explore, Bookmarks, Profile, SinglePost } from "../src/Pages";
 import { getAllUsers } from "../src/features/users/usersSlice";
 
 import { useDispatch } from "react-redux";
@@ -23,7 +23,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/explore" element={<Explore />} />
         <Route path="/bookmarks" element={<Bookmarks />} />
-        <Route path="/users/:userId" element={<Profile />} />
+        <Route path="/user/:userId" element={<Profile />} />
+        <Route path="/posts/:postId" element={<SinglePost />} />
       </Routes>
     </div>
   );

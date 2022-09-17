@@ -8,16 +8,33 @@ import {
 } from "react-icons/fa";
 import { FiMoreVertical } from "react-icons/fi";
 import { Icon, Avatar } from "@chakra-ui/react";
-function PostCard({ username, content, userProfile }) {
-  const bgColor = useColorModeValue("gray.50", "gray.900");
+import { useDispatch } from "react-redux";
+import { getSinglePost } from "../features/post/singlePostSlice";
 
+import { Link } from "react-router-dom";
+import { getSingleUser } from "../features/users/singleUserSlice";
+function PostCard({
+  _id,
+  username,
+  content,
+  userProfile,
+  firstName,
+  lastName,
+}) {
+  const bgColor = useColorModeValue("gray.50", "gray.900");
+  const dispatch = useDispatch();
   return (
     <Box
+      as={Link}
+      to={`/posts/${_id}`}
       bg={bgColor}
       boxShadow={"2xl"}
       marginBottom={"2rem"}
       borderRadius={"15px"}
       width={"35rem"}
+      onClick={() => {
+        dispatch(getSinglePost(_id));
+      }}
     >
       <Flex bg={bgColor} borderRadius={"15px"} flexDirection={"column"}>
         <Flex
@@ -28,10 +45,24 @@ function PostCard({ username, content, userProfile }) {
           padding={"1rem 1rem"}
           borderRadius={"15px"}
         >
-          <Box display={"flex"} alignItems="center">
-            <Avatar marginRight={"10px"} name={username} src={userProfile} />
+          <Box
+            as={Link}
+            to={`/user/${_id}`}
+            onClick={() => {
+              dispatch(getSingleUser(_id));
+            }}
+            display={"flex"}
+            alignItems="center"
+          >
+            <Avatar
+              marginRight={"10px"}
+              name={`${firstName} ${lastName}`}
+              src={userProfile}
+            />
 
-            <Text as="strong">{username}</Text>
+            <Text as="strong">
+              {firstName} {lastName}
+            </Text>
           </Box>
           <Icon as={FaRegBookmark} />
         </Flex>

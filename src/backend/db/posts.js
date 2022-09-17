@@ -16,7 +16,9 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
-    username: "Jason Makki",
+    username: "Rameshboddula",
+    firstName: "Ramesh",
+    lastName: "Boddula",
     createdAt: formatDate(),
     updatedAt: formatDate(),
     comments: [
@@ -50,7 +52,9 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
-    username: "DJ Tillu",
+    username: "Ganeshmatha",
+    firstName: "Ganesh",
+    lastName: "Matha",
 
     comments: [
       {
@@ -85,7 +89,9 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
-    username: "Bheemla Nayak",
+    firstName: "Suresh",
+    lastName: "jummala",
+    username: "Sureshjummala",
 
     comments: [
       {
@@ -120,43 +126,9 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
-    username: "Komuram Bheem",
-
-    comments: [
-      {
-        _id: uuid(),
-        username: "shubhamsoni",
-        text: "Interesting",
-        votes: {
-          upvotedBy: [],
-          downvotedBy: [],
-        },
-      },
-      {
-        _id: uuid(),
-        username: "sohamshah",
-        text: "Wow!",
-        votes: {
-          upvotedBy: [],
-          downvotedBy: [],
-        },
-      },
-    ],
-    createdAt: formatDate(),
-    updatedAt: formatDate(),
-    userProfile: "",
-  },
-  {
-    _id: uuid(),
-    content:
-      "The most effective way to do it, is to do it.",
-    likes: {
-      likeCount: 0,
-      likedBy: [],
-      dislikedBy: [],
-    },
-    username: "Radhe Shyam",
-
+    firstName: "Karthik",
+    lastName: "Chirra",
+    username: "Karthikchirra",
     comments: [
       {
         _id: uuid(),

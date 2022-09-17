@@ -7,12 +7,11 @@ const initialState = {
 };
 const getSingleUser = createAsyncThunk(
   "user/getSingleUser",
-  async (userId, { rejectWithValue }) => {
-
+  async (_id, { rejectWithValue }) => {
     try {
       let {
         data: { user },
-      } = await getSingleUserService(userId);
+      } = await getSingleUserService(_id);
       return user;
     } catch (error) {
       rejectWithValue(error);
@@ -25,15 +24,15 @@ const singleUserSlice = createSlice({
   initialState,
   extraReducers: {
     [getSingleUser.pending]: (state) => {
-      state.isloading = true;
+      state.isLoading = true;
     },
     [getSingleUser.fulfilled]: (state, action) => {
-      state.isloading = false;
+      state.isLoading = true;
       state.user = action.payload;
       // console.log(action.payload);
     },
     [getSingleUser.rejected]: (state) => {
-      state.isloading = false;
+      state.isLoading = false;
     },
   },
 });

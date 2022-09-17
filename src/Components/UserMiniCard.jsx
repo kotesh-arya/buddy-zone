@@ -17,7 +17,7 @@ function UserMiniCard({ _id, firstName, lastName, username, userProfile }) {
     >
       <Box
         as={Link}
-        to={`/users/${_id}`}
+        to={`/user/${_id}`}
         onClick={() => {
           dispatch(getSingleUser(_id));
         }}

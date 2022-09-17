@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -14,9 +14,20 @@ import { Sidebar } from "../Components/Sidebar";
 import { Suggestionbar } from "../Components/Suggestionbar";
 import { PostCard } from "../Components/PostCard";
 import { useSelector } from "react-redux";
+import { getSingleUser } from "../features/users/singleUserSlice";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+
 function Profile() {
+  const dispatch = useDispatch();
+  const { userId } = useParams();
+  console.log(userId);
   const { user } = useSelector((store) => store.singleUser);
-  console.log(user);
+  // console.log(user);
+  useEffect(() => {
+    dispatch(getSingleUser(userId));
+  }, []);
 
   return (
     <Box>
@@ -56,15 +67,15 @@ function Profile() {
             <Heading as={"strong"}>
               {user?.firstname} {user?.lastname}
             </Heading>
-            <Text as={"strong"}>@{user?.username}</Text>
+            <Text as={"strong"}>{user?.username}</Text>
             <Text as={"strong"}>0 Following | 2 Followers</Text>
 
             <Text as={"strong"}>My Website: _________</Text>
             <Text as={"strong"}>Bio: Blended Being</Text>
 
-            {user?.username === "koteshmudila" ? (
-              <Box>
-                <Button bg={"#08a0e9"}>
+            {user?.username === "@koteshmudila" ? (
+              <Box width={"60%"}>
+                <Button marginBottom={"1rem"} bg={"#08a0e9"}>
                   <Text>Edit profile</Text>
                 </Button>
                 <Button bg={"transparent"} border={"1px solid red"}>
@@ -89,7 +100,7 @@ function Profile() {
             <Heading marginRight={"25rem"} marginBottom={"1rem"}>
               Recent Posts
             </Heading>
-            <PostCard  />
+            <PostCard />
             <PostCard />
           </Box>
         </VStack>

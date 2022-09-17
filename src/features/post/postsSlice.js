@@ -4,11 +4,11 @@ import { getAllPostsService } from "../../services/PostServices/getAllPostsServi
 //initial state for the slice
 
 const initialState = {
-  posts: [],
+  posts: [],  
   isloading: false,
 };
 const getAllPosts = createAsyncThunk(
-  "users/getAllPosts",
+  "posts/getAllPosts",
   async (_, { rejectWithValue }) => {
     try {
       let {
