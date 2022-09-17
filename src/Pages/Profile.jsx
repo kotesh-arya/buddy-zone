@@ -22,9 +22,13 @@ import axios from "axios";
 function Profile() {
   const dispatch = useDispatch();
   const { userId } = useParams();
-  console.log(userId);
-  const { user } = useSelector((store) => store.singleUser);
-  // console.log(user);
+  // console.log(userId);
+  const {
+    user,
+    posts: { userPosts },
+  } = useSelector((store) => store.singleUser);
+
+  console.log(userPosts);
   useEffect(() => {
     dispatch(getSingleUser(userId));
   }, []);
@@ -67,7 +71,7 @@ function Profile() {
             <Heading as={"strong"}>
               {user?.firstname} {user?.lastname}
             </Heading>
-            <Text as={"strong"}>{user?.username}</Text>
+            <Text as={"strong"}>@{user?.username}</Text>
             <Text as={"strong"}>0 Following | 2 Followers</Text>
 
             <Text as={"strong"}>My Website: _________</Text>
@@ -100,8 +104,9 @@ function Profile() {
             <Heading marginRight={"25rem"} marginBottom={"1rem"}>
               Recent Posts
             </Heading>
-            <PostCard />
-            <PostCard />
+            {userPosts.map((post) => {
+              return <PostCard key={post._id} {...post} />;
+            })}
           </Box>
         </VStack>
         <Suggestionbar />

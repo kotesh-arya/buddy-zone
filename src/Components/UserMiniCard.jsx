@@ -1,7 +1,8 @@
 import React from "react";
 import { Flex, Box, Avatar, Text, Button } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
-import { getSingleUser } from "../features/users/singleUserSlice";
+import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
+
 import { Link } from "react-router-dom";
 
 function UserMiniCard({ _id, firstName, lastName, username, userProfile }) {
@@ -20,6 +21,7 @@ function UserMiniCard({ _id, firstName, lastName, username, userProfile }) {
         to={`/user/${_id}`}
         onClick={() => {
           dispatch(getSingleUser(_id));
+          dispatch(getUserPosts(username));
         }}
         width={"60%"}
         display={"flex"}
