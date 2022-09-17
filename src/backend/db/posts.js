@@ -24,8 +24,8 @@ export const posts = [
     comments: [
       {
         _id: uuid(),
-        username: "shubhamsoni",
-        text: "Interesting",
+        username: "pawankalyan",
+        text: "Truth Bomb💣",
         votes: {
           upvotedBy: [],
           downvotedBy: [],
@@ -33,8 +33,8 @@ export const posts = [
       },
       {
         _id: uuid(),
-        username: "sohamshah",
-        text: "Wow!",
+        username: "Kiran",
+        text: "Can't agree more..💯",
         votes: {
           upvotedBy: [],
           downvotedBy: [],
@@ -52,15 +52,15 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
-    username: "ganeshmatha",
-    firstName: "Ganesh",
-    lastName: "Matha",
+    username: "saibharath",
+    firstName: "Sai",
+    lastName: "Bharath",
 
     comments: [
       {
         _id: uuid(),
-        username: "shubhamsoni",
-        text: "Interesting",
+        username: "Kishan",
+        text: "I believe",
         votes: {
           upvotedBy: [],
           downvotedBy: [],
@@ -68,8 +68,8 @@ export const posts = [
       },
       {
         _id: uuid(),
-        username: "sohamshah",
-        text: "Wow!",
+        username: "ammakutti",
+        text: "bharath's Preachings 😂😂",
         votes: {
           upvotedBy: [],
           downvotedBy: [],
@@ -89,15 +89,15 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
-    firstName: "Suresh",
-    lastName: "jummala",
-    username: "sureshjummala",
+    firstName: "Saiie",
+    lastName: "Kumar",
+    username: "saikumar",
 
     comments: [
       {
         _id: uuid(),
-        username: "shubhamsoni",
-        text: "Interesting",
+        username: "raju",
+        text: "Courage is everything!",
         votes: {
           upvotedBy: [],
           downvotedBy: [],
@@ -105,8 +105,8 @@ export const posts = [
       },
       {
         _id: uuid(),
-        username: "sohamshah",
-        text: "Wow!",
+        username: "Charu",
+        text: "Sometimes staying back is the best thing one can do 😏",
         votes: {
           upvotedBy: [],
           downvotedBy: [],
@@ -126,14 +126,14 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
-    firstName: "Karthik",
-    lastName: "Chirra",
-    username: "karthikchirra",
+    firstName: "Chinna",
+    lastName: "Prabha",
+    username: "chinnaprabha",
     comments: [
       {
         _id: uuid(),
-        username: "shubhamsoni",
-        text: "Interesting",
+        username: "Pradeep",
+        text: "Failure is your life-long teacher",
         votes: {
           upvotedBy: [],
           downvotedBy: [],
@@ -141,8 +141,8 @@ export const posts = [
       },
       {
         _id: uuid(),
-        username: "sohamshah",
-        text: "Wow!",
+        username: "Keerthi",
+        text: "NEVER EVER GIVE UP!",
         votes: {
           upvotedBy: [],
           downvotedBy: [],

@@ -9,7 +9,10 @@ import {
 import { FiMoreVertical } from "react-icons/fi";
 import { Icon, Avatar } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
-import { getSinglePost } from "../features/post/singlePostSlice";
+import {
+  getSinglePost,
+  getSinglePostComments,
+} from "../features/post/singlePostSlice";
 
 import { Link } from "react-router-dom";
 import { getSingleUser } from "../features/users/singleUserSlice";
@@ -34,6 +37,7 @@ function PostCard({
       width={"35rem"}
       onClick={() => {
         dispatch(getSinglePost(_id));
+        dispatch(getSinglePostComments(_id));
       }}
     >
       <Flex bg={bgColor} borderRadius={"15px"} flexDirection={"column"}>
@@ -89,7 +93,12 @@ function PostCard({
           padding={"1rem 2rem"}
         >
           <Icon as={FaRegHeart} />
-          <Icon as={FaRegCommentAlt} />
+          <Icon
+            onClick={() => {
+              dispatch(getSinglePostComments(_id));
+            }}
+            as={FaRegCommentAlt}
+          />
           <Icon as={FaShareAlt} />
           <Icon as={FiMoreVertical} />
         </Flex>
