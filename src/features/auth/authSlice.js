@@ -1,27 +1,42 @@
-// import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { signupService } from "../../services/AuthServices/SignupService";
+//initial state for the slice
 
-// //initial state for the slice
+const initialState = {
+  token: localStorage.getItem("USER_TOKEN"), // getting the user-token, user-data from the localstorage after successfull login
+  user: localStorage.getItem("USER_DATA"),
+  isLoading: false,
+};
+const signUp = createAsyncThunk(
+  "auth/signUp",
+  async (user, { rejectWithValue }) => {
+    try {
+      let { data } = await signupService(user);
+      return data;
+    } catch (error) {
+      rejectWithValue("error occured in signup service", error.response.data);
+    }
+  }
+);
 
-// const initialState = {
-//   token: localStorage.getItem("USER_TOKEN"), // getting the user-token, user-data from the localstorage after successfull login
-//   user: localStorage.getItem("USER_DATA"),
-//   loading: false,
-// };
-// const signIn = createAsyncThunk("auth/signin",async()=>{
-//    const response = await axios
-// })
+const authSlice = createSlice({
+  name: "auth",
+  initialState,
+  extraReducers: {
+    [signUp.pending]: (state) => {
+      state.isloading = true;
+    },
+    [signUp.fulfilled]: (state, { payload }) => {
+      state.isloading = false;
+      state.token = payload.encodedToken;
+      state.user = payload.user;
+      console.log(payload);
+    },
+    [signUp.rejected]: (state) => {
+      state.isloading = false;
+    },
+  },
+});
 
-
-
-
-
-// const authSlice = createSlice({
-//   name: "auth",
-//   initialState,
-//   reducers: {},
-//   extraReducers: {},
-// });
-
-// const authReducer = authSlice.reducer;
-// export { authReducer };
-// export const { signout } = authSlice.actions;
+const authReducer = authSlice.reducer;
+export { authReducer, signUp };
