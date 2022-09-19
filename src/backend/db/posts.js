@@ -17,8 +17,8 @@ export const posts = [
       dislikedBy: [],
     },
     username: "rameshboddula",
-    firstName: "Ramesh",
-    lastName: "Boddula",
+    firstname: "Ramesh",
+    lastname: "Boddula",
     createdAt: formatDate(),
     updatedAt: formatDate(),
     comments: [
@@ -53,8 +53,8 @@ export const posts = [
       dislikedBy: [],
     },
     username: "saibharath",
-    firstName: "Sai",
-    lastName: "Bharath",
+    firstname: "Sai",
+    lastname: "Bharath",
 
     comments: [
       {
@@ -89,8 +89,8 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
-    firstName: "Saiie",
-    lastName: "Kumar",
+    firstname: "Saiie",
+    lastname: "Kumar",
     username: "saikumar",
 
     comments: [
@@ -126,8 +126,8 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
-    firstName: "Chinna",
-    lastName: "Prabha",
+    firstname: "Chinna",
+    lastname: "Prabha",
     username: "chinnaprabha",
     comments: [
       {

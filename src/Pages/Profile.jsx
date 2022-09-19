@@ -55,7 +55,7 @@ function Profile() {
               <Avatar
                 margin={"auto"}
                 size="2xl"
-                name={`${user?.firstName} ${user?.lastName}`}
+                name={`${user?.firstname} ${user?.lastname}`}
                 src={user?.userProfile}
               />
             </Box>

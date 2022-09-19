@@ -21,8 +21,8 @@ function PostCard({
   username,
   content,
   userProfile,
-  firstName,
-  lastName,
+  firstname,
+  lastname,
 }) {
   const bgColor = useColorModeValue("gray.50", "gray.900");
   const dispatch = useDispatch();
@@ -60,12 +60,12 @@ function PostCard({
           >
             <Avatar
               marginRight={"10px"}
-              name={`${firstName} ${lastName}`}
+              name={`${firstname} ${lastname}`}
               src={userProfile}
             />
 
             <Text as="strong">
-              {firstName} {lastName}
+              {firstname} {lastname}
             </Text>
           </Box>
           <Icon as={FaRegBookmark} />

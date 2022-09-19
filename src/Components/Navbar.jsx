@@ -19,8 +19,8 @@ function Navbar() {
   const say = () => {
     console.log("hi");
   };
-  const { user } = useSelector((store) => store.auth);
-  console.log(user);
+  // const { user } = useSelector((store) => store.auth);
+  // console.log(user);
   return (
     <div>
       <Flex

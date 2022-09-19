@@ -26,6 +26,7 @@ function Sidebar() {
   });
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.auth);
+  console.log(user);
 
   return (
     <VStack
@@ -113,7 +114,7 @@ function Sidebar() {
           </Flex>
         </Button>
       </Flex>
-      {user.firstName && (
+      {user.firstname && (
         <Box
           padding="10px"
           width="78%"
@@ -124,11 +125,11 @@ function Sidebar() {
           <Box display={"flex"} alignItems="center">
             <Avatar
               marginRight={"10px"}
-              name={`${user.firstName} ${user.lastName}`}
+              name={`${user.firstname} ${user.lastname}`}
               src=""
             />{" "}
             <Text as={"strong"}>
-              {user.firstName} {user.lastName}
+              {user.firstname} {user.lastname}
             </Text>
           </Box>
           <Box as={Link} to="/" onClick={() => dispatch(signOut())}>
