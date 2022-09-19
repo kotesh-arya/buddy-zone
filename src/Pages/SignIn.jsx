@@ -49,7 +49,7 @@ function SignIn() {
       if (res.payload.foundUser !== undefined) {
         localStorage.setItem(USER_DATA, JSON.stringify(res.payload.foundUser));
         localStorage.setItem(USER_TOKEN, res.payload.encodedToken);
-        navigate("/");
+        navigate("/home");
       } else {
         console.log("check your credentials!!");
       }
@@ -175,7 +175,7 @@ function SignIn() {
                     onClick={(e) => {
                       e.preventDefault();
                       loginHandler(tester);
-                      navigate("/");
+                      navigate("/home");
                     }}
                     // variantColor="#08a0e9"
                     bg="#08a0e9"

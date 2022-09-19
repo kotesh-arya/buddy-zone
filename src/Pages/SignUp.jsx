@@ -55,7 +55,7 @@ function SignUp() {
       const res = await dispatch(signUp(user));
       localStorage.setItem(USER_DATA, JSON.stringify(res.payload.createdUser));
       localStorage.setItem(USER_TOKEN, res.payload.encodedToken);
-      navigate("/");
+      navigate("/home");
     }
   };
 
@@ -158,7 +158,7 @@ function SignUp() {
 
                   <Button
                     as={Link}
-                    to="/signin"
+                    to="/"
                     outline={"1px #08a0e9 "}
                     variant="outline"
                     color="#08a0e9"

@@ -38,7 +38,7 @@ function Sidebar() {
       <Flex flexDirection={"column"} justifyContent="space-between">
         <Box
           as={NavLink}
-          to="/"
+          to="/home"
           padding="10px"
           width="15rem"
           borderRadius={4}
@@ -131,7 +131,7 @@ function Sidebar() {
               {user.firstName} {user.lastName}
             </Text>
           </Box>
-          <Box as={Link} to="/signin" onClick={() => dispatch(signOut())}>
+          <Box as={Link} to="/" onClick={() => dispatch(signOut())}>
             <Icon color={"red"} as={IoLogOut} />
           </Box>{" "}
         </Box>

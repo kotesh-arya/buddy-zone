@@ -34,7 +34,7 @@ function Navbar() {
         zIndex={"100"}
         boxShadow="md"
       >
-        <Box as={Link} to="/">
+        <Box as={Link} to="/home">
           <Image
             src={Logo}
             boxSize="70px"
