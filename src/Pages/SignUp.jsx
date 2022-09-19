@@ -43,9 +43,16 @@ function SignUp() {
 
   const signupHandler = async (user) => {
     console.log("entered user", user);
-    const res = await dispatch(signUp(user));
-    console.log(res);
-    if (res) {
+
+    if (
+      user.firstname === "" ||
+      user.lastname === "" ||
+      user.username === "" ||
+      user.password === ""
+    ) {
+      console.log("please check your inputs again!");
+    } else {
+      const res = await dispatch(signUp(user));
       localStorage.setItem(USER_DATA, JSON.stringify(res.payload.createdUser));
       localStorage.setItem(USER_TOKEN, res.payload.encodedToken);
       navigate("/");
@@ -138,8 +145,6 @@ function SignUp() {
                   marginTop={"2rem"}
                 >
                   <Button
-                    as={Link}
-                    to="/signup"
                     bg={"#08a0e9"}
                     color="white"
                     width={"100%"}
@@ -153,8 +158,7 @@ function SignUp() {
 
                   <Button
                     as={Link}
-                    to="//signin"
-                    // variantColor="#08a0e9"
+                    to="/signin"
                     outline={"1px #08a0e9 "}
                     variant="outline"
                     color="#08a0e9"

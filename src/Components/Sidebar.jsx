@@ -15,11 +15,18 @@ import { IoLogOut } from "react-icons/io5";
 import { FaPen } from "react-icons/fa";
 import { BsFillBookmarkHeartFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
+import { useDispatch, useSelector } from "react-redux";
+import { signOut } from "../features/auth/authSlice";
+import { Link } from "react-router-dom";
+
 function Sidebar() {
   const getActiveStyle = ({ isActive }) => ({
     backgroundColor: isActive ? "#08a0e9" : "none",
     color: isActive ? "white" : "none",
   });
+  const dispatch = useDispatch();
+  const { user } = useSelector((store) => store.auth);
+
   return (
     <VStack
       height="50vh"
@@ -106,23 +113,29 @@ function Sidebar() {
           </Flex>
         </Button>
       </Flex>
-      <Box
-        padding="10px"
-        width="78%"
-        display={"flex"}
-        alignItems="center"
-        justifyContent={"space-between"}
-      >
-        <Box display={"flex"} alignItems="center">
-          <Avatar
-            marginRight={"10px"}
-            name="Kotesh Mudila"
-            src="https://avatars.githubusercontent.com/u/69259490?v=4"
-          />{" "}
-          <Text as={"strong"}>Kotesh Mudila</Text>
+      {user.firstName && (
+        <Box
+          padding="10px"
+          width="78%"
+          display={"flex"}
+          alignItems="center"
+          justifyContent={"space-between"}
+        >
+          <Box display={"flex"} alignItems="center">
+            <Avatar
+              marginRight={"10px"}
+              name={`${user.firstName} ${user.lastName}`}
+              src=""
+            />{" "}
+            <Text as={"strong"}>
+              {user.firstName} {user.lastName}
+            </Text>
+          </Box>
+          <Box as={Link} to="/signin" onClick={() => dispatch(signOut())}>
+            <Icon color={"red"} as={IoLogOut} />
+          </Box>{" "}
         </Box>
-        <Icon as={IoLogOut} />{" "}
-      </Box>
+      )}
     </VStack>
   );
 }
