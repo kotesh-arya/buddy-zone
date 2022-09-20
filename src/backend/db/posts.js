@@ -41,7 +41,7 @@ export const posts = [
         },
       },
     ],
-    userProfile: "",
+    userImage: "",
   },
   {
     _id: uuid(),
@@ -78,7 +78,7 @@ export const posts = [
     ],
     createdAt: formatDate(),
     updatedAt: formatDate(),
-    userProfile: "",
+    userImage: "",
   },
   {
     _id: uuid(),
@@ -115,7 +115,7 @@ export const posts = [
     ],
     createdAt: formatDate(),
     updatedAt: formatDate(),
-    userProfile: "",
+    userImage: "",
   },
   {
     _id: uuid(),
@@ -151,6 +151,6 @@ export const posts = [
     ],
     createdAt: formatDate(),
     updatedAt: formatDate(),
-    userProfile: "",
+    userImage: "",
   },
 ];

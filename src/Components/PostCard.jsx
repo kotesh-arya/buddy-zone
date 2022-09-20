@@ -20,7 +20,7 @@ function PostCard({
   _id,
   username,
   content,
-  userProfile,
+  userImage,
   firstname,
   lastname,
 }) {
@@ -61,7 +61,7 @@ function PostCard({
             <Avatar
               marginRight={"10px"}
               name={`${firstname} ${lastname}`}
-              src={userProfile}
+              src={userImage}
             />
 
             <Text as="strong">

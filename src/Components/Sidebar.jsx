@@ -27,7 +27,7 @@ function Sidebar() {
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.auth);
   console.log(user);
-
+  console.log(signOut);
   return (
     <VStack
       height="50vh"
@@ -114,7 +114,7 @@ function Sidebar() {
           </Flex>
         </Button>
       </Flex>
-      {user.firstname && (
+      {user?.firstname && (
         <Box
           padding="10px"
           width="78%"
@@ -125,14 +125,21 @@ function Sidebar() {
           <Box display={"flex"} alignItems="center">
             <Avatar
               marginRight={"10px"}
-              name={`${user.firstname} ${user.lastname}`}
+              name={`${user?.firstname} ${user?.lastname}`}
               src=""
             />{" "}
             <Text as={"strong"}>
-              {user.firstname} {user.lastname}
+              {user?.firstname} {user?.lastname}
             </Text>
           </Box>
-          <Box as={Link} to="/" onClick={() => dispatch(signOut())}>
+          <Box
+            as={Link}
+            to="/"
+            onClick={() => {
+              console.log("hi");
+              dispatch(signOut());
+            }}
+          >
             <Icon color={"red"} as={IoLogOut} />
           </Box>{" "}
         </Box>

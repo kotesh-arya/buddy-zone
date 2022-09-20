@@ -5,7 +5,7 @@ import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
 
 import { Link } from "react-router-dom";
 
-function UserMiniCard({ _id, firstname, lastname, username, userProfile }) {
+function UserMiniCard({ _id, firstname, lastname, username, userImage }) {
   const dispatch = useDispatch();
 
   return (
@@ -30,7 +30,7 @@ function UserMiniCard({ _id, firstname, lastname, username, userProfile }) {
         <Avatar
           marginRight={"10px"}
           name={`${firstname} ${lastname}`}
-          src={userProfile}
+          src={userImage}
         />
         <Text as={"strong"}>
           {firstname} {lastname}

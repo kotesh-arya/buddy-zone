@@ -14,7 +14,7 @@ export const users = [
     password: "koteshmudila@123",
     createdAt: formatDate(),
     updatedAt: formatDate(),
-    userProfile: "https://avatars.githubusercontent.com/u/69259490?v=4",
+    userImage: "https://avatars.githubusercontent.com/u/69259490?v=4",
   },
   {
     _id: uuid(),
@@ -24,7 +24,7 @@ export const users = [
     password: "saibharath@123",
     createdAt: formatDate(),
     updatedAt: formatDate(),
-    userProfile: "",
+    userImage: "",
   },
   {
     _id: uuid(),
@@ -34,7 +34,7 @@ export const users = [
     password: "saikumar@123",
     createdAt: formatDate(),
     updatedAt: formatDate(),
-    userProfile: "",
+    userImage: "",
   },
   {
     _id: uuid(),
@@ -44,7 +44,7 @@ export const users = [
     password: "chinnaprabha@123",
     createdAt: formatDate(),
     updatedAt: formatDate(),
-    userProfile: "",
+    userImage: "",
   },
   {
     _id: uuid(),
@@ -54,6 +54,6 @@ export const users = [
     password: "rameshboddula@123",
     createdAt: formatDate(),
     updatedAt: formatDate(),
-    userProfile: "",
+    userImage: "",
   },
 ];
