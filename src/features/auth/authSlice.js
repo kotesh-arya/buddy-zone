@@ -5,9 +5,10 @@ import { signupService } from "../../services/AuthServices/SignupService";
 //initial state for the slice
 
 const initialState = {
-  token: "", // getting the user-token, user-data from the localstorage after successfull login
-  user: "",
+  token: localStorage.getItem(USER_TOKEN),
+  user: JSON.parse(localStorage.getItem(USER_DATA)),
   isLoading: false,
+  isLoggedin: false,
 };
 const signUp = createAsyncThunk(
   "auth/signUp",
@@ -49,11 +50,13 @@ const authSlice = createSlice({
   extraReducers: {
     [signUp.pending]: (state) => {
       state.isloading = true;
+      state.isLoggedin = false;
     },
     [signUp.fulfilled]: (state, { payload }) => {
       state.isloading = false;
       state.token = payload.encodedToken;
       state.user = payload.createdUser;
+      state.isLoggedin = true;
       console.log(payload);
     },
     [signUp.rejected]: (state) => {
@@ -61,15 +64,18 @@ const authSlice = createSlice({
     },
     [logIn.pending]: (state) => {
       state.isloading = true;
+      state.isLoggedin = true;
     },
     [logIn.fulfilled]: (state, { payload }) => {
       state.isloading = false;
       state.token = payload.encodedToken;
       state.user = payload.foundUser;
+      state.isLoggedin = true;
       console.log(payload);
     },
     [logIn.rejected]: (state) => {
       state.isloading = false;
+      state.isLoggedin = false;
     },
   },
 });

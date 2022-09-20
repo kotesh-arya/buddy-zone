@@ -8,9 +8,11 @@ import { getAllUsers } from "../src/features/users/usersSlice";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getAllPosts } from "./features/post/postsSlice";
+import { RequiresAuth } from "./RequiresAuth";
 
 function App() {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getAllUsers());
     dispatch(getAllPosts());
@@ -20,11 +22,46 @@ function App() {
       <Routes>
         <Route path="/" element={<SignIn />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/explore" element={<Explore />} />
-        <Route path="/bookmarks" element={<Bookmarks />} />
-        <Route path="/user/:userId" element={<Profile />} />
-        <Route path="/posts/:postId" element={<SinglePost />} />
+        <Route
+          path="/home"
+          element={
+            <RequiresAuth>
+              <Home />
+            </RequiresAuth>
+          }
+        />
+        <Route
+          path="/explore"
+          element={
+            <RequiresAuth>
+              <Explore />
+            </RequiresAuth>
+          }
+        />
+        <Route
+          path="/bookmarks"
+          element={
+            <RequiresAuth>
+              <Bookmarks />
+            </RequiresAuth>
+          }
+        />
+        <Route
+          path="/user/:userId"
+          element={
+            <RequiresAuth>
+              <Profile />
+            </RequiresAuth>
+          }
+        />
+        <Route
+          path="/posts/:postId"
+          element={
+            <RequiresAuth>
+              <SinglePost />
+            </RequiresAuth>
+          }
+        />
       </Routes>
     </div>
   );

@@ -14,7 +14,7 @@ import {
   Box,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Logo from "../assets/buddy-zone-blue.png";
 import { Image } from "@chakra-ui/react";
 import { Navbar } from "../Components/Navbar";
@@ -23,6 +23,7 @@ import { logIn } from "../features/auth/authSlice";
 import { USER_DATA, USER_TOKEN } from "../constants";
 
 function SignIn() {
+  const location = useLocation();
   const bgColor = useColorModeValue("gray.50", "whiteAlpha.50");
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -46,10 +47,18 @@ function SignIn() {
     } else {
       const res = await dispatch(logIn(loginUser));
       console.log(res);
+      console.log(res.payload.foundUser.firstname, "found now!!");
       if (res.payload.foundUser !== undefined) {
-        localStorage.setItem(USER_DATA, JSON.stringify(res.payload.foundUser));
-        localStorage.setItem(USER_TOKEN, res.payload.encodedToken);
-        navigate("/home");
+        // localStorage.setItem(USER_DATA, JSON.stringify(res.payload.foundUser));
+        // localStorage.setItem(USER_TOKEN, res.payload.encodedToken);
+        // navigate("/home");
+        // console.log(location.state);
+        // console.log(location.state.from.pathname);
+        if (location?.state) {
+          navigate(location?.state?.from?.pathname);
+        } else {
+          navigate("/home");
+        }
       } else {
         console.log("check your credentials!!");
       }
