@@ -53,8 +53,8 @@ function SignUp() {
       console.log("please check your inputs again!");
     } else {
       const res = await dispatch(signUp(user));
-      // localStorage.setItem(USER_DATA, JSON.stringify(res.payload.createdUser));
-      // localStorage.setItem(USER_TOKEN, res.payload.encodedToken);
+      localStorage.setItem(USER_DATA, JSON.stringify(res.payload.createdUser));
+      localStorage.setItem(USER_TOKEN, res.payload.encodedToken);
       navigate("/home");
     }
   };

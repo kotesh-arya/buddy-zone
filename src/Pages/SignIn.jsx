@@ -5,8 +5,6 @@ import {
   VStack,
   Heading,
   Text,
-  SimpleGrid,
-  GridItem,
   FormControl,
   FormLabel,
   Input,
@@ -18,11 +16,13 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import Logo from "../assets/buddy-zone-blue.png";
 import { Image } from "@chakra-ui/react";
 import { Navbar } from "../Components/Navbar";
-import { useDispatch } from "react-redux";
+
+import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "../features/auth/authSlice";
 import { USER_DATA, USER_TOKEN } from "../constants";
 
 function SignIn() {
+  const { isModalOpen } = useSelector((store) => store.modal);
   const location = useLocation();
   const bgColor = useColorModeValue("gray.50", "whiteAlpha.50");
   const navigate = useNavigate();
@@ -49,11 +49,9 @@ function SignIn() {
       console.log(res);
       console.log(res.payload.foundUser.firstname, "found now!!");
       if (res.payload.foundUser !== undefined) {
-        // localStorage.setItem(USER_DATA, JSON.stringify(res.payload.foundUser));
-        // localStorage.setItem(USER_TOKEN, res.payload.encodedToken);
-        // navigate("/home");
-        // console.log(location.state);
-        // console.log(location.state.from.pathname);
+        localStorage.setItem(USER_DATA, JSON.stringify(res.payload.foundUser));
+        localStorage.setItem(USER_TOKEN, res.payload.encodedToken);
+        navigate("/home");
         if (location?.state) {
           navigate(location?.state?.from?.pathname);
         } else {
@@ -64,8 +62,10 @@ function SignIn() {
       }
     }
   };
+
   return (
     <Box backgroundColor={bgColor}>
+      
       <Navbar />
       <Container maxW="container.xl" p={0}>
         <Flex

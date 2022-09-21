@@ -12,7 +12,6 @@ import { RequiresAuth } from "./RequiresAuth";
 
 function App() {
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(getAllUsers());
     dispatch(getAllPosts());

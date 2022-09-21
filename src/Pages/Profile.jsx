@@ -14,23 +14,29 @@ import { Sidebar } from "../Components/Sidebar";
 import { Suggestionbar } from "../Components/Suggestionbar";
 import { PostCard } from "../Components/PostCard";
 import { useSelector } from "react-redux";
-import { getSingleUser } from "../features/users/singleUserSlice";
-import { useParams } from "react-router-dom";
+import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import axios from "axios";
+// import axios from "axios";
+
+import { MacroModal } from "../Components/MacroModal";
+import { signOut } from "../features/auth/authSlice";
 
 function Profile() {
   const dispatch = useDispatch();
   const { userId } = useParams();
   // console.log(userId);
   const {
-    user,
+    profile: { userProfile },
     posts: { userPosts },
   } = useSelector((store) => store.singleUser);
+  const { user } = useSelector((store) => store.auth);
 
-  console.log(userPosts);
+  console.log("current user:", user);
+  // console.log("other user:", userProfile.username);
   useEffect(() => {
     dispatch(getSingleUser(userId));
+    dispatch(getUserPosts(userId));
   }, []);
 
   return (
@@ -55,8 +61,8 @@ function Profile() {
               <Avatar
                 margin={"auto"}
                 size="2xl"
-                name={`${user?.firstname} ${user?.lastname}`}
-                src={user?.userProfile}
+                name={`${userProfile?.firstname} ${userProfile?.lastname}`}
+                src={userProfile?.userProfile}
               />
             </Box>
 
@@ -69,20 +75,26 @@ function Profile() {
           </Flex>
           <VStack paddingTop={"3rem"}>
             <Heading as={"strong"}>
-              {user?.firstname} {user?.lastname}
+              {userProfile?.firstname} {userProfile?.lastname}
             </Heading>
-            <Text as={"strong"}>@{user?.username}</Text>
+            <Text as={"strong"}>@{userProfile?.username}</Text>
             <Text as={"strong"}>0 Following | 2 Followers</Text>
 
-            <Text as={"strong"}>My Website: _________</Text>
-            <Text as={"strong"}>Bio: Blended Being</Text>
+            <Text as={"strong"}>My Website:{userProfile?.website}</Text>
+            <Text as={"strong"}>Bio: {userProfile?.bio}</Text>
 
-            {user?.username === "@koteshmudila" ? (
+            {userProfile?.username === user?.username ? (
               <Box width={"60%"}>
-                <Button marginBottom={"1rem"} bg={"#08a0e9"}>
-                  <Text>Edit profile</Text>
-                </Button>
-                <Button bg={"transparent"} border={"1px solid red"}>
+                <MacroModal {...user} />
+                <Button
+                  bg={"transparent"}
+                  border={"1px solid red"}
+                  as={Link}
+                  to="/"
+                  onClick={() => {
+                    dispatch(signOut());
+                  }}
+                >
                   <Text>Logout</Text>
                 </Button>
               </Box>

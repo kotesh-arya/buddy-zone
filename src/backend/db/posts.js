@@ -8,7 +8,7 @@ import { formatDate } from "../utils/authUtils";
 
 export const posts = [
   {
-    _id: uuid(),
+    _id: 1,
     content:
       "Our greatest weakness lies in giving up. The most certain way to succeed is always to try just one more time.",
     likes: {
@@ -44,7 +44,7 @@ export const posts = [
     userImage: "",
   },
   {
-    _id: uuid(),
+    _id: 2,
     content:
       "Believe in yourself! Have faith in your abilities! Without a humble but reasonable confidence in your own powers you cannot be successful or happy.",
     likes: {
@@ -81,7 +81,7 @@ export const posts = [
     userImage: "",
   },
   {
-    _id: uuid(),
+    _id: 3,
     content:
       "You can't cross the sea merely by standing and staring at the water.",
     likes: {
@@ -118,7 +118,7 @@ export const posts = [
     userImage: "",
   },
   {
-    _id: uuid(),
+    _id: 4,
     content:
       "Ever tried. Ever failed. No matter. Try Again. Fail again. Fail better.",
     likes: {
@@ -142,6 +142,42 @@ export const posts = [
       {
         _id: uuid(),
         username: "Keerthi",
+        text: "NEVER EVER GIVE UP!",
+        votes: {
+          upvotedBy: [],
+          downvotedBy: [],
+        },
+      },
+    ],
+    createdAt: formatDate(),
+    updatedAt: formatDate(),
+    userImage: "",
+  },
+  {
+    _id: 5,
+    content:
+      "Stay away from those people who try to disparage your ambitions. Small minds will always do that, but great minds will give you a feeling that you can become great too.",
+    likes: {
+      likeCount: 0,
+      likedBy: [],
+      dislikedBy: [],
+    },
+    firstname: "Kotesh",
+    lastname: "Mudila",
+    username: "koteshmudila",
+    comments: [
+      {
+        _id: uuid(),
+        username: "Prakhar",
+        text: "Failure is your life-long teacher",
+        votes: {
+          upvotedBy: [],
+          downvotedBy: [],
+        },
+      },
+      {
+        _id: uuid(),
+        username: "Charu",
         text: "NEVER EVER GIVE UP!",
         votes: {
           upvotedBy: [],

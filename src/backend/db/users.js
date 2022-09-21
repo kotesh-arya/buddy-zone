@@ -7,7 +7,7 @@ import { formatDate } from "../utils/authUtils";
 
 export const users = [
   {
-    _id: uuid(),
+    _id: "koteshmudila",
     firstname: "Kotesh",
     lastname: "Mudila",
     username: "koteshmudila",
@@ -15,9 +15,11 @@ export const users = [
     createdAt: formatDate(),
     updatedAt: formatDate(),
     userImage: "https://avatars.githubusercontent.com/u/69259490?v=4",
+    bio: "",
+    website: "",
   },
   {
-    _id: uuid(),
+    _id: "saibharath",
     firstname: "Sai",
     lastname: "Bharath",
     username: "saibharath",
@@ -25,9 +27,11 @@ export const users = [
     createdAt: formatDate(),
     updatedAt: formatDate(),
     userImage: "",
+    bio: "",
+    website: "",
   },
   {
-    _id: uuid(),
+    _id: "saikumar",
     firstname: "Saiie",
     lastname: "Kumar",
     username: "saikumar",
@@ -35,9 +39,11 @@ export const users = [
     createdAt: formatDate(),
     updatedAt: formatDate(),
     userImage: "",
+    bio: "",
+    website: "",
   },
   {
-    _id: uuid(),
+    _id: "chinnaprabha",
     firstname: "Chinna",
     lastname: "Prabha",
     username: "chinnaprabha",
@@ -45,9 +51,11 @@ export const users = [
     createdAt: formatDate(),
     updatedAt: formatDate(),
     userImage: "",
+    bio: "",
+    website: "",
   },
   {
-    _id: uuid(),
+    _id: "rameshboddula",
     firstname: "Ramesh",
     lastname: "Boddula",
     username: "rameshboddula",
@@ -55,5 +63,7 @@ export const users = [
     createdAt: formatDate(),
     updatedAt: formatDate(),
     userImage: "",
+    bio: "",
+    website: "",
   },
 ];

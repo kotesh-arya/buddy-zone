@@ -30,9 +30,7 @@ function Suggestionbar() {
       // height={"30rem"}
       marginRight={"2rem"}
     >
-      <Box>
-        <Input width={"90%"} placeholder="Search Friends..." />
-      </Box>
+     
       <Box bg="black.600">
         <VStack
         //  bg="green.600"
@@ -43,7 +41,7 @@ function Suggestionbar() {
             justifyContent={"space-between"}
             alignItems={"center"}
             width={"full"}
-            marginTop={"2rem"}
+            // marginTop={"2rem"}
           >
             <Text as={"strong"}>Who to Follow </Text>
             <Button bg={"#08a0e9"}>Show more</Button>

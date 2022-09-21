@@ -51,9 +51,9 @@ function PostCard({
         >
           <Box
             as={Link}
-            to={`/user/${_id}`}
+            to={`/user/${username}`}
             onClick={() => {
-              dispatch(getSingleUser(_id));
+              dispatch(getSingleUser(username));
             }}
             display={"flex"}
             alignItems="center"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Flex,
@@ -14,8 +14,15 @@ import { Suggestionbar } from "../Components/Suggestionbar";
 import { PostCard } from "../Components/PostCard";
 import { useSelector } from "react-redux";
 import { CommentContainer } from "../Components/CommentContainer";
-
+import { useDispatch } from "react-redux";
+import {
+  getSinglePost,
+  getSinglePostComments,
+} from "../features/post/singlePostSlice";
+import { useParams } from "react-router-dom";
 function SinglePost() {
+  const dispatch = useDispatch();
+  const { postId } = useParams();
   const bgColor = useColorModeValue("gray.50", "gray.900");
 
   const {
@@ -23,7 +30,10 @@ function SinglePost() {
     comments: { postComments },
   } = useSelector((store) => store.singlePost);
   console.log(postComments);
-
+  useEffect(() => {
+    dispatch(getSinglePost(postId));
+    dispatch(getSinglePostComments(postId));
+  });
   return (
     <Box>
       <Sidebar />

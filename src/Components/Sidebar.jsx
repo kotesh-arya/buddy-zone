@@ -8,7 +8,7 @@ import {
   Avatar,
 } from "@chakra-ui/react";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
 import { MdExplore } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
@@ -17,7 +17,7 @@ import { BsFillBookmarkHeartFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../features/auth/authSlice";
-import { Link } from "react-router-dom";
+import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
 
 function Sidebar() {
   const getActiveStyle = ({ isActive }) => ({
@@ -25,9 +25,12 @@ function Sidebar() {
     color: isActive ? "white" : "none",
   });
   const dispatch = useDispatch();
-  const { user } = useSelector((store) => store.auth);
-  console.log(user);
-  console.log(signOut);
+  const {
+    user: { _id, username },
+    user,
+  } = useSelector((store) => store.auth);
+  console.log(user._id);
+  // console.log(signOut);
   return (
     <VStack
       height="50vh"
@@ -87,7 +90,11 @@ function Sidebar() {
 
         <Box
           as={NavLink}
-          to="/profile"
+          to={`/user/${_id}`}
+          onClick={() => {
+            dispatch(getSingleUser(_id));
+            dispatch(getUserPosts(username));
+          }}
           padding="10px"
           width="15rem"
           borderRadius={4}
@@ -122,7 +129,16 @@ function Sidebar() {
           alignItems="center"
           justifyContent={"space-between"}
         >
-          <Box display={"flex"} alignItems="center">
+          <Box
+            as={Link}
+            to={`/user/${_id}`}
+            onClick={() => {
+              dispatch(getSingleUser(_id));
+              dispatch(getUserPosts(username));
+            }}
+            display={"flex"}
+            alignItems="center"
+          >
             <Avatar
               marginRight={"10px"}
               name={`${user?.firstname} ${user?.lastname}`}
@@ -136,7 +152,6 @@ function Sidebar() {
             as={Link}
             to="/"
             onClick={() => {
-              console.log("hi");
               dispatch(signOut());
             }}
           >

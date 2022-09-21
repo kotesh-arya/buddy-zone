@@ -1,10 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getUserPostsService } from "../../services/PostServices/getUserPostsService";
-import { getSingleUserService } from "../../services/UserServices/getSingleUserService";
-
+import {
+  getSingleUserService,
+  editUserService,
+} from "../../services/UserServices";
 const initialState = {
-  user: null,
-  isLoading: false,
+  // user: null,
+  // isLoading: false,
+  profile: {
+    userProfile: null,
+    isloading: false,
+    error: null,
+  },
   posts: {
     userPosts: [],
     isLoading: false,
@@ -36,6 +43,18 @@ const getUserPosts = createAsyncThunk(
     }
   }
 );
+const editUser = createAsyncThunk(
+  "user/editUser",
+  async ({ userData, token }, { rejectWithValue }) => {
+    try {
+      console.log(userData, token);
+      const { data } = await editUserService(userData, token);
+      return data;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  }
+);
 
 const singleUserSlice = createSlice({
   name: "singleUser",
@@ -46,7 +65,7 @@ const singleUserSlice = createSlice({
     },
     [getSingleUser.fulfilled]: (state, action) => {
       state.isLoading = true;
-      state.user = action.payload;
+      state.profile.userProfile = action.payload;
     },
     [getSingleUser.rejected]: (state) => {
       state.isLoading = false;
@@ -57,13 +76,25 @@ const singleUserSlice = createSlice({
     [getUserPosts.fulfilled]: (state, action) => {
       state.posts.isLoading = true;
       state.posts.userPosts = action.payload;
-      // console.log(action.payload);
     },
     [getUserPosts.rejected]: (state) => {
       state.posts.isLoading = false;
+    },
+
+    [editUser.pending]: (state) => {
+      state.profile.isloading = true;
+    },
+    [editUser.fulfilled]: (state, action) => {
+      state.profile.isloading = false;
+      state.profile.userProfile = action.payload.user;
+      console.log(action.payload);
+    },
+    [editUser.rejected]: (state, { payload }) => {
+      state.profile.isloading = false;
+      state.profile.error = payload;
     },
   },
 });
 
 const singleUserReducer = singleUserSlice.reducer;
-export { singleUserReducer, getSingleUser, getUserPosts };
+export { singleUserReducer, getSingleUser, getUserPosts, editUser };
