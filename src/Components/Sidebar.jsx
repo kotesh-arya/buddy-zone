@@ -12,13 +12,12 @@ import { NavLink, Link } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
 import { MdExplore } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
-import { FaPen } from "react-icons/fa";
 import { BsFillBookmarkHeartFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../features/auth/authSlice";
 import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
-
+import { NewPostModal } from "./NewPostModal";
 function Sidebar() {
   const getActiveStyle = ({ isActive }) => ({
     backgroundColor: isActive ? "#08a0e9" : "none",
@@ -106,7 +105,9 @@ function Sidebar() {
             <Text as="strong">Profile</Text>{" "}
           </Flex>
         </Box>
-        <Button
+        <NewPostModal/>
+
+        {/* <Button
           padding="10px"
           bg={"#08a0e9"}
           width="15rem"
@@ -114,12 +115,12 @@ function Sidebar() {
           marginBottom={3}
         >
           <Flex alignItems="center">
-            <Icon marginRight="15px" as={FaPen} />{" "}
+            {" "}
             <Text as="strong" marginRight="30px">
               New Post
             </Text>{" "}
           </Flex>
-        </Button>
+        </Button> */}
       </Flex>
       {user?.firstname && (
         <Box

@@ -1,15 +1,11 @@
 import React, { useState } from "react";
 
 import {
-  Container,
-  Flex,
-  Heading,
   FormControl,
   FormLabel,
   Input,
   Box,
   Button,
-  useColorModeValue,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -23,7 +19,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 
 import { editUser } from "../features/users/singleUserSlice";
-function MacroModal({ firstname, lastname, bio, website }) {
+
+function EditUserModal({ firstname, lastname, bio, website }) {
   const { token } = useSelector((store) => store.auth);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
@@ -36,8 +33,6 @@ function MacroModal({ firstname, lastname, bio, website }) {
   const handleEditUserProfile = async (e) => {
     e.preventDefault();
     const res = await dispatch(editUser({ userData: profileData, token }));
-
-    // setModal(false);
   };
   return (
     <>
@@ -156,4 +151,4 @@ function MacroModal({ firstname, lastname, bio, website }) {
   );
 }
 
-export { MacroModal };
+export { EditUserModal };

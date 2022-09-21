@@ -19,7 +19,7 @@ import { Link, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 // import axios from "axios";
 
-import { MacroModal } from "../Components/MacroModal";
+import { EditUserModal } from "../Components/EditUserModal";
 import { signOut } from "../features/auth/authSlice";
 
 function Profile() {
@@ -85,7 +85,7 @@ function Profile() {
 
             {userProfile?.username === user?.username ? (
               <Box width={"60%"}>
-                <MacroModal {...user} />
+                <EditUserModal {...user} />
                 <Button
                   bg={"transparent"}
                   border={"1px solid red"}

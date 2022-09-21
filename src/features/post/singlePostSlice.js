@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+// import { createPostService } from "../../services/PostServices/createPostService";
 import { getPostCommentsService } from "../../services/PostServices/getPostCommentsService";
 import { getSinglePostService } from "../../services/PostServices/getSinglePostService";
+
 const initialState = {
   post: null,
   isLoading: false,
@@ -8,6 +10,7 @@ const initialState = {
     postComments: [],
     isLoading: false,
   },
+  error: "",
 };
 
 const getSinglePost = createAsyncThunk(
@@ -38,6 +41,9 @@ const getSinglePostComments = createAsyncThunk(
     }
   }
 );
+
+
+
 const singlePostSlice = createSlice({
   name: "singlePost",
   initialState,
@@ -63,6 +69,7 @@ const singlePostSlice = createSlice({
     [getSinglePostComments.rejected]: (state) => {
       state.comments.isLoading = false;
     },
+   
   },
 });
 const singlePostReducer = singlePostSlice.reducer;
