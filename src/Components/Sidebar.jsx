@@ -1,7 +1,6 @@
 import {
   Flex,
   Box,
-  Button,
   VStack,
   Icon,
   Text,
@@ -28,8 +27,7 @@ function Sidebar() {
     user: { _id, username },
     user,
   } = useSelector((store) => store.auth);
-  console.log(user._id);
-  // console.log(signOut);
+
   return (
     <VStack
       height="50vh"
@@ -105,22 +103,7 @@ function Sidebar() {
             <Text as="strong">Profile</Text>{" "}
           </Flex>
         </Box>
-        <NewPostModal/>
-
-        {/* <Button
-          padding="10px"
-          bg={"#08a0e9"}
-          width="15rem"
-          borderRadius={4}
-          marginBottom={3}
-        >
-          <Flex alignItems="center">
-            {" "}
-            <Text as="strong" marginRight="30px">
-              New Post
-            </Text>{" "}
-          </Flex>
-        </Button> */}
+        <NewPostModal />
       </Flex>
       {user?.firstname && (
         <Box
@@ -157,7 +140,7 @@ function Sidebar() {
             }}
           >
             <Icon color={"red"} as={IoLogOut} />
-          </Box>{" "}
+          </Box>
         </Box>
       )}
     </VStack>

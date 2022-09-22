@@ -4,7 +4,6 @@ import {
   Button,
   Divider,
   Flex,
-  Input,
   Text,
   VStack,
   useColorModeValue,
@@ -15,7 +14,6 @@ import { UserMiniCard } from "./UserMiniCard";
 function Suggestionbar() {
   const bgColor = useColorModeValue("gray.50", "gray.900");
   const { users } = useSelector((store) => store.users);
-  // console.log(users);
   return (
     <Box
       display={"flex"}
@@ -27,13 +25,11 @@ function Suggestionbar() {
       borderRadius={"10px"}
       position={"fixed"}
       right={"0"}
-      // height={"30rem"}
       marginRight={"2rem"}
     >
      
       <Box bg="black.600">
         <VStack
-        //  bg="green.600"
         >
           <Flex
             display={"flex"}
@@ -41,7 +37,6 @@ function Suggestionbar() {
             justifyContent={"space-between"}
             alignItems={"center"}
             width={"full"}
-            // marginTop={"2rem"}
           >
             <Text as={"strong"}>Who to Follow </Text>
             <Button bg={"#08a0e9"}>Show more</Button>

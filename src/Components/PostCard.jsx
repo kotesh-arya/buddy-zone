@@ -1,5 +1,22 @@
 import React from "react";
-import { Box, Flex, Image, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Image,
+  Text,
+  useColorModeValue,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverAnchor,
+} from "@chakra-ui/react";
 import {
   FaRegBookmark,
   FaRegHeart,
@@ -8,7 +25,7 @@ import {
 } from "react-icons/fa";
 import { FiMoreVertical } from "react-icons/fi";
 import { Icon, Avatar } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getSinglePost,
   getSinglePostComments,
@@ -16,29 +33,21 @@ import {
 
 import { Link } from "react-router-dom";
 import { getSingleUser } from "../features/users/singleUserSlice";
-function PostCard({
-  _id,
-  username,
-  content,
-  userImage,
-  firstname,
-  lastname,
-}) {
+import { deletePost, editPost } from "../features/post/postsSlice";
+import { EditPostModal } from "./EditPostModal";
+
+function PostCard({ _id, username, content, userImage, firstname, lastname }) {
+  const { token, user } = useSelector((store) => store.auth);
   const bgColor = useColorModeValue("gray.50", "gray.900");
   const dispatch = useDispatch();
+
   return (
     <Box
-      as={Link}
-      to={`/posts/${_id}`}
       bg={bgColor}
       boxShadow={"2xl"}
       marginBottom={"2rem"}
       borderRadius={"15px"}
       width={"35rem"}
-      onClick={() => {
-        dispatch(getSinglePost(_id));
-        dispatch(getSinglePostComments(_id));
-      }}
     >
       <Flex bg={bgColor} borderRadius={"15px"} flexDirection={"column"}>
         <Flex
@@ -68,12 +77,53 @@ function PostCard({
               {firstname} {lastname}
             </Text>
           </Box>
-          <Icon as={FaRegBookmark} />
+          {username === user.username && (
+            <Box>
+              <Popover>
+                <PopoverTrigger>
+                  <Button bg={"transparent"}>
+                    <Icon
+                      as={FiMoreVertical}
+                      cursor={"pointer"}
+                      onClick={() => {
+                        console.log("open small modal");
+                      }}
+                    />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent width={"13rem"}>
+                  <PopoverArrow />
+
+                  <PopoverBody>
+                    <EditPostModal id={_id} content={content} />
+                    <Button
+                      bg={"#08a0e9"}
+                      marginLeft={"10px"}
+                      onClick={() => {
+                        dispatch(deletePost({ postId: _id, token }));
+                        console.log("working!");
+                      }}
+                      cursor={"pointer"}
+                    >
+                      delete
+                    </Button>
+                  </PopoverBody>
+                </PopoverContent>
+              </Popover>
+            </Box>
+          )}
         </Flex>
         <Flex
+          as={Link}
+          to={`/posts/${_id}`}
           flexDirection={"column"}
           alignItems="flex-start"
           padding={" 0 2rem "}
+          // bg={"green"}
+          onClick={() => {
+            dispatch(getSinglePost(_id));
+            dispatch(getSinglePostComments(_id));
+          }}
         >
           {/* <Image
             width={"100%"}
@@ -93,14 +143,16 @@ function PostCard({
           padding={"1rem 2rem"}
         >
           <Icon as={FaRegHeart} />
-          <Icon
-            onClick={() => {
-              dispatch(getSinglePostComments(_id));
-            }}
-            as={FaRegCommentAlt}
-          />
+          <Box as={Link} to={`/posts/${_id}`}>
+            <Icon
+              onClick={() => {
+                dispatch(getSinglePostComments(_id));
+              }}
+              as={FaRegCommentAlt}
+            />
+          </Box>
           <Icon as={FaShareAlt} />
-          <Icon as={FiMoreVertical} />
+          <Icon as={FaRegBookmark} />
         </Flex>
       </Flex>
     </Box>

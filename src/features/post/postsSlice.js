@@ -1,14 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { createPostService } from "../../services/PostServices/createPostService";
+import { deletePostService } from "../../services/PostServices/deletePostService";
+import { editPostService } from "../../services/PostServices/editPostService";
 
 import { getAllPostsService } from "../../services/PostServices/getAllPostsService";
-
 //initial state for the slice
 
 const initialState = {
-  posts: [],  
+  posts: [],
   isloading: false,
-  error:""
+  error: "",
 };
 const getAllPosts = createAsyncThunk(
   "posts/getAllPosts",
@@ -35,6 +36,31 @@ const createPost = createAsyncThunk(
     }
   }
 );
+
+const deletePost = createAsyncThunk(
+  "posts/deletePost",
+  async ({ postId, token }, { rejectWithValue }) => {
+    console.log({ postId, token });
+    try {
+      const { data } = await deletePostService(postId, token);
+      return data.posts;
+    } catch (error) {
+      rejectWithValue("error occured in delete post service");
+    }
+  }
+);
+const editPost = createAsyncThunk(
+  "posts/editPost",
+  async ({ postId, postData, token }, { rejectWithValue }) => {
+    try {
+      const { data } = await editPostService(postId, postData, token);
+      return data.posts;
+    } catch (error) {
+      rejectWithValue("error occured in edit post service");
+    }
+  }
+);
+
 // feature-slice
 const postsSlice = createSlice({
   name: "posts",
@@ -55,7 +81,6 @@ const postsSlice = createSlice({
       state.error = "";
     },
     [createPost.fulfilled]: (state, { payload }) => {
-      console.log(payload);
       state.posts = payload.posts;
 
       state.error = " ";
@@ -63,8 +88,26 @@ const postsSlice = createSlice({
     [createPost.rejected]: (state, { payload }) => {
       state.error = payload;
     },
+
+    [deletePost.fulfilled]: (state, { payload }) => {
+      state.posts = payload;
+      state.posts = payload;
+
+      state.error = "";
+    },
+    [deletePost.rejected]: (state, { payload }) => {
+      state.error = payload;
+    },
+    [editPost.fulfilled]: (state, { payload }) => {
+      state.posts = payload;
+
+      state.error = "";
+    },
+    [editPost.rejected]: (state, { payload }) => {
+      state.error = payload;
+    },
   },
 });
 
 const postsReducer = postsSlice.reducer;
-export { postsReducer, getAllPosts, createPost };
+export { postsReducer, getAllPosts, createPost, deletePost, editPost };
