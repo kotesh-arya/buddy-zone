@@ -30,13 +30,22 @@ import {
   getSinglePost,
   getSinglePostComments,
 } from "../features/post/singlePostSlice";
-
+// import moment from "moment";
+import Moment from "react-moment";
 import { Link } from "react-router-dom";
 import { getSingleUser } from "../features/users/singleUserSlice";
 import { deletePost, editPost } from "../features/post/postsSlice";
 import { EditPostModal } from "./EditPostModal";
 
-function PostCard({ _id, username, content, userImage, firstname, lastname }) {
+function PostCard({
+  _id,
+  updatedAt,
+  username,
+  content,
+  userImage,
+  firstname,
+  lastname,
+}) {
   const { token, user } = useSelector((store) => store.auth);
   const bgColor = useColorModeValue("gray.50", "gray.900");
   const dispatch = useDispatch();
@@ -47,9 +56,14 @@ function PostCard({ _id, username, content, userImage, firstname, lastname }) {
       boxShadow={"2xl"}
       marginBottom={"2rem"}
       borderRadius={"15px"}
-      width={"35rem"}
+      Width={"40rem"}
     >
-      <Flex bg={bgColor} borderRadius={"15px"} flexDirection={"column"}>
+      <Flex
+        bg={bgColor}
+        Width={"100%"}
+        borderRadius={"15px"}
+        flexDirection={"column"}
+      >
         <Flex
           bg={"WhiteAlpha"}
           display={"flex"}
@@ -72,9 +86,11 @@ function PostCard({ _id, username, content, userImage, firstname, lastname }) {
               name={`${firstname} ${lastname}`}
               src={userImage}
             />
-
-            <Text as="strong">
+            <Heading as="h3" size="md">
               {firstname} {lastname}
+            </Heading>
+            <Text marginLeft={"5px"} fontSize={"md"}>
+              <Moment fromNow>{updatedAt}</Moment>
             </Text>
           </Box>
           {username === user.username && (

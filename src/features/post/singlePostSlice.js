@@ -1,8 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { addCommentService } from "../../services/CommentServices/addCommentService";
 // import { createPostService } from "../../services/PostServices/createPostService";
-import { getPostCommentsService } from "../../services/PostServices/getPostCommentsService";
+import { getPostCommentsService } from "../../services/CommentServices/getPostCommentsService";
 import { getSinglePostService } from "../../services/PostServices/getSinglePostService";
-
 const initialState = {
   post: null,
   isLoading: false,
@@ -41,8 +41,17 @@ const getSinglePostComments = createAsyncThunk(
     }
   }
 );
-
-
+const addComment = createAsyncThunk(
+  "post/addComment",
+  async ({ postId, commentData, token }, { rejectWithValue }) => {
+    try {
+      const { data } = await addCommentService(postId, commentData, token);
+      return data;
+    } catch (error) {
+      rejectWithValue("error occured in add comment to post");
+    }
+  }
+);
 
 const singlePostSlice = createSlice({
   name: "singlePost",
@@ -69,8 +78,18 @@ const singlePostSlice = createSlice({
     [getSinglePostComments.rejected]: (state) => {
       state.comments.isLoading = false;
     },
-   
+    [addComment.pending]: (state) => {
+      state.comments.isLoading = true;
+    },
+    [addComment.fulfilled]: (state, action) => {
+      state.comments.isLoading = false;
+      // console.log(action.payload);
+      state.comments.postComments = action.payload.comments;
+    },
+    [addComment.rejected]: (state) => {
+      state.comments.isLoading = false;
+    },
   },
 });
 const singlePostReducer = singlePostSlice.reducer;
-export { singlePostReducer, getSinglePost, getSinglePostComments };
+export { singlePostReducer, getSinglePost, getSinglePostComments, addComment };

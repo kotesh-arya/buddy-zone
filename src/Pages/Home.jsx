@@ -22,7 +22,6 @@ import { PostCard } from "../Components/PostCard";
 function Home() {
   const btnBg = useColorModeValue("gray.300", "gray.900");
   const { posts } = useSelector((store) => store.posts);
-  
 
   return (
     <Box>
@@ -33,14 +32,20 @@ function Home() {
         marginRight="auto"
         justifyContent={"center"}
         padding={"80px 20px"}
+        // bg={"blue"}
       >
-        <VStack width={"40rem"} height="80px" spacing={12}>
+        <VStack
+          // bg={"red"}
+          height="80px"
+          spacing={12}
+        >
           <Flex
             justifyContent={"space-between"}
             position={"fixed"}
             bg="whiteAplha.100"
             zIndex={"99"}
             width="40%"
+            // bg={"green"}
           >
             <Button bg={btnBg}>
               <Icon as={AiFillFire} marginRight="2px" />
@@ -55,9 +60,11 @@ function Home() {
               Oldest
             </Button>
           </Flex>
-          {posts.map((post) => {
-            return <PostCard key={post._id} {...post} />;
-          })}
+          <Box width={"40rem"}>
+            {posts.map((post) => {
+              return <PostCard key={post._id} {...post} />;
+            })}
+          </Box>
         </VStack>
         <Suggestionbar />
       </Flex>
