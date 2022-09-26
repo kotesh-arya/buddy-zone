@@ -1,8 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { addCommentService } from "../../services/CommentServices/addCommentService";
-// import { createPostService } from "../../services/PostServices/createPostService";
+import { deleteCommentService } from "../../services/CommentServices/deleteCommentService";
+import { editCommentService } from "../../services/CommentServices/editCommentService";
 import { getPostCommentsService } from "../../services/CommentServices/getPostCommentsService";
 import { getSinglePostService } from "../../services/PostServices/getSinglePostService";
+
 const initialState = {
   post: null,
   isLoading: false,
@@ -52,6 +54,35 @@ const addComment = createAsyncThunk(
     }
   }
 );
+const editComment = createAsyncThunk(
+  "post/editComment",
+  async ({ postId, commentId, commentData, token }, { rejectWithValue }) => {
+    try {
+      const { data } = await editCommentService(
+        postId,
+        commentId,
+        commentData,
+        token
+      );
+      return data;
+    } catch (error) {
+      rejectWithValue("error occured in add comment to post");
+    }
+  }
+);
+const deleteComment = createAsyncThunk(
+  "post/deleteComment",
+  async ({ postId, commentId, token }, { rejectWithValue }) => {
+    // console.log("extra reducer also working")
+    try {
+      const { data } = await deleteCommentService(postId, commentId, token);
+      console.log(data, "at reducer");
+      return data;
+    } catch (error) {
+      rejectWithValue("error occured in add comment to post");
+    }
+  }
+);
 
 const singlePostSlice = createSlice({
   name: "singlePost",
@@ -83,13 +114,37 @@ const singlePostSlice = createSlice({
     },
     [addComment.fulfilled]: (state, action) => {
       state.comments.isLoading = false;
-      // console.log(action.payload);
       state.comments.postComments = action.payload.comments;
     },
     [addComment.rejected]: (state) => {
       state.comments.isLoading = false;
     },
+    [editComment.pending]: (state) => {
+      state.comments.isLoading = true;
+    },
+    [editComment.fulfilled]: (state, action) => {
+      state.comments.isLoading = false;
+      state.comments.postComments = action.payload.comments;
+    },
+    [editComment.rejected]: (state) => {
+      state.comments.isLoading = false;
+    },
+
+    [deleteComment.fulfilled]: (state, action) => {
+      state.comments.isLoading = false;
+      state.comments.postComments = action.payload.comments;
+    },
+    [deleteComment.rejected]: (state) => {
+      state.comments.isLoading = false;
+    },
   },
 });
 const singlePostReducer = singlePostSlice.reducer;
-export { singlePostReducer, getSinglePost, getSinglePostComments, addComment };
+export {
+  singlePostReducer,
+  getSinglePost,
+  getSinglePostComments,
+  addComment,
+  editComment,
+  deleteComment,
+};

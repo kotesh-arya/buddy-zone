@@ -72,7 +72,7 @@ const authSlice = createSlice({
       state.token = payload.encodedToken;
       state.user = payload.foundUser;
       state.isLoggedin = true;
-      console.log(payload);
+      // console.log(payload);
     },
     [logIn.rejected]: (state) => {
       state.isloading = false;

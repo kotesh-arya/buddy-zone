@@ -40,14 +40,11 @@ function SignIn() {
   };
 
   const loginHandler = async (loginUser) => {
-    console.log("entered loginUser", loginUser);
 
     if (loginUser.username === "" || loginUser.password === "") {
       console.log("please fill both credentials");
     } else {
       const res = await dispatch(logIn(loginUser));
-      console.log(res);
-      console.log(res.payload.foundUser.firstname, "found now!!");
       if (res.payload.foundUser !== undefined) {
         localStorage.setItem(USER_DATA, JSON.stringify(res.payload.foundUser));
         localStorage.setItem(USER_TOKEN, res.payload.encodedToken);
@@ -65,7 +62,6 @@ function SignIn() {
 
   return (
     <Box backgroundColor={bgColor}>
-      
       <Navbar />
       <Container maxW="container.xl" p={0}>
         <Flex

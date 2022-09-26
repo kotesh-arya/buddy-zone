@@ -4,18 +4,13 @@ import {
   Button,
   Flex,
   Heading,
-  Image,
   Text,
   useColorModeValue,
   Popover,
   PopoverTrigger,
   PopoverContent,
-  PopoverHeader,
   PopoverBody,
-  PopoverFooter,
   PopoverArrow,
-  PopoverCloseButton,
-  PopoverAnchor,
 } from "@chakra-ui/react";
 import {
   FaRegBookmark,
@@ -56,11 +51,11 @@ function PostCard({
       boxShadow={"2xl"}
       marginBottom={"2rem"}
       borderRadius={"15px"}
-      Width={"40rem"}
+      width={"40rem"}
     >
       <Flex
         bg={bgColor}
-        Width={"100%"}
+        width={"100%"}
         borderRadius={"15px"}
         flexDirection={"column"}
       >
@@ -130,6 +125,7 @@ function PostCard({
           )}
         </Flex>
         <Flex
+       
           as={Link}
           to={`/posts/${_id}`}
           flexDirection={"column"}

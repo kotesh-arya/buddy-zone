@@ -23,7 +23,7 @@ export const posts = [
     updatedAt: formatDate(),
     comments: [
       {
-        _id: uuid(),
+        _id: 1,
         username: "pawankalyan",
         text: "Truth Bomb💣",
         votes: {
@@ -32,7 +32,7 @@ export const posts = [
         },
       },
       {
-        _id: uuid(),
+        _id: 2,
         username: "Kiran",
         text: "Can't agree more..💯",
         votes: {
@@ -58,7 +58,7 @@ export const posts = [
 
     comments: [
       {
-        _id: uuid(),
+        _id: 1,
         username: "Kishan",
         text: "I believe",
         votes: {
@@ -67,7 +67,7 @@ export const posts = [
         },
       },
       {
-        _id: uuid(),
+        _id: 2,
         username: "ammakutti",
         text: "bharath's Preachings 😂😂",
         votes: {
@@ -95,7 +95,7 @@ export const posts = [
 
     comments: [
       {
-        _id: uuid(),
+        _id: 1,
         username: "raju",
         text: "Courage is everything!",
         votes: {
@@ -104,8 +104,8 @@ export const posts = [
         },
       },
       {
-        _id: uuid(),
-        username: "Charu",
+        _id: 2,
+        username: "Ravi",
         text: "Sometimes staying back is the best thing one can do 😏",
         votes: {
           upvotedBy: [],
@@ -131,7 +131,7 @@ export const posts = [
     username: "chinnaprabha",
     comments: [
       {
-        _id: uuid(),
+        _id: 1,
         username: "Pradeep",
         text: "Failure is your life-long teacher",
         votes: {
@@ -140,7 +140,7 @@ export const posts = [
         },
       },
       {
-        _id: uuid(),
+        _id: 2,
         username: "Keerthi",
         text: "NEVER EVER GIVE UP!",
         votes: {
@@ -167,7 +167,7 @@ export const posts = [
     username: "koteshmudila",
     comments: [
       {
-        _id: uuid(),
+        _id:1,
         username: "Prakhar",
         text: "Failure is your life-long teacher",
         votes: {
@@ -176,8 +176,8 @@ export const posts = [
         },
       },
       {
-        _id: uuid(),
-        username: "Charu",
+        _id: 2,
+        username: "Charan",
         text: "NEVER EVER GIVE UP!",
         votes: {
           upvotedBy: [],

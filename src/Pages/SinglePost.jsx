@@ -30,7 +30,6 @@ function SinglePost() {
     post,
     comments: { postComments },
   } = useSelector((store) => store.singlePost);
-  console.log(postComments);
   useEffect(() => {
     dispatch(getSinglePost(postId));
     dispatch(getSinglePostComments(postId));
@@ -107,7 +106,14 @@ function SinglePost() {
 
               <Box display={"flex"} padding={"1rem"} flexDirection={"column"}>
                 {postComments?.map((comment) => {
-                  return <CommentContainer key={comment._id} {...comment} />;
+                  return (
+                    <CommentContainer
+                      key={comment._id}
+                      postId={postId}
+                      commentId={comment._id}
+                      {...comment}
+                    />
+                  );
                 })}
               </Box>
             </Box>
