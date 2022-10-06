@@ -1,8 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { addCommentService } from "../../services/CommentServices/addCommentService";
 import { deleteCommentService } from "../../services/CommentServices/deleteCommentService";
+import { downVoteCommentService } from "../../services/CommentServices/downVoteCommentService";
 import { editCommentService } from "../../services/CommentServices/editCommentService";
 import { getPostCommentsService } from "../../services/CommentServices/getPostCommentsService";
+import { upVoteCommentService } from "../../services/CommentServices/upVoteCommentService";
 import { getSinglePostService } from "../../services/PostServices/getSinglePostService";
 
 const initialState = {
@@ -22,7 +24,6 @@ const getSinglePost = createAsyncThunk(
       let {
         data: { post },
       } = await getSinglePostService(postId);
-      // console.log(post)
       return post;
     } catch (error) {
       rejectWithValue(error);
@@ -36,7 +37,6 @@ const getSinglePostComments = createAsyncThunk(
       let {
         data: { comments },
       } = await getPostCommentsService(postId);
-      // console.log(post)
       return comments;
     } catch (error) {
       rejectWithValue(error);
@@ -73,10 +73,8 @@ const editComment = createAsyncThunk(
 const deleteComment = createAsyncThunk(
   "post/deleteComment",
   async ({ postId, commentId, token }, { rejectWithValue }) => {
-    // console.log("extra reducer also working")
     try {
       const { data } = await deleteCommentService(postId, commentId, token);
-      console.log(data, "at reducer");
       return data;
     } catch (error) {
       rejectWithValue("error occured in add comment to post");
@@ -84,6 +82,29 @@ const deleteComment = createAsyncThunk(
   }
 );
 
+const upVoteComment = createAsyncThunk(
+  "post/upVoteComment",
+  async ({ postId, commentId, token }, { rejectWithValue }) => {
+    try {
+      const { data } = await upVoteCommentService(postId, commentId, token);
+      return data;
+    } catch (error) {
+      rejectWithValue("error occured in upvoting comment ");
+    }
+  }
+);
+const downVoteComment = createAsyncThunk(
+  "post/upVoteComment",
+  async ({ postId, commentId, token }, { rejectWithValue }) => {
+    try {
+      const { data } = await downVoteCommentService(postId, commentId, token);
+      console.log(data);
+      return data;
+    } catch (error) {
+      rejectWithValue("error occured in upvoting comment ");
+    }
+  }
+);
 const singlePostSlice = createSlice({
   name: "singlePost",
   initialState,
@@ -137,6 +158,20 @@ const singlePostSlice = createSlice({
     [deleteComment.rejected]: (state) => {
       state.comments.isLoading = false;
     },
+    [upVoteComment.fulfilled]: (state, action) => {
+      state.comments.isLoading = false;
+      state.comments.postComments = action.payload.comments;
+    },
+    [upVoteComment.rejected]: (state) => {
+      state.comments.isLoading = false;
+    },
+    [downVoteComment.fulfilled]: (state, action) => {
+      state.comments.isLoading = false;
+      state.comments.postComments = action.payload.comments;
+    },
+    [downVoteComment.rejected]: (state) => {
+      state.comments.isLoading = false;
+    },
   },
 });
 const singlePostReducer = singlePostSlice.reducer;
@@ -147,4 +182,6 @@ export {
   addComment,
   editComment,
   deleteComment,
+  upVoteComment,
+  downVoteComment
 };

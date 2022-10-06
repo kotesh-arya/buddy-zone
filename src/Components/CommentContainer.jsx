@@ -16,7 +16,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { FiMoreVertical } from "react-icons/fi";
 import { EditCommentModal } from "./EditCommentModal";
 import { BiUpvote, BiDownvote } from "react-icons/bi";
-import { deleteComment } from "../features/post/singlePostSlice";
+import {
+  deleteComment,
+  downVoteComment,
+  upVoteComment,
+} from "../features/post/singlePostSlice";
 
 function CommentContainer({ postId, commentId, username, text, votes }) {
   const bgColor = useColorModeValue("gray.50", "gray.900");
@@ -58,13 +62,7 @@ function CommentContainer({ postId, commentId, username, text, votes }) {
               <Popover>
                 <PopoverTrigger>
                   <Button bg={"transparent"}>
-                    <Icon
-                      as={FiMoreVertical}
-                      cursor={"pointer"}
-                      onClick={() => {
-                        console.log("open small modal");
-                      }}
-                    />
+                    <Icon as={FiMoreVertical} cursor={"pointer"} />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent width={"13rem"}>
@@ -99,20 +97,39 @@ function CommentContainer({ postId, commentId, username, text, votes }) {
           )}
         </Box>
         <Text>{text}</Text>
-        <Box
-          //  bg={"red"}
-          width={"30%"}
-          display={"flex"}
-          justifyContent={"space-between"}
-        >
+        <Box width={"30%"} display={"flex"} justifyContent={"space-between"}>
           <Text>
-            {" "}
-            <Icon as={BiUpvote} />
+            <Icon
+              onClick={() => {
+                dispatch(
+                  upVoteComment({
+                    postId: postId,
+                    commentId: commentId,
+                    token,
+                  })
+                );
+              }}
+              cursor={"pointer"}
+              as={BiUpvote}
+            />
             {votes.upvotedBy.length}{" "}
           </Text>
           <Text>
             {" "}
-            <Icon as={BiDownvote} /> {votes.downvotedBy.length}{" "}
+            <Icon
+              onClick={() => {
+                dispatch(
+                  downVoteComment({
+                    postId: postId,
+                    commentId: commentId,
+                    token,
+                  })
+                );
+              }}
+              cursor={"pointer"}
+              as={BiDownvote}
+            />{" "}
+            {votes.downvotedBy.length}{" "}
           </Text>
         </Box>
       </Box>
