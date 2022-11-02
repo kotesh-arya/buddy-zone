@@ -1,9 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { createPostService } from "../../services/PostServices/createPostService";
 import { deletePostService } from "../../services/PostServices/deletePostService";
+import { disLikePostService } from "../../services/PostServices/disLikePostService";
 import { editPostService } from "../../services/PostServices/editPostService";
 
 import { getAllPostsService } from "../../services/PostServices/getAllPostsService";
+import { likePostService } from "../../services/PostServices/likePostService";
 //initial state for the slice
 
 const initialState = {
@@ -61,6 +63,29 @@ const editPost = createAsyncThunk(
   }
 );
 
+const likePost = createAsyncThunk(
+  "posts/likePost",
+  async ({ postId, token }, { rejectWithValue }) => {
+    try {
+      const { data } = await likePostService(postId, token);
+      return data.posts;
+    } catch (error) {
+      rejectWithValue("error occured in like post service");
+    }
+  }
+);
+const disLikePost = createAsyncThunk(
+  "posts/disLikePost",
+  async ({ postId, token }, { rejectWithValue }) => {
+    try {
+      const { data } = await disLikePostService(postId, token);
+      return data.posts;
+    } catch (error) {
+      rejectWithValue("error occured in dislike post service");
+    }
+  }
+);
+
 // feature-slice
 const postsSlice = createSlice({
   name: "posts",
@@ -100,14 +125,37 @@ const postsSlice = createSlice({
     },
     [editPost.fulfilled]: (state, { payload }) => {
       state.posts = payload;
-
       state.error = "";
     },
     [editPost.rejected]: (state, { payload }) => {
+      state.error = payload;
+    },
+    [likePost.fulfilled]: (state, { payload }) => {
+      state.posts = payload;
+      state.error = "";
+      console.log(payload);
+    },
+    [likePost.rejected]: (state, { payload }) => {
+      state.error = payload;
+    },
+    [disLikePost.fulfilled]: (state, { payload }) => {
+      state.posts = payload;
+      state.error = "";
+      console.log(payload);
+    },
+    [disLikePost.rejected]: (state, { payload }) => {
       state.error = payload;
     },
   },
 });
 
 const postsReducer = postsSlice.reducer;
-export { postsReducer, getAllPosts, createPost, deletePost, editPost };
+export {
+  postsReducer,
+  getAllPosts,
+  createPost,
+  deletePost,
+  editPost,
+  likePost,
+  disLikePost
+};

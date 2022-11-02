@@ -17,6 +17,7 @@ import {
   FaRegHeart,
   FaRegCommentAlt,
   FaShareAlt,
+  FaHeart,
 } from "react-icons/fa";
 import { FiMoreVertical } from "react-icons/fi";
 import { Icon, Avatar } from "@chakra-ui/react";
@@ -29,7 +30,7 @@ import {
 import Moment from "react-moment";
 import { Link } from "react-router-dom";
 import { getSingleUser } from "../features/users/singleUserSlice";
-import { deletePost, editPost } from "../features/post/postsSlice";
+import { deletePost, disLikePost, likePost } from "../features/post/postsSlice";
 import { EditPostModal } from "./EditPostModal";
 
 function PostCard({
@@ -40,6 +41,7 @@ function PostCard({
   userImage,
   firstname,
   lastname,
+  likes,
 }) {
   const { token, user } = useSelector((store) => store.auth);
   const bgColor = useColorModeValue("gray.50", "gray.900");
@@ -125,7 +127,6 @@ function PostCard({
           )}
         </Flex>
         <Flex
-       
           as={Link}
           to={`/posts/${_id}`}
           flexDirection={"column"}
@@ -154,7 +155,18 @@ function PostCard({
           alignItems="center"
           padding={"1rem 2rem"}
         >
-          <Icon as={FaRegHeart} />
+          <Flex>
+            <Icon
+              onClick={() => {
+                likes.likeCount > 0
+                  ? dispatch(disLikePost({ postId: _id, token }))
+                  : dispatch(likePost({ postId: _id, token }));
+              }}
+              color={likes.likeCount > 0 ? "red" : " "}
+              as={likes.likeCount > 0 ? FaHeart : FaRegHeart}
+              cursor={"pointer"}
+            />
+          </Flex>
           <Box as={Link} to={`/posts/${_id}`}>
             <Icon
               onClick={() => {
