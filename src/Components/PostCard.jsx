@@ -156,16 +156,16 @@ function PostCard({
           padding={"1rem 2rem"}
         >
           <Flex>
-            <Icon
+            <Icon  
               onClick={() => {
-                likes.likeCount > 0
+                likes?.likeCount > 0
                   ? dispatch(disLikePost({ postId: _id, token }))
                   : dispatch(likePost({ postId: _id, token }));
               }}
-              color={likes.likeCount > 0 ? "red" : " "}
-              as={likes.likeCount > 0 ? FaHeart : FaRegHeart}
+              color={likes?.likeCount > 0 ? "red" : " "}
+              as={likes?.likeCount > 0 ? FaHeart : FaRegHeart}
               cursor={"pointer"}
-            />
+            />      
           </Flex>
           <Box as={Link} to={`/posts/${_id}`}>
             <Icon

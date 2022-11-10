@@ -32,7 +32,7 @@ function Profile() {
   } = useSelector((store) => store.singleUser);
   const { user } = useSelector((store) => store.auth);
 
-  console.log("current user:", user);
+  // console.log("current user:", user);
   // console.log("other user:", userProfile.username);
   useEffect(() => {
     dispatch(getSingleUser(userId));
