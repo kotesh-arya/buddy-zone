@@ -22,7 +22,6 @@ import { PostCard } from "../Components/PostCard";
 function Home() {
   const btnBg = useColorModeValue("gray.300", "gray.900");
   const { posts } = useSelector((store) => store.posts);
-
   return (
     <Box>
       <Sidebar />

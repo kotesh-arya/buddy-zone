@@ -1,11 +1,4 @@
-import {
-  Flex,
-  Box,
-  VStack,
-  Icon,
-  Text,
-  Avatar,
-} from "@chakra-ui/react";
+import { Flex, Box, VStack, Icon, Text, Avatar } from "@chakra-ui/react";
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
@@ -17,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../features/auth/authSlice";
 import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
 import { NewPostModal } from "./NewPostModal";
+import { getAllBookmarks } from "../features/bookmark/bookmarkSlice";
+
 function Sidebar() {
   const getActiveStyle = ({ isActive }) => ({
     backgroundColor: isActive ? "#08a0e9" : "none",
@@ -26,8 +21,8 @@ function Sidebar() {
   const {
     user: { _id, username },
     user,
+    token,
   } = useSelector((store) => store.auth);
-
   return (
     <VStack
       height="50vh"
@@ -72,6 +67,9 @@ function Sidebar() {
         <Box
           as={NavLink}
           to="/bookmarks"
+          onClick={() => {
+            dispatch(getAllBookmarks(token));
+          }}
           padding="10px"
           width="15rem"
           borderRadius={4}

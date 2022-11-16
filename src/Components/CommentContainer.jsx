@@ -26,7 +26,6 @@ function CommentContainer({ postId, commentId, username, text, votes }) {
   const bgColor = useColorModeValue("gray.50", "gray.900");
   const { user, token } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
-  // console.log(votes);
   return (
     <Box
       bg={bgColor}

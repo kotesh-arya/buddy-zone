@@ -16,11 +16,10 @@ import { useSelector } from "react-redux";
 function Navbar() {
   const { toggleColorMode } = useColorMode();
   const bgColor = useColorModeValue("gray.50", "gray.900");
-  const say = () => {
-    console.log("hi");
+  const navGreet = () => {
+    console.log("I am from nav logo click");
   };
-  // const { user } = useSelector((store) => store.auth);
-  // console.log(user);
+
   return (
     <div>
       <Flex
@@ -41,9 +40,7 @@ function Navbar() {
             objectFit="contain"
             alt="Buddy-zone-logo"
             marginY="-20px"
-            onClick={() => {
-              say();
-            }}
+            onClick={navGreet}
           />
         </Box>
         <Box>

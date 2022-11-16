@@ -98,7 +98,6 @@ const downVoteComment = createAsyncThunk(
   async ({ postId, commentId, token }, { rejectWithValue }) => {
     try {
       const { data } = await downVoteCommentService(postId, commentId, token);
-      console.log(data);
       return data;
     } catch (error) {
       rejectWithValue("error occured in upvoting comment ");

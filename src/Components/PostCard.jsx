@@ -18,6 +18,7 @@ import {
   FaRegCommentAlt,
   FaShareAlt,
   FaHeart,
+  FaBookmark,
 } from "react-icons/fa";
 import { FiMoreVertical } from "react-icons/fi";
 import { Icon, Avatar } from "@chakra-ui/react";
@@ -32,6 +33,10 @@ import { Link } from "react-router-dom";
 import { getSingleUser } from "../features/users/singleUserSlice";
 import { deletePost, disLikePost, likePost } from "../features/post/postsSlice";
 import { EditPostModal } from "./EditPostModal";
+import {
+  bookmarkPost,
+  removePostFromBookmark,
+} from "../features/bookmark/bookmarkSlice";
 
 function PostCard({
   _id,
@@ -46,7 +51,7 @@ function PostCard({
   const { token, user } = useSelector((store) => store.auth);
   const bgColor = useColorModeValue("gray.50", "gray.900");
   const dispatch = useDispatch();
-
+  const { bookmarks } = useSelector((store) => store.bookmark);
   return (
     <Box
       bg={bgColor}
@@ -95,13 +100,7 @@ function PostCard({
               <Popover>
                 <PopoverTrigger>
                   <Button bg={"transparent"}>
-                    <Icon
-                      as={FiMoreVertical}
-                      cursor={"pointer"}
-                      onClick={() => {
-                        console.log("open small modal");
-                      }}
-                    />
+                    <Icon as={FiMoreVertical} cursor={"pointer"} />
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent width={"13rem"}>
@@ -114,7 +113,6 @@ function PostCard({
                       marginLeft={"10px"}
                       onClick={() => {
                         dispatch(deletePost({ postId: _id, token }));
-                        console.log("working!");
                       }}
                       cursor={"pointer"}
                     >
@@ -156,7 +154,7 @@ function PostCard({
           padding={"1rem 2rem"}
         >
           <Flex>
-            <Icon  
+            <Icon
               onClick={() => {
                 likes?.likeCount > 0
                   ? dispatch(disLikePost({ postId: _id, token }))
@@ -165,7 +163,7 @@ function PostCard({
               color={likes?.likeCount > 0 ? "red" : " "}
               as={likes?.likeCount > 0 ? FaHeart : FaRegHeart}
               cursor={"pointer"}
-            />      
+            />
           </Flex>
           <Box as={Link} to={`/posts/${_id}`}>
             <Icon
@@ -176,7 +174,19 @@ function PostCard({
             />
           </Box>
           <Icon as={FaShareAlt} />
-          <Icon as={FaRegBookmark} />
+          <Icon
+            onClick={() => {
+              bookmarks.find((post) => post._id === _id)
+                ? dispatch(removePostFromBookmark({ postId: _id, token }))
+                : dispatch(bookmarkPost({ postId: _id, token }));
+            }}
+            as={
+              bookmarks.find((post) => post._id === _id)
+                ? FaBookmark
+                : FaRegBookmark
+            }
+            cursor={"pointer"}
+          />
         </Flex>
       </Flex>
     </Box>

@@ -42,7 +42,6 @@ function SignIn() {
   const loginHandler = async (loginUser) => {
 
     if (loginUser.username === "" || loginUser.password === "") {
-      console.log("please fill both credentials");
     } else {
       const res = await dispatch(logIn(loginUser));
       if (res.payload.foundUser !== undefined) {

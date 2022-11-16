@@ -41,7 +41,6 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     signOut: (state) => {
-      console.log(state);
       localStorage.removeItem(USER_DATA);
       localStorage.removeItem(USER_TOKEN);
       state.token = null;
@@ -58,7 +57,6 @@ const authSlice = createSlice({
       state.token = payload.encodedToken;
       state.user = payload.createdUser;
       state.isLoggedin = true;
-      console.log(payload);
     },
     [signUp.rejected]: (state) => {
       state.isloading = false;
@@ -72,7 +70,6 @@ const authSlice = createSlice({
       state.token = payload.encodedToken;
       state.user = payload.foundUser;
       state.isLoggedin = true;
-      // console.log(payload);
     },
     [logIn.rejected]: (state) => {
       state.isloading = false;

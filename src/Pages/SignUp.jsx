@@ -42,7 +42,6 @@ function SignUp() {
   };
 
   const signupHandler = async (user) => {
-    console.log("entered user", user);
 
     if (
       user.firstname === "" ||

@@ -47,7 +47,6 @@ const editUser = createAsyncThunk(
   "user/editUser",
   async ({ userData, token }, { rejectWithValue }) => {
     try {
-      console.log(userData, token);
       const { data } = await editUserService(userData, token);
       return data;
     } catch (error) {
@@ -87,7 +86,6 @@ const singleUserSlice = createSlice({
     [editUser.fulfilled]: (state, action) => {
       state.profile.isloading = false;
       state.profile.userProfile = action.payload.user;
-      console.log(action.payload);
     },
     [editUser.rejected]: (state, { payload }) => {
       state.profile.isloading = false;

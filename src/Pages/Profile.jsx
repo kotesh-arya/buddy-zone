@@ -25,15 +25,12 @@ import { signOut } from "../features/auth/authSlice";
 function Profile() {
   const dispatch = useDispatch();
   const { userId } = useParams();
-  // console.log(userId);
   const {
     profile: { userProfile },
     posts: { userPosts },
   } = useSelector((store) => store.singleUser);
   const { user } = useSelector((store) => store.auth);
 
-  // console.log("current user:", user);
-  // console.log("other user:", userProfile.username);
   useEffect(() => {
     dispatch(getSingleUser(userId));
     dispatch(getUserPosts(userId));

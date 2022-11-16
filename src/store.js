@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { authReducer } from "./features/auth/authSlice";
+import { bookmarkReducer } from "./features/bookmark/bookmarkSlice";
 import { modalReducer } from "./features/modalSlice";
 import { postsReducer } from "./features/post/postsSlice";
 import { singlePostReducer } from "./features/post/singlePostSlice";
@@ -14,6 +15,7 @@ export const store = configureStore({
     singlePost: singlePostReducer,
     auth: authReducer,
     modal: modalReducer,
+    bookmark: bookmarkReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -73,7 +73,6 @@ function EditCommentModal({ postId, commentId, text }) {
                           token,
                         })
                       );
-                      console.log("edited comment")
                       onClose();
                     }}
                   >

@@ -31,7 +31,6 @@ const createPost = createAsyncThunk(
   async ({ postData, token }, { rejectWithValue }) => {
     try {
       const { data } = await createPostService(postData, token);
-      console.log(data);
       return data;
     } catch (error) {
       rejectWithValue("error occured in creating the post");
@@ -42,7 +41,6 @@ const createPost = createAsyncThunk(
 const deletePost = createAsyncThunk(
   "posts/deletePost",
   async ({ postId, token }, { rejectWithValue }) => {
-    console.log({ postId, token });
     try {
       const { data } = await deletePostService(postId, token);
       return data.posts;
@@ -133,7 +131,6 @@ const postsSlice = createSlice({
     [likePost.fulfilled]: (state, { payload }) => {
       state.posts = payload;
       state.error = "";
-      console.log(payload);
     },
     [likePost.rejected]: (state, { payload }) => {
       state.error = payload;
@@ -141,7 +138,6 @@ const postsSlice = createSlice({
     [disLikePost.fulfilled]: (state, { payload }) => {
       state.posts = payload;
       state.error = "";
-      console.log(payload);
     },
     [disLikePost.rejected]: (state, { payload }) => {
       state.error = payload;

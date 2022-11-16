@@ -12,8 +12,11 @@ import { Navbar } from "../Components/Navbar";
 import { Sidebar } from "../Components/Sidebar";
 import { Suggestionbar } from "../Components/Suggestionbar";
 import { PostCard } from "../Components/PostCard";
+import { useSelector } from "react-redux";
+
 function Bookmarks() {
   const btnBg = useColorModeValue("gray.300", "gray.900");
+  const { bookmarks } = useSelector((store) => store.bookmark);
 
   return (
     <Box>
@@ -25,7 +28,7 @@ function Bookmarks() {
         justifyContent={"center"}
         padding={"80px 20px"}
       >
-        <VStack width={"40rem"} height="80px" spacing={12}>
+        <VStack  width={"40rem"} height="80px" spacing={12}>
           <Flex
             justifyContent={"space-between"}
             position={"fixed"}
@@ -42,8 +45,9 @@ function Bookmarks() {
               Oldest
             </Button>
           </Flex>
-          <PostCard />
-          <PostCard />
+          {bookmarks.map((post) => {
+            return <PostCard key={post._id} {...post} />;
+          })}
         </VStack>
         <Suggestionbar />
       </Flex>
