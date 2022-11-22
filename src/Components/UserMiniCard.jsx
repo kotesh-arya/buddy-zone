@@ -1,13 +1,15 @@
 import React from "react";
 import { Flex, Box, Avatar, Text, Button } from "@chakra-ui/react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
 
 import { Link } from "react-router-dom";
+import { followUser, unfollowUser } from "../features/users/usersSlice";
 
 function UserMiniCard({ _id, firstname, lastname, username, userImage }) {
   const dispatch = useDispatch();
-
+  const { token } = useSelector((store) => store.auth);
+  const { followedUsers } = useSelector((store) => store.users);
   return (
     <Flex
       display={"flex"}
@@ -36,7 +38,18 @@ function UserMiniCard({ _id, firstname, lastname, username, userImage }) {
           {firstname} {lastname}
         </Text>
       </Box>
-      <Button bg={"#08a0e9"}>Follow +</Button>
+      <Button
+        onClick={() => {
+          followedUsers?.find((user) => user._id === _id)
+            ? dispatch(unfollowUser({ followUserId: _id, token }))
+            : dispatch(followUser({ followUserId: _id, token }));
+        }}
+        bg={"#08a0e9"}
+      >
+        {followedUsers.find((user) => user._id === _id)
+          ? "Unfollow"
+          : "Follow +"}
+      </Button>
     </Flex>
   );
 }

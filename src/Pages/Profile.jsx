@@ -30,7 +30,6 @@ function Profile() {
     posts: { userPosts },
   } = useSelector((store) => store.singleUser);
   const { user } = useSelector((store) => store.auth);
-
   useEffect(() => {
     dispatch(getSingleUser(userId));
     dispatch(getUserPosts(userId));
@@ -75,7 +74,7 @@ function Profile() {
               {userProfile?.firstname} {userProfile?.lastname}
             </Heading>
             <Text as={"strong"}>@{userProfile?.username}</Text>
-            <Text as={"strong"}>0 Following | 2 Followers</Text>
+            <Text as={"strong"}>{userProfile.following.length} Following | {userProfile.followers.length} Followers</Text>
 
             <Text as={"strong"}>My Website:{userProfile?.website}</Text>
             <Text as={"strong"}>Bio: {userProfile?.bio}</Text>

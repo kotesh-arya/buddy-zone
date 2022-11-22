@@ -13,7 +13,11 @@ import { UserMiniCard } from "./UserMiniCard";
 
 function Suggestionbar() {
   const bgColor = useColorModeValue("gray.50", "gray.900");
-  const { users } = useSelector((store) => store.users);
+  const { users, followedUsers } = useSelector((store) => store.users);
+  const {
+    user: { _id },
+  } = useSelector((store) => store.auth);
+  const usersList = users?.filter((user) => user._id !== _id);
   return (
     <Box
       display={"flex"}
@@ -27,10 +31,8 @@ function Suggestionbar() {
       right={"0"}
       marginRight={"2rem"}
     >
-     
       <Box bg="black.600">
-        <VStack
-        >
+        <VStack>
           <Flex
             display={"flex"}
             flexDirection={"row"}
@@ -42,7 +44,7 @@ function Suggestionbar() {
             <Button bg={"#08a0e9"}>Show more</Button>
           </Flex>
           <Divider />
-          {users.map((user) => {
+          {usersList?.map((user) => {
             return <UserMiniCard key={user._id} {...user} />;
           })}
         </VStack>
