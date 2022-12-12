@@ -14,9 +14,11 @@ import { Navbar } from "../Components/Navbar";
 import { Sidebar } from "../Components/Sidebar";
 import { Suggestionbar } from "../Components/Suggestionbar";
 import { PostCard } from "../Components/PostCard";
+import { useSelector } from "react-redux";
+
 function Explore() {
   const btnBg = useColorModeValue("gray.300", "gray.900");
-
+  const { posts } = useSelector((store) => store.posts);
   return (
     <Box>
       <Sidebar />
@@ -52,8 +54,11 @@ function Explore() {
               Fashion
             </Button>
           </Flex>
-          <PostCard />
-          <PostCard />
+          <Box width={"40rem"}>
+            {posts.map((post) => {
+              return <PostCard key={post._id} {...post} />;
+            })}
+          </Box>
         </VStack>
         <Suggestionbar />
       </Flex>

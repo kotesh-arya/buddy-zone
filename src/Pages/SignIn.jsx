@@ -1,92 +1,196 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Container,
   Flex,
   VStack,
   Heading,
   Text,
-  SimpleGrid,
-  GridItem,
   FormControl,
   FormLabel,
   Input,
-  Select,
   Button,
   Box,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import Logo from "../assets/buddy-zone-blue.png";
 import { Image } from "@chakra-ui/react";
 import { Navbar } from "../Components/Navbar";
 
+import { useDispatch, useSelector } from "react-redux";
+import { logIn } from "../features/auth/authSlice";
+import { USER_DATA, USER_TOKEN } from "../constants";
+
 function SignIn() {
+  const { isModalOpen } = useSelector((store) => store.modal);
+  const location = useLocation();
   const bgColor = useColorModeValue("gray.50", "whiteAlpha.50");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [loginUser, setLoginUser] = useState({ username: "", password: "" });
+  const [tester, setTester] = useState({
+    username: "koteshmudila",
+    password: "koteshmudila@123",
+  });
+
+  const userInputHandler = (e) => {
+    setLoginUser((prevState) => {
+      return { ...prevState, [e.target.name]: e.target.value };
+    });
+  };
+
+  const loginHandler = async (loginUser) => {
+
+    if (loginUser.username === "" || loginUser.password === "") {
+    } else {
+      const res = await dispatch(logIn(loginUser));
+      if (res.payload.foundUser !== undefined) {
+        localStorage.setItem(USER_DATA, JSON.stringify(res.payload.foundUser));
+        localStorage.setItem(USER_TOKEN, res.payload.encodedToken);
+        navigate("/home");
+        if (location?.state) {
+          navigate(location?.state?.from?.pathname);
+        } else {
+          navigate("/home");
+        }
+      } else {
+        console.log("check your credentials!!");
+      }
+    }
+  };
+
   return (
     <Box backgroundColor={bgColor}>
       <Navbar />
       <Container maxW="container.xl" p={0}>
-        <Flex h="100vh" py={20} justifyContent="center" alignItems="center">
-          <VStack
-            boxShadow="2xl"
-            borderRadius={20}
-            bg={bgColor}
-            w="25rem"
-            paddingX={18}
-            paddingY={18}
-            marginTop={4}
-            alignItems="center"
-          >
-            <Heading size="xl" marginX={"auto"} marginY="3">
-              Login
-            </Heading>
-            <SimpleGrid columns={2} columnGap={3} rowGap={6} width="full">
-              <GridItem colSpan={2}>
-                <FormControl>
-                  <FormLabel>E-mail </FormLabel>
-                  <Input type={"text"} placeholder="Kotesharya@gmail.com" />
-                </FormControl>
-              </GridItem>
-              <GridItem colSpan={2}>
-                <FormControl>
-                  <FormLabel>Password</FormLabel>
-                  <Input type={"Password"} placeholder="********" />
-                </FormControl>
-              </GridItem>
-              <GridItem colSpan={2}>
-                <Button bg={"#08a0e9"} color="white" width={"full"}>
-                  Sign In
-                </Button>
-              </GridItem>
-              <GridItem colSpan={2}>
-                <Link to="/signup">
-                  <Button bg={"#08a0e9"} color="white" width={"full"}>
-                    Create new Account
-                  </Button>{" "}
-                </Link>
-              </GridItem>
-            </SimpleGrid>
-          </VStack>
+        <Flex
+          h="100vh"
+          // bg={"pink"}
+          paddingTop={"4rem"}
+          justifyContent="center"
+          alignItems={"center"}
+        >
           <VStack
             borderRadius={20}
-            w="half"
+            // w="half"
             h="full"
             py={10}
-            alignItems="center"
+            // bg={"green"}
+            display={"flex"}
+            flexDirection={"column"}
+            justifyContent={"center"}
           >
-            <VStack spacing={"0px"}>
+            <Box
+              display={"flex"}
+              flexDirection={"column"}
+              alignItems={"center"}
+              // bg={"blue"}
+              // h="full"
+            >
               <Image
                 src={Logo}
-                boxSize="470px"
+                width="600px"
                 objectFit="contain"
                 alt="Buddy-zone-logo"
-                marginBottom="-100px"
+                // marginBottom="-100px"
               />
               <Text as="strong" fontSize={20}>
-                Join the Zone - for the cone
+                One & Only Zone for the friendly Ones
               </Text>
-            </VStack>
+            </Box>
           </VStack>
+          <Flex
+            borderRadius={20}
+            // bg={bgColor}
+            boxShadow="2xl"
+            border={"1px solid gray"}
+            w="28rem"
+            display={"flex"}
+            padding={"1rem 2rem"}
+            // marginTop={4}
+            // height={"80%"}
+            flexDirection={"column"}
+            // bg={"green"}
+          >
+            <Heading size="xl" marginX={"auto"} marginY="3">
+              Signin
+            </Heading>
+            <form onSubmit={(e) => e.preventDefault()}>
+              <Box
+                alignItems={"center"}
+                display={"flex"}
+                flexDirection={"column"}
+                width="100%"
+                // bg={"red"}
+              >
+                <FormControl>
+                  <FormLabel>Username</FormLabel>
+                  <Input
+                    type={"text"}
+                    name="username"
+                    value={loginUser.username}
+                    onChange={(e) => userInputHandler(e)}
+                    placeholder="kotesharya@gmail.com"
+                  />
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel>Password</FormLabel>
+                  <Input
+                    type={"password"}
+                    name="password"
+                    value={loginUser.password}
+                    onChange={(e) => userInputHandler(e)}
+                    placeholder="********"
+                  />
+                </FormControl>
+
+                <Box
+                  width={"100%"}
+                  // bg={"blue"}
+                  padding={"1rem 0"}
+                  marginTop={"2rem"}
+                >
+                  <Button
+                    bg={"#08a0e9"}
+                    color="white"
+                    width={"100%"}
+                    marginBottom={"1rem"}
+                    onClick={() => {
+                      loginHandler(loginUser);
+                    }}
+                  >
+                    SignIn
+                  </Button>
+
+                  <Button
+                    as={Link}
+                    to="/signup"
+                    // variantColor="#08a0e9"
+                    outline={"1px #08a0e9 "}
+                    variant="outline"
+                    color="#08a0e9"
+                    width={"100%"}
+                    marginBottom={"1rem"}
+                  >
+                    Create Account
+                  </Button>
+                  <Button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      loginHandler(tester);
+                      navigate("/home");
+                    }}
+                    // variantColor="#08a0e9"
+                    bg="#08a0e9"
+                    width={"100%"}
+                  >
+                    Guest Login
+                  </Button>
+                </Box>
+              </Box>
+            </form>
+          </Flex>
         </Flex>
       </Container>
     </Box>

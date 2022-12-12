@@ -1,25 +1,28 @@
-import {
-  Flex,
-  Box,
-  Button,
-  VStack,
-  Icon,
-  Text,
-  Avatar,
-} from "@chakra-ui/react";
+import { Flex, Box, VStack, Icon, Text, Avatar } from "@chakra-ui/react";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
 import { MdExplore } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
-import { FaPen } from "react-icons/fa";
 import { BsFillBookmarkHeartFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
+import { useDispatch, useSelector } from "react-redux";
+import { signOut } from "../features/auth/authSlice";
+import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
+import { NewPostModal } from "./NewPostModal";
+import { getAllBookmarks } from "../features/bookmark/bookmarkSlice";
+
 function Sidebar() {
   const getActiveStyle = ({ isActive }) => ({
     backgroundColor: isActive ? "#08a0e9" : "none",
     color: isActive ? "white" : "none",
   });
+  const dispatch = useDispatch();
+  const {
+    user: { _id, username },
+    user,
+    token,
+  } = useSelector((store) => store.auth);
   return (
     <VStack
       height="50vh"
@@ -31,7 +34,7 @@ function Sidebar() {
       <Flex flexDirection={"column"} justifyContent="space-between">
         <Box
           as={NavLink}
-          to="/"
+          to="/home"
           padding="10px"
           width="15rem"
           borderRadius={4}
@@ -64,6 +67,9 @@ function Sidebar() {
         <Box
           as={NavLink}
           to="/bookmarks"
+          onClick={() => {
+            dispatch(getAllBookmarks(token));
+          }}
           padding="10px"
           width="15rem"
           borderRadius={4}
@@ -79,7 +85,11 @@ function Sidebar() {
 
         <Box
           as={NavLink}
-          to="/profile"
+          to={`/user/${_id}`}
+          onClick={() => {
+            dispatch(getSingleUser(_id));
+            dispatch(getUserPosts(username));
+          }}
           padding="10px"
           width="15rem"
           borderRadius={4}
@@ -91,38 +101,46 @@ function Sidebar() {
             <Text as="strong">Profile</Text>{" "}
           </Flex>
         </Box>
-        <Button
-          padding="10px"
-          bg={"#08a0e9"}
-          width="15rem"
-          borderRadius={4}
-          marginBottom={3}
-        >
-          <Flex alignItems="center">
-            <Icon marginRight="15px" as={FaPen} />{" "}
-            <Text as="strong" marginRight="30px">
-              New Post
-            </Text>{" "}
-          </Flex>
-        </Button>
+        <NewPostModal />
       </Flex>
-      <Box
-        padding="10px"
-        width="78%"
-        display={"flex"}
-        alignItems="center"
-        justifyContent={"space-between"}
-      >
-        <Box display={"flex"} alignItems="center">
-          <Avatar
-            marginRight={"10px"}
-            name="Kotesh Mudila"
-            src="https://avatars.githubusercontent.com/u/69259490?v=4"
-          />{" "}
-          <Text as={"strong"}>Kotesh Mudila</Text>
+      {user?.firstname && (
+        <Box
+          padding="10px"
+          width="78%"
+          display={"flex"}
+          alignItems="center"
+          justifyContent={"space-between"}
+        >
+          <Box
+            as={Link}
+            to={`/user/${_id}`}
+            onClick={() => {
+              dispatch(getSingleUser(_id));
+              dispatch(getUserPosts(username));
+            }}
+            display={"flex"}
+            alignItems="center"
+          >
+            <Avatar
+              marginRight={"10px"}
+              name={`${user?.firstname} ${user?.lastname}`}
+              src=""
+            />{" "}
+            <Text as={"strong"}>
+              {user?.firstname} {user?.lastname}
+            </Text>
+          </Box>
+          <Box
+            as={Link}
+            to="/"
+            onClick={() => {
+              dispatch(signOut());
+            }}
+          >
+            <Icon color={"red"} as={IoLogOut} />
+          </Box>
         </Box>
-        <Icon as={IoLogOut} />{" "}
-      </Box>
+      )}
     </VStack>
   );
 }

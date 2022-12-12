@@ -6,15 +6,18 @@ import {
   useColorModeValue,
   VStack,
   Icon,
+  Heading,
 } from "@chakra-ui/react";
 import { AiOutlineArrowUp, AiOutlineArrowDown } from "react-icons/ai";
 import { Navbar } from "../Components/Navbar";
 import { Sidebar } from "../Components/Sidebar";
 import { Suggestionbar } from "../Components/Suggestionbar";
 import { PostCard } from "../Components/PostCard";
+import { useSelector } from "react-redux";
+
 function Bookmarks() {
   const btnBg = useColorModeValue("gray.300", "gray.900");
-
+  const { bookmarks } = useSelector((store) => store.bookmark);
   return (
     <Box>
       <Sidebar />
@@ -42,8 +45,13 @@ function Bookmarks() {
               Oldest
             </Button>
           </Flex>
-          <PostCard />
-          <PostCard />
+          {bookmarks.length > 0 ? (
+            bookmarks.map((post) => {
+              return <PostCard key={post._id} {...post} />;
+            })
+          ) : (
+            <Heading>You have not bookmarked any post yet!</Heading>
+          )}
         </VStack>
         <Suggestionbar />
       </Flex>

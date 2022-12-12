@@ -1,10 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
   Flex,
   Heading,
-  useColorModeValue,
   VStack,
   Image,
   Avatar,
@@ -14,7 +13,27 @@ import { Navbar } from "../Components/Navbar";
 import { Sidebar } from "../Components/Sidebar";
 import { Suggestionbar } from "../Components/Suggestionbar";
 import { PostCard } from "../Components/PostCard";
+import { useSelector } from "react-redux";
+import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
+import { Link, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+// import axios from "axios";
+
+import { EditUserModal } from "../Components/EditUserModal";
+import { signOut } from "../features/auth/authSlice";
+
 function Profile() {
+  const dispatch = useDispatch();
+  const { userId } = useParams();
+  const {
+    profile: { userProfile },
+    posts: { userPosts },
+  } = useSelector((store) => store.singleUser);
+  const { user } = useSelector((store) => store.auth);
+  useEffect(() => {
+    dispatch(getSingleUser(userId));
+    dispatch(getUserPosts(userId));
+  }, []);
 
   return (
     <Box>
@@ -38,8 +57,8 @@ function Profile() {
               <Avatar
                 margin={"auto"}
                 size="2xl"
-                name="Kotesh Mudila"
-                src="https://avatars.githubusercontent.com/u/69259490?v=4"
+                name={`${userProfile?.firstname} ${userProfile?.lastname}`}
+                src={userProfile?.userProfile}
               />
             </Box>
 
@@ -51,18 +70,37 @@ function Profile() {
             />
           </Flex>
           <VStack paddingTop={"3rem"}>
-            <Heading as={"strong"}>Kotesh Mudila</Heading>
-            <Text as={"strong"}>@kotesharya</Text>
-            <Text as={"strong"}>0 Following | 2 Followers</Text>
+            <Heading as={"strong"}>
+              {userProfile?.firstname} {userProfile?.lastname}
+            </Heading>
+            <Text as={"strong"}>@{userProfile?.username}</Text>
+            <Text as={"strong"}>{userProfile.following.length} Following | {userProfile.followers.length} Followers</Text>
 
-            <Text as={"strong"}>My Website: _________</Text>
-            <Text as={"strong"}>Bio: Blended Being</Text>
-            <Button bg={"#08a0e9"}>
-              <Text>Edit profile</Text>
-            </Button>
-            <Button bg={"transparent"} border={"1px solid red"}>
-              <Text>Logout</Text>
-            </Button>
+            <Text as={"strong"}>My Website:{userProfile?.website}</Text>
+            <Text as={"strong"}>Bio: {userProfile?.bio}</Text>
+
+            {userProfile?.username === user?.username ? (
+              <Box width={"60%"}>
+                <EditUserModal {...user} />
+                <Button
+                  bg={"transparent"}
+                  border={"1px solid red"}
+                  as={Link}
+                  to="/"
+                  onClick={() => {
+                    dispatch(signOut());
+                  }}
+                >
+                  <Text>Logout</Text>
+                </Button>
+              </Box>
+            ) : (
+              <Box>
+                <Button bg={"#08a0e9"}>
+                  <Text>Follow</Text>
+                </Button>
+              </Box>
+            )}
           </VStack>
           <Box
             width={"100%"}
@@ -74,8 +112,9 @@ function Profile() {
             <Heading marginRight={"25rem"} marginBottom={"1rem"}>
               Recent Posts
             </Heading>
-            <PostCard />
-            <PostCard />
+            {userPosts.map((post) => {
+              return <PostCard key={post._id} {...post} />;
+            })}
           </Box>
         </VStack>
         <Suggestionbar />

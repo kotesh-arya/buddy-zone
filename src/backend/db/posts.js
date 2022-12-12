@@ -8,63 +8,68 @@ import { formatDate } from "../utils/authUtils";
 
 export const posts = [
   {
-    _id: uuid(),
+    _id: 1,
     content:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.",
+      "Our greatest weakness lies in giving up. The most certain way to succeed is always to try just one more time.",
     likes: {
       likeCount: 0,
       likedBy: [],
       dislikedBy: [],
     },
-    username: "adarshbalika",
+    username: "rameshboddula",
+    firstname: "Ramesh",
+    lastname: "Boddula",
     createdAt: formatDate(),
     updatedAt: formatDate(),
     comments: [
       {
-        _id: uuid(),
-        username: "shubhamsoni",
-        text: "Interesting",
+        _id: 1,
+        username: "pawankalyan",
+        text: "Truth Bomb💣",
         votes: {
           upvotedBy: [],
           downvotedBy: [],
         },
       },
       {
-        _id: uuid(),
-        username: "sohamshah",
-        text: "Wow!",
+        _id: 2,
+        username: "Kiran",
+        text: "Can't agree more..💯",
         votes: {
           upvotedBy: [],
           downvotedBy: [],
         },
       },
     ],
+    userImage: "",
   },
   {
-    _id: uuid(),
+    _id: 2,
     content:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.",
+      "Believe in yourself! Have faith in your abilities! Without a humble but reasonable confidence in your own powers you cannot be successful or happy.",
     likes: {
       likeCount: 0,
       likedBy: [],
       dislikedBy: [],
     },
-    username: "shubhamsoni",
+    username: "saibharath",
+    firstname: "Sai",
+    lastname: "Bharath",
 
     comments: [
       {
-        _id: uuid(),
-        username: "shubhamsoni",
-        text: "Interesting",
+        _id: 1,
+        username: "Kishan",
+        text: "I believe",
         votes: {
           upvotedBy: [],
           downvotedBy: [],
         },
       },
       {
-        _id: uuid(),
-        username: "sohamshah",
-        text: "Wow!",
+        _id: 2,
+        username: "ammakutti",
+        text: "bharath's Preachings 😂😂",
         votes: {
           upvotedBy: [],
           downvotedBy: [],
@@ -73,5 +78,115 @@ export const posts = [
     ],
     createdAt: formatDate(),
     updatedAt: formatDate(),
+    userImage: "",
+  },
+  {
+    _id: 3,
+    content:
+      "You can't cross the sea merely by standing and staring at the water.",
+    likes: {
+      likeCount: 0,
+      likedBy: [],
+      dislikedBy: [],
+    },
+    firstname: "Saiie",
+    lastname: "Kumar",
+    username: "saikumar",
+
+    comments: [
+      {
+        _id: 1,
+        username: "raju",
+        text: "Courage is everything!",
+        votes: {
+          upvotedBy: [],
+          downvotedBy: [],
+        },
+      },
+      {
+        _id: 2,
+        username: "Ravi",
+        text: "Sometimes staying back is the best thing one can do 😏",
+        votes: {
+          upvotedBy: [],
+          downvotedBy: [],
+        },
+      },
+    ],
+    createdAt: formatDate(),
+    updatedAt: formatDate(),
+    userImage: "",
+  },
+  {
+    _id: 4,
+    content:
+      "Ever tried. Ever failed. No matter. Try Again. Fail again. Fail better.",
+    likes: {
+      likeCount: 0,
+      likedBy: [],
+      dislikedBy: [],
+    },
+    firstname: "Chinna",
+    lastname: "Prabha",
+    username: "chinnaprabha",
+    comments: [
+      {
+        _id: 1,
+        username: "Pradeep",
+        text: "Failure is your life-long teacher",
+        votes: {
+          upvotedBy: [],
+          downvotedBy: [],
+        },
+      },
+      {
+        _id: 2,
+        username: "Keerthi",
+        text: "NEVER EVER GIVE UP!",
+        votes: {
+          upvotedBy: [],
+          downvotedBy: [],
+        },
+      },
+    ],
+    createdAt: formatDate(),
+    updatedAt: formatDate(),
+    userImage: "",
+  },
+  {
+    _id: 5,
+    content:
+      "Stay away from those people who try to disparage your ambitions. Small minds will always do that, but great minds will give you a feeling that you can become great too.",
+    likes: {
+      likeCount: 0,
+      likedBy: [],
+      dislikedBy: [],
+    },
+    firstname: "Kotesh",
+    lastname: "Mudila",
+    username: "koteshmudila",
+    comments: [
+      {
+        _id:1,
+        username: "Prakhar",
+        text: "Failure is your life-long teacher",
+        votes: {
+          upvotedBy: [],
+          downvotedBy: [],
+        },
+      },
+      {
+        _id: 2,
+        username: "Charan",
+        text: "NEVER EVER GIVE UP!",
+        votes: {
+          upvotedBy: [],
+          downvotedBy: [],
+        },
+      },
+    ],
+    createdAt: formatDate(),
+    updatedAt: formatDate(),
+    userImage: "",
   },
 ];
