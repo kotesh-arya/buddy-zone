@@ -22,7 +22,6 @@ import { logIn } from "../features/auth/authSlice";
 import { USER_DATA, USER_TOKEN } from "../constants";
 
 function SignIn() {
-  const { isModalOpen } = useSelector((store) => store.modal);
   const location = useLocation();
   const bgColor = useColorModeValue("gray.50", "whiteAlpha.50");
   const navigate = useNavigate();
@@ -66,17 +65,14 @@ function SignIn() {
       <Container maxW="container.xl" p={0}>
         <Flex
           h="100vh"
-          // bg={"pink"}
           paddingTop={"4rem"}
           justifyContent="center"
           alignItems={"center"}
         >
           <VStack
             borderRadius={20}
-            // w="half"
             h="full"
             py={10}
-            // bg={"green"}
             display={"flex"}
             flexDirection={"column"}
             justifyContent={"center"}
@@ -85,15 +81,12 @@ function SignIn() {
               display={"flex"}
               flexDirection={"column"}
               alignItems={"center"}
-              // bg={"blue"}
-              // h="full"
             >
               <Image
                 src={Logo}
                 width="600px"
                 objectFit="contain"
                 alt="Buddy-zone-logo"
-                // marginBottom="-100px"
               />
               <Text as="strong" fontSize={20}>
                 One & Only Zone for the friendly Ones
@@ -102,16 +95,12 @@ function SignIn() {
           </VStack>
           <Flex
             borderRadius={20}
-            // bg={bgColor}
             boxShadow="2xl"
             border={"1px solid gray"}
             w="28rem"
             display={"flex"}
             padding={"1rem 2rem"}
-            // marginTop={4}
-            // height={"80%"}
             flexDirection={"column"}
-            // bg={"green"}
           >
             <Heading size="xl" marginX={"auto"} marginY="3">
               Signin
@@ -122,7 +111,6 @@ function SignIn() {
                 display={"flex"}
                 flexDirection={"column"}
                 width="100%"
-                // bg={"red"}
               >
                 <FormControl>
                   <FormLabel>Username</FormLabel>
@@ -146,12 +134,7 @@ function SignIn() {
                   />
                 </FormControl>
 
-                <Box
-                  width={"100%"}
-                  // bg={"blue"}
-                  padding={"1rem 0"}
-                  marginTop={"2rem"}
-                >
+                <Box width={"100%"} padding={"1rem 0"} marginTop={"2rem"}>
                   <Button
                     bg={"#08a0e9"}
                     color="white"
@@ -167,7 +150,6 @@ function SignIn() {
                   <Button
                     as={Link}
                     to="/signup"
-                    // variantColor="#08a0e9"
                     outline={"1px #08a0e9 "}
                     variant="outline"
                     color="#08a0e9"
@@ -182,7 +164,6 @@ function SignIn() {
                       loginHandler(tester);
                       navigate("/home");
                     }}
-                    // variantColor="#08a0e9"
                     bg="#08a0e9"
                     width={"100%"}
                   >

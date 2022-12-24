@@ -52,14 +52,12 @@ function EditUserModal({ firstname, lastname, bio, website }) {
                 display={"flex"}
                 flexDirection={"column"}
                 width="100%"
-                // bg={"red"}
               >
                 <FormControl>
                   <FormLabel>First Name</FormLabel>
                   <Input
                     type={"text"}
                     name="firstname"
-                    // defaultValue={firstname}
                     onChange={(e) =>
                       setProfileData({
                         ...profileData,
@@ -75,7 +73,6 @@ function EditUserModal({ firstname, lastname, bio, website }) {
                   <Input
                     type={"text"}
                     name="lastname"
-                    // defaultValue={lastname}
                     onChange={(e) =>
                       setProfileData({
                         ...profileData,
@@ -91,7 +88,6 @@ function EditUserModal({ firstname, lastname, bio, website }) {
                   <Input
                     type={"text"}
                     name="website"
-                    // defaultValue={website}
                     onChange={(e) =>
                       setProfileData({
                         ...profileData,
@@ -107,8 +103,6 @@ function EditUserModal({ firstname, lastname, bio, website }) {
                   <Textarea
                     type={"text"}
                     name="bio"
-                    // value={user.bio}
-                    // defaultValue={bio}
                     onChange={(e) =>
                       setProfileData({ ...profileData, bio: e.target.value })
                     }
@@ -116,12 +110,7 @@ function EditUserModal({ firstname, lastname, bio, website }) {
                   />
                 </FormControl>
 
-                <Box
-                  width={"100%"}
-                  // bg={"blue"}
-                  padding={"1rem 0"}
-                  marginTop={"2rem"}
-                >
+                <Box width={"100%"} padding={"1rem 0"} marginTop={"2rem"}>
                   <Button
                     bg={"#08a0e9"}
                     color="white"
@@ -139,12 +128,6 @@ function EditUserModal({ firstname, lastname, bio, website }) {
             </form>
           </ModalBody>
 
-          <ModalFooter>
-            {/* <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
-            </Button> */}
-            {/* <Button variant="ghost">Secondary Action</Button> */}
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </>

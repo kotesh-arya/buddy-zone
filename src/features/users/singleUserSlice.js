@@ -5,8 +5,6 @@ import {
   editUserService,
 } from "../../services/UserServices";
 const initialState = {
-  // user: null,
-  // isLoading: false,
   profile: {
     userProfile: null,
     isloading: false,

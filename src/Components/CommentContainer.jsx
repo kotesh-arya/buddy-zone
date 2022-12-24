@@ -34,15 +34,12 @@ function CommentContainer({ postId, commentId, username, text, votes }) {
       justifyContent={"flex-start"}
       alignItems={"flex-start"}
       marginBottom={"15px"}
-      // border={"2px solid red"}
     >
       <Box display={"flex"} alignItems={"center"} flexDirection={"row"}>
         <Avatar src="" name={username} marginRight={"15px"} />
       </Box>
       <Box
         display={"flex"}
-        //  border={"2px solid red"}
-        // bg={"red"}
         width={"100%"}
         flexDirection={"column"}
         alignItems={"flex-start"}

@@ -27,7 +27,6 @@ import {
   getSinglePost,
   getSinglePostComments,
 } from "../features/post/singlePostSlice";
-// import moment from "moment";
 import Moment from "react-moment";
 import { Link } from "react-router-dom";
 import { getSingleUser } from "../features/users/singleUserSlice";
@@ -130,7 +129,6 @@ function PostCard({
           flexDirection={"column"}
           alignItems="flex-start"
           padding={" 0 2rem "}
-          // bg={"green"}
           onClick={() => {
             dispatch(getSinglePost(_id));
             dispatch(getSinglePostComments(_id));

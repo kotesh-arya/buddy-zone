@@ -17,7 +17,6 @@ import { signUp } from "../features/auth/authSlice";
 import { useDispatch } from "react-redux";
 
 import { USER_DATA, USER_TOKEN } from "../constants";
-import { signupService } from "../services/AuthServices/SignupService";
 
 function SignUp() {
   const bgColor = useColorModeValue("gray.50", "whiteAlpha.50");
@@ -42,7 +41,6 @@ function SignUp() {
   };
 
   const signupHandler = async (user) => {
-
     if (
       user.firstname === "" ||
       user.lastname === "" ||
@@ -64,23 +62,18 @@ function SignUp() {
       <Container maxW="container.xl" p={0}>
         <Flex
           h="90vh"
-          // bg={"pink"}
           paddingTop={"4rem"}
           justifyContent="center"
           alignItems={"center"}
         >
           <Flex
             borderRadius={20}
-            // bg={bgColor}
             boxShadow="2xl"
             border={"1px solid gray"}
             w="28rem"
             display={"flex"}
             padding={"1rem 2rem"}
-            // marginTop={4}
-            // height={"80%"}
             flexDirection={"column"}
-            // bg={"green"}
           >
             <Heading size="xl" marginX={"auto"} marginY="3">
               Signup
@@ -91,7 +84,6 @@ function SignUp() {
                 display={"flex"}
                 flexDirection={"column"}
                 width="100%"
-                // bg={"red"}
               >
                 <FormControl>
                   <FormLabel>First Name</FormLabel>
@@ -137,12 +129,7 @@ function SignUp() {
                   />
                 </FormControl>
 
-                <Box
-                  width={"100%"}
-                  // bg={"blue"}
-                  padding={"1rem 0"}
-                  marginTop={"2rem"}
-                >
+                <Box width={"100%"} padding={"1rem 0"} marginTop={"2rem"}>
                   <Button
                     bg={"#08a0e9"}
                     color="white"
