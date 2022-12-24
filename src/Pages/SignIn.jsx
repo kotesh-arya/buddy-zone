@@ -40,10 +40,11 @@ function SignIn() {
   };
 
   const loginHandler = async (loginUser) => {
-
     if (loginUser.username === "" || loginUser.password === "") {
+      console.log("hiiiii");
     } else {
       const res = await dispatch(logIn(loginUser));
+      console.log(res);
       if (res.payload.foundUser !== undefined) {
         localStorage.setItem(USER_DATA, JSON.stringify(res.payload.foundUser));
         localStorage.setItem(USER_TOKEN, res.payload.encodedToken);

@@ -74,7 +74,7 @@ function Profile() {
               {userProfile?.firstname} {userProfile?.lastname}
             </Heading>
             <Text as={"strong"}>@{userProfile?.username}</Text>
-            <Text as={"strong"}>{userProfile.following.length} Following | {userProfile.followers.length} Followers</Text>
+            <Text as={"strong"}>{userProfile?.following.length} Following | {userProfile?.followers.length} Followers</Text>
 
             <Text as={"strong"}>My Website:{userProfile?.website}</Text>
             <Text as={"strong"}>Bio: {userProfile?.bio}</Text>
