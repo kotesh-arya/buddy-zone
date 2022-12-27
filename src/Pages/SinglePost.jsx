@@ -47,7 +47,6 @@ function SinglePost() {
         marginRight="auto"
         justifyContent={"center"}
         padding={"80px 20px"}
-        // bg={"red"}
       >
         <VStack width={"40rem"} height="80px" spacing={12}>
           <Flex
@@ -55,7 +54,6 @@ function SinglePost() {
             justifyContent={"space-between"}
             position={"fixed"}
             bg="whiteAplha.100"
-            // bg={"pink"}
             zIndex={"99"}
             width="40rem"
           >

@@ -1,5 +1,4 @@
 import React from "react";
-// import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { store } from "./store";
@@ -25,5 +24,4 @@ root.render(
   </React.StrictMode>
 );
 
-// Call make Server
 makeServer();

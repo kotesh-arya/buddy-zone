@@ -17,8 +17,6 @@ import { useSelector } from "react-redux";
 import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-// import axios from "axios";
-
 import { EditUserModal } from "../Components/EditUserModal";
 import { signOut } from "../features/auth/authSlice";
 
@@ -74,7 +72,10 @@ function Profile() {
               {userProfile?.firstname} {userProfile?.lastname}
             </Heading>
             <Text as={"strong"}>@{userProfile?.username}</Text>
-            <Text as={"strong"}>{userProfile.following.length} Following | {userProfile.followers.length} Followers</Text>
+            <Text as={"strong"}>
+              {userProfile?.following.length} Following |{" "}
+              {userProfile?.followers.length} Followers
+            </Text>
 
             <Text as={"strong"}>My Website:{userProfile?.website}</Text>
             <Text as={"strong"}>Bio: {userProfile?.bio}</Text>

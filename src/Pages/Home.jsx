@@ -31,10 +31,8 @@ function Home() {
         marginRight="auto"
         justifyContent={"center"}
         padding={"80px 20px"}
-        // bg={"blue"}
       >
         <VStack
-          // bg={"red"}
           height="80px"
           spacing={12}
         >
@@ -44,7 +42,6 @@ function Home() {
             bg="whiteAplha.100"
             zIndex={"99"}
             width="40%"
-            // bg={"green"}
           >
             <Button bg={btnBg}>
               <Icon as={AiFillFire} marginRight="2px" />
