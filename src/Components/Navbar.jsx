@@ -14,7 +14,6 @@ import { BsMoonStarsFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 function Navbar() {
   const { toggleColorMode } = useColorMode();
-  console.log(toggleColorMode);
   const bgColor = useColorModeValue("gray.50", "gray.900");
   return (
     <div>
