@@ -20,16 +20,23 @@ function Suggestionbar() {
   const usersList = users?.filter((user) => user._id !== _id);
   return (
     <Box
-      display={"flex"}
+      display={{
+        base: null,
+        md: null,
+        lg: "flex",
+        xl: "flex",
+        "2xl": "flex",
+      }}
       flexDirection={"column"}
       justifyContent={"space-between"}
-      width={"23rem"}
-      padding={" 2rem 1rem"}
+      minWidth={"20rem"}
+      maxWidth={"21rem"}
+      padding={"2rem 1rem"}
       bg={bgColor}
       borderRadius={"10px"}
-      position={"fixed"}
-      right={"0"}
-      marginRight={"2rem"}
+      marginRight={{md:"auto",lg:"14rem",xl:"0rem"}}
+      marginLeft={{md:"auto",lg:"0rem",xl:"0rem"}}
+      // border={"3px solid blue"}
     >
       <Box bg="black.600">
         <VStack>
@@ -41,7 +48,6 @@ function Suggestionbar() {
             width={"full"}
           >
             <Text as={"strong"}>Who to Follow </Text>
-            <Button bg={"#08a0e9"}>Show more</Button>
           </Flex>
           <Divider />
           {usersList?.map((user) => {

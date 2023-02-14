@@ -85,7 +85,7 @@ function Profile() {
                 <EditUserModal {...user} />
                 <Button
                   bg={"transparent"}
-                  border={"1px solid red"}
+                  // border={"1px solid red"}
                   as={Link}
                   to="/"
                   onClick={() => {

@@ -17,6 +17,7 @@ function UserMiniCard({ _id, firstname, lastname, username, userImage }) {
       justifyContent={"space-between"}
       alignItems={"center"}
       width={"full"}
+      // border={"3px solid red"}
     >
       <Box
         as={Link}
@@ -28,14 +29,20 @@ function UserMiniCard({ _id, firstname, lastname, username, userImage }) {
         width={"60%"}
         display={"flex"}
         alignItems={"center"}
+        // border={"3px solid green"}
+        // background={{ base: "red", md: "orange", lg: "green" }}
+
       >
         <Avatar
-          marginRight={"10px"}
+          marginRight={{ base: "5px", md: "8px", lg: "5px" }}
           name={`${firstname} ${lastname}`}
           src={userImage}
         />
-        <Text as={"strong"}>
-          {firstname} {lastname}
+        <Text
+          fontWeight={"bold"}
+            fontSize={{ base: "sm", md: "sm", lg: "sm" }}>
+          {firstname}
+           {lastname}
         </Text>
       </Box>
       <Button

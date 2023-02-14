@@ -27,16 +27,24 @@ function Sidebar() {
     <VStack
       height="50vh"
       spacing={65}
-      width={"20rem"}
+      width={"10rem"}
       position="fixed"
       paddingTop={"5rem"}
+      // border={"3px solid green"}
+      display={{
+        base: "none",
+        md: "block",
+        lg: "block",
+        xl: "block",
+        "2xl": "block",
+      }}
     >
       <Flex flexDirection={"column"} justifyContent="space-between">
         <Box
           as={NavLink}
           to="/home"
           padding="10px"
-          width="15rem"
+          width="10rem"
           borderRadius={4}
           marginBottom={3}
           style={getActiveStyle}
@@ -52,7 +60,7 @@ function Sidebar() {
           as={NavLink}
           to="/explore"
           padding="10px"
-          width="15rem"
+          width="10rem"
           borderRadius={4}
           marginBottom={3}
           style={getActiveStyle}
@@ -71,7 +79,7 @@ function Sidebar() {
             dispatch(getAllBookmarks(token));
           }}
           padding="10px"
-          width="15rem"
+          width="10rem"
           borderRadius={4}
           marginBottom={3}
           style={getActiveStyle}
@@ -91,7 +99,7 @@ function Sidebar() {
             dispatch(getUserPosts(username));
           }}
           padding="10px"
-          width="15rem"
+          width="10rem"
           borderRadius={4}
           marginBottom={3}
           style={getActiveStyle}
@@ -105,11 +113,12 @@ function Sidebar() {
       </Flex>
       {user?.firstname && (
         <Box
-          padding="10px"
-          width="78%"
+          // padding="10px"
+          minWidth="110%"
           display={"flex"}
           alignItems="center"
           justifyContent={"space-between"}
+          // border={"3px solid red"}
         >
           <Box
             as={Link}
@@ -120,11 +129,12 @@ function Sidebar() {
             }}
             display={"flex"}
             alignItems="center"
+            // border={"3px solid blue"}
           >
             <Avatar
-              marginRight={"10px"}
+              marginRight={"2px"}
               name={`${user?.firstname} ${user?.lastname}`}
-              src=""
+              size={{ base: "sm", md: "sm", lg: "sm" }}
             />{" "}
             <Text as={"strong"}>
               {user?.firstname} {user?.lastname}
@@ -136,6 +146,7 @@ function Sidebar() {
             onClick={() => {
               dispatch(signOut());
             }}
+            marginTop={"2px"}
           >
             <Icon color={"red"} as={IoLogOut} />
           </Box>

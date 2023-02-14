@@ -56,7 +56,7 @@ function PostCard({
       boxShadow={"2xl"}
       marginBottom={"2rem"}
       borderRadius={"15px"}
-      maxWidth={"40rem"}
+      maxWidth={{ base: "35rem", md: "35rem", lg: "38rem", xl: "35rem" }}
       flexDirection={"column"}
     >
       <Flex
