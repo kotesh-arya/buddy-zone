@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Button,
@@ -13,12 +13,12 @@ import { Navbar } from "../Components/Navbar";
 import { Sidebar } from "../Components/Sidebar";
 import { Suggestionbar } from "../Components/Suggestionbar";
 import { PostCard } from "../Components/PostCard";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
 import { Link, useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { EditUserModal } from "../Components/EditUserModal";
 import { signOut } from "../features/auth/authSlice";
+import { BottomNavigation } from "../Components/BottomNavigation";
 
 function Profile() {
   const dispatch = useDispatch();
@@ -27,6 +27,7 @@ function Profile() {
     profile: { userProfile },
     posts: { userPosts },
   } = useSelector((store) => store.singleUser);
+  const latestOrderPosts = [...userPosts].reverse();
   const { user } = useSelector((store) => store.auth);
   useEffect(() => {
     dispatch(getSingleUser(userId));
@@ -37,17 +38,38 @@ function Profile() {
     <Box>
       <Sidebar />
       <Navbar />
-      <Flex
-        width={"92%"}
-        marginRight="auto"
-        justifyContent={"center"}
-        padding={"80px 10px"}
-        flexDirection={"row"}
+      <Box
+        width={"100%"}
+        display={"flex"}
+        flexDirection={{
+          base: "column",
+          md: "column",
+          lg: "column",
+          xl: "row",
+        }}
+        alignItems={{
+          base: "center",
+          md: "flex-end",
+          lg: "flex-end",
+          xl: "flex-start",
+        }}
+        justifyContent={{
+          base: "center",
+          md: "center",
+          lg: "center",
+          xl: "flex-end",
+        }}
+        padding={"80px 0px"}
+        paddingRight={{ sm: "0rem", md: "0rem", lg: "1.5rem", xl: "0rem" }}
       >
-        <VStack height="80px" width={"100%"} spacing={12}>
+        <VStack
+          width={{ base: "100%", md: "75%", lg: "80%", xl: "59%" }}
+          spacing={12}
+          marginRight={{ base: "0rem", md: "1rem", lg: "0.5rem", xl: "1.3rem" }}
+        >
           <Flex
             justifyContent={"space-between"}
-            width="60%"
+            width="100%"
             height={"15rem"}
             position={"relative"}
           >
@@ -59,9 +81,8 @@ function Profile() {
                 src={userProfile?.userProfile}
               />
             </Box>
-
             <Image
-              borderRadius={"20px"}
+              borderRadius={"5px"}
               width={"100%"}
               objectFit={"cover"}
               src="https://wallpapercave.com/wp/wp4447988.jpg"
@@ -84,8 +105,9 @@ function Profile() {
               <Box width={"60%"}>
                 <EditUserModal {...user} />
                 <Button
+                  marginTop={"10px"}
                   bg={"transparent"}
-                  border={"1px solid red"}
+                  border={"1px solid #08a0e9"}
                   as={Link}
                   to="/"
                   onClick={() => {
@@ -110,16 +132,19 @@ function Profile() {
             alignItems={"center"}
             justifyContent={"space-between"}
           >
-            <Heading marginRight={"25rem"} marginBottom={"1rem"}>
+            <Heading
+              marginBottom={"1rem"}
+            >
               Recent Posts
             </Heading>
-            {userPosts.map((post) => {
+            {latestOrderPosts.map((post) => {
               return <PostCard key={post._id} {...post} />;
             })}
           </Box>
         </VStack>
         <Suggestionbar />
-      </Flex>
+      </Box>
+      <BottomNavigation />
     </Box>
   );
 }

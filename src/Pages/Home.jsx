@@ -18,6 +18,7 @@ import { Sidebar } from "../Components/Sidebar";
 import { Suggestionbar } from "../Components/Suggestionbar";
 import { useSelector } from "react-redux";
 import { PostCard } from "../Components/PostCard";
+import { BottomNavigation } from "../Components/BottomNavigation";
 
 function Home() {
   const btnBg = useColorModeValue("gray.300", "gray.900");
@@ -26,22 +27,43 @@ function Home() {
     <Box>
       <Sidebar />
       <Navbar />
-      <Flex
-        width={"90%"}
-        marginRight="auto"
-        justifyContent={"center"}
-        padding={"80px 20px"}
+      <Box
+        width={"100%"}
+        display={"flex"}
+        flexDirection={{
+          base: "column",
+          md: "column",
+          lg: "column",
+          xl: "row",
+        }}
+        alignItems={{
+          base: "center",
+          md: "flex-end",
+          lg: "flex-end",
+          xl: "flex-start",
+        }}
+        justifyContent={{
+          base: "center",
+          md: "center",
+          lg: "center",
+          xl: "flex-end",
+        }}
+        padding={"80px 0px"}
+        paddingRight={{ md: "0rem", lg: "1.5rem", xl: "0rem" }}
+        
       >
         <VStack
-          height="80px"
           spacing={12}
+          width={{ base: "100%", md: "72%", lg: "80%", xl: "59%" }}
+          marginRight={{ base: "0rem", md: "1rem", lg: "1rem" }}
+
         >
           <Flex
             justifyContent={"space-between"}
             position={"fixed"}
             bg="whiteAplha.100"
             zIndex={"99"}
-            width="40%"
+            width= {{ base: "90%", md: "60%", lg: "40%" }}
           >
             <Button bg={btnBg}>
               <Icon as={AiFillFire} marginRight="2px" />
@@ -56,14 +78,16 @@ function Home() {
               Oldest
             </Button>
           </Flex>
-          <Box width={"40rem"}>
+          <Box
+           >
             {posts.map((post) => {
               return <PostCard key={post._id} {...post} />;
             })}
           </Box>
         </VStack>
         <Suggestionbar />
-      </Flex>
+      </Box>
+      <BottomNavigation/>
     </Box>
   );
 }

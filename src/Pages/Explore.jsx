@@ -15,7 +15,7 @@ import { Sidebar } from "../Components/Sidebar";
 import { Suggestionbar } from "../Components/Suggestionbar";
 import { PostCard } from "../Components/PostCard";
 import { useSelector } from "react-redux";
-
+import { BottomNavigation } from "../Components/BottomNavigation";
 function Explore() {
   const btnBg = useColorModeValue("gray.300", "gray.900");
   const { posts } = useSelector((store) => store.posts);
@@ -23,19 +23,41 @@ function Explore() {
     <Box>
       <Sidebar />
       <Navbar />
-      <Flex
-        width={"90%"}
-        marginRight="auto"
-        justifyContent={"center"}
-        padding={"80px 20px"}
+      <Box
+        width={"100%"}
+        display={"flex"}
+        flexDirection={{
+          base: "column",
+          md: "column",
+          lg: "column",
+          xl: "row",
+        }}
+        alignItems={{
+          base: "center",
+          md: "flex-end",
+          lg: "flex-end",
+          xl: "flex-start",
+        }}
+        justifyContent={{
+          base: "center",
+          md: "center",
+          lg: "center",
+          xl: "flex-end",
+        }}
+        padding={"80px 0px"}
+        paddingRight={{ md: "0rem", lg: "1.5rem", xl: "0rem" }}
       >
-        <VStack width={"40rem"} height="80px" spacing={12}>
+        <VStack
+          spacing={12}
+          width={{ base: "100%", md: "70%", lg: "60%", xl: "50%" }}
+          marginRight={{ base: "0rem", md: "1rem", lg: "6rem" }}
+        >
           <Flex
             justifyContent={"space-between"}
             position={"fixed"}
             bg="whiteAplha.100"
             zIndex={"99"}
-            width="40%"
+            width={{ base: "100%", md: "60%", lg: "40%" }}
           >
             <Button bg={btnBg}>
               <Icon as={AiFillFire} marginRight="2px" />
@@ -54,14 +76,15 @@ function Explore() {
               Fashion
             </Button>
           </Flex>
-          <Box width={"40rem"}>
+          <Box>
             {posts.map((post) => {
               return <PostCard key={post._id} {...post} />;
             })}
           </Box>
         </VStack>
         <Suggestionbar />
-      </Flex>
+      </Box>
+      <BottomNavigation />
     </Box>
   );
 }

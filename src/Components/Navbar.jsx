@@ -7,24 +7,19 @@ import {
   Image,
   useColorModeValue,
   Box,
-  Text,
 } from "@chakra-ui/react";
 import Logo from "../assets/buddy-zone-blue.png";
 import { ImSun } from "react-icons/im";
+import { BsMoonStarsFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 function Navbar() {
   const { toggleColorMode } = useColorMode();
   const bgColor = useColorModeValue("gray.50", "gray.900");
-  const navGreet = () => {
-    console.log("I am from nav logo click");
-  };
-
   return (
     <div>
       <Flex
         bg={bgColor}
-        color="white"
+        color="black"
         position="fixed"
         width={"100%"}
         justifyContent="space-between"
@@ -40,12 +35,15 @@ function Navbar() {
             objectFit="contain"
             alt="Buddy-zone-logo"
             marginY="-20px"
-            onClick={navGreet}
           />
         </Box>
         <Box>
           <Button onClick={toggleColorMode} variant="link">
-            <Icon as={ImSun} />
+            {bgColor === "gray.900" ? (
+              <Icon as={ImSun} />
+            ) : (
+              <Icon color={"black"} as={BsMoonStarsFill} />
+            )}
           </Button>
         </Box>
       </Flex>

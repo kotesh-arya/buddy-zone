@@ -62,7 +62,7 @@ function SignUp() {
       <Container maxW="container.xl" p={0}>
         <Flex
           h="90vh"
-          paddingTop={"4rem"}
+          paddingTop={"7rem"}
           justifyContent="center"
           alignItems={"center"}
         >
@@ -70,7 +70,7 @@ function SignUp() {
             borderRadius={20}
             boxShadow="2xl"
             border={"1px solid gray"}
-            w="28rem"
+            w={{ base: "20rem", md: "25rem", lg: "28rem" }}
             display={"flex"}
             padding={"1rem 2rem"}
             flexDirection={"column"}
