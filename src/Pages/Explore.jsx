@@ -49,6 +49,7 @@ function Explore() {
       >
         <VStack
           spacing={12}
+          width={{ base: "100%", md: "70%", lg: "60%", xl: "50%" }}
           marginRight={{ base: "0rem", md: "1rem", lg: "6rem" }}
         >
           <Flex
@@ -56,7 +57,7 @@ function Explore() {
             position={"fixed"}
             bg="whiteAplha.100"
             zIndex={"99"}
-            width={{ base: "90%", md: "60%", lg: "40%" }}
+            width={{ base: "100%", md: "60%", lg: "40%" }}
           >
             <Button bg={btnBg}>
               <Icon as={AiFillFire} marginRight="2px" />

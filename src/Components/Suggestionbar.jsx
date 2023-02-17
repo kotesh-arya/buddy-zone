@@ -21,8 +21,8 @@ function Suggestionbar() {
   return (
     <Box
       display={{
-        base: null,
-        md: null,
+        base: "none",
+        md: "none",
         lg: "flex",
         xl: "flex",
         "2xl": "flex",
@@ -34,7 +34,7 @@ function Suggestionbar() {
       padding={"2rem 1rem"}
       bg={bgColor}
       borderRadius={"10px"}
-      marginRight={{md:"auto",lg:"14rem",xl:"0rem"}}
+      marginRight={{md:"auto",lg:"20rem",xl:"0rem"}}
       marginLeft={{md:"auto",lg:"0rem",xl:"0rem"}}
       // border={"3px solid blue"}
     >

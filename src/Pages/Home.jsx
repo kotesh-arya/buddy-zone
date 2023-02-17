@@ -28,15 +28,7 @@ function Home() {
       <Sidebar />
       <Navbar />
       <Box
-        // border={"3px solid yellow"}
         width={"100%"}
-        // background={{
-        //   base: "red",
-        //   md: "orange",
-        //   lg: "green",
-        //   xl: "pink",
-        //   "2xl": "yellow",
-        // }}
         display={"flex"}
         flexDirection={{
           base: "column",
@@ -58,12 +50,13 @@ function Home() {
         }}
         padding={"80px 0px"}
         paddingRight={{ md: "0rem", lg: "1.5rem", xl: "0rem" }}
+        
       >
         <VStack
-          // border={"3px solid red"}
           spacing={12}
-          // background={{ base: "red", md: "orange", lg: "green" }}
-          marginRight={{ base: "0rem", md: "1rem", lg: "6rem" }}
+          width={{ base: "100%", md: "72%", lg: "80%", xl: "59%" }}
+          marginRight={{ base: "0rem", md: "1rem", lg: "1rem" }}
+
         >
           <Flex
             justifyContent={"space-between"}
@@ -71,7 +64,6 @@ function Home() {
             bg="whiteAplha.100"
             zIndex={"99"}
             width= {{ base: "90%", md: "60%", lg: "40%" }}
-            // border={"3px solid blue"}
           >
             <Button bg={btnBg}>
               <Icon as={AiFillFire} marginRight="2px" />
@@ -87,7 +79,6 @@ function Home() {
             </Button>
           </Flex>
           <Box
-          //  border={"3px solid pink"}
            >
             {posts.map((post) => {
               return <PostCard key={post._id} {...post} />;

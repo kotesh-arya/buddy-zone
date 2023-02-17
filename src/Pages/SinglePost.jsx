@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
-  Flex,
   VStack,
   Input,
   Button,
@@ -11,15 +10,15 @@ import { Navbar } from "../Components/Navbar";
 import { Sidebar } from "../Components/Sidebar";
 import { Suggestionbar } from "../Components/Suggestionbar";
 import { PostCard } from "../Components/PostCard";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { CommentContainer } from "../Components/CommentContainer";
-import { useDispatch } from "react-redux";
 import {
   addComment,
   getSinglePost,
   getSinglePostComments,
 } from "../features/post/singlePostSlice";
 import { useParams } from "react-router-dom";
+import { BottomNavigation } from "../Components/BottomNavigation";
 
 function SinglePost() {
   const dispatch = useDispatch();
@@ -42,83 +41,106 @@ function SinglePost() {
     <Box>
       <Sidebar />
       <Navbar />
-      <Flex
-        width={"90%"}
-        marginRight="auto"
-        justifyContent={"center"}
-        padding={"80px 20px"}
+      <Box
+        width={"100%"}
+        display={"flex"}
+        flexDirection={{
+          base: "column",
+          md: "column",
+          lg: "column",
+          xl: "row",
+        }}
+        alignItems={{
+          base: "center",
+          md: "flex-end",
+          lg: "flex-end",
+          xl: "flex-start",
+        }}
+        justifyContent={{
+          base: "center",
+          md: "center",
+          lg: "center",
+          xl: "flex-end",
+        }}
+        padding={"80px 0px"}
+        paddingRight={{ md: "0rem", lg: "1.5rem", xl: "0rem" }}
       >
-        <VStack width={"40rem"} height="80px" spacing={12}>
-          <Flex
-            flexDirection={"column"}
-            justifyContent={"space-between"}
-            position={"fixed"}
-            bg="whiteAplha.100"
-            zIndex={"99"}
-            width="40rem"
+        <VStack
+          spacing={12}
+          width={{ base: "100%", md: "75%", lg: "80%", xl: "59%" }}
+          marginRight={{ base: "0rem", md: "1rem", lg: "1rem" }}
+          display={"flex"}
+          flexDirection={"column"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          marginBottom={"2rem"}
+        >
+          <PostCard {...post} />
+          <Box
+            width={{ base: "100%", md: "80%", lg: "70%" }}
+            borderRadius={"15px"}
+            padding={{
+              base: "1.5rem 2px",
+              md: "1.5rem 10px",
+              lg: "1.5rem 1rem",
+            }}
+            bg={bgColor}
           >
-            <PostCard {...post} />
-            <Box
-              width={"90%"}
-              borderRadius={"15px"}
-              padding={"2rem 1rem"}
-              bg={bgColor}
-            >
-              <form onSubmit={(e) => e.preventDefault()}>
-                <Box display={"flex"}>
-                  <Input
-                    width={"100%"}
-                    value={comment.text}
-                    onChange={(e) => {
-                      setComment((prev) => {
-                        return {
-                          ...prev,
-                          text: e.target.value,
-                        };
-                      });
-                    }}
-                    placeholder={"Type here..."}
-                  />{" "}
-                  <Button
-                    type="submit"
-                    onClick={() => {
-                      dispatch(
-                        addComment({
-                          postId: postId,
-                          commentData: comment,
-                          token,
-                        })
-                      );
-                      setComment((prev) => {
-                        return {
-                          ...prev,
-                          text: "",
-                        };
-                      });
-                    }}
-                  >
-                    Comment
-                  </Button>
-                </Box>
-              </form>
-
-              <Box display={"flex"} padding={"1rem"} flexDirection={"column"}>
-                {postComments?.map((comment) => {
-                  return (
-                    <CommentContainer
-                      key={comment._id}
-                      postId={postId}
-                      commentId={comment._id}
-                      {...comment}
-                    />
-                  );
-                })}
+            <form onSubmit={(e) => e.preventDefault()}>
+              <Box display={"flex"}>
+                <Input
+                  width={"100%"}
+                  value={comment.text}
+                  onChange={(e) => {
+                    setComment((prev) => {
+                      return {
+                        ...prev,
+                        text: e.target.value,
+                      };
+                    });
+                  }}
+                  placeholder={"Type here..."}
+                />{" "}
+                <Button
+                  type="submit"
+                  onClick={() => {
+                    dispatch(
+                      addComment({
+                        postId: postId,
+                        commentData: comment,
+                        token,
+                      })
+                    );
+                    setComment((prev) => {
+                      return {
+                        ...prev,
+                        text: "",
+                      };
+                    });
+                  }}
+                >
+                  Comment
+                </Button>
               </Box>
+            </form>
+
+            <Box display={"flex"} padding={"1rem"} flexDirection={"column"}>
+              {postComments?.map((comment) => {
+                return (
+                  <CommentContainer
+                    key={comment._id}
+                    postId={postId}
+                    commentId={comment._id}
+                    {...comment}
+                  />
+                );
+              })}
             </Box>
-          </Flex>
+          </Box>
         </VStack>
         <Suggestionbar />
-      </Flex>
+      </Box>
+      <BottomNavigation />
     </Box>
   );
 }

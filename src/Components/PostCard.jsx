@@ -56,7 +56,7 @@ function PostCard({
       boxShadow={"2xl"}
       marginBottom={"2rem"}
       borderRadius={"15px"}
-      maxWidth={{ base: "35rem", md: "35rem", lg: "38rem", xl: "35rem" }}
+      width={{ base: "100%", md: "100%", lg: "100%", xl: "100%" }}
       flexDirection={"column"}
     >
       <Flex
@@ -164,6 +164,8 @@ function PostCard({
         justifyContent={"space-between"}
         alignItems="center"
         padding={"1rem 2rem"}
+        width={"75%"}
+        margin={"auto"}
       >
         <Flex>
           <Icon
@@ -185,7 +187,6 @@ function PostCard({
             as={FaRegCommentAlt}
           />
         </Box>
-        <Icon as={FaShareAlt} />
         <Icon
           onClick={() => {
             bookmarks.find((post) => post._id === _id)

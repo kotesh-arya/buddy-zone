@@ -15,6 +15,7 @@ import { Suggestionbar } from "../Components/Suggestionbar";
 import { PostCard } from "../Components/PostCard";
 import { useSelector } from "react-redux";
 import { BottomNavigation } from "../Components/BottomNavigation";
+import EmptyIcon from "../assets/empty-inbox.png";
 function Bookmarks() {
   const btnBg = useColorModeValue("gray.300", "gray.900");
   const { bookmarks } = useSelector((store) => store.bookmark);
@@ -48,7 +49,8 @@ function Bookmarks() {
       >
         <VStack
           spacing={12}
-          marginRight={{ base: "0rem", md: "1rem", lg: "6rem" }}
+          width={{ base: "100%", md: "70%", lg: "80%", xl: "59%" }}
+          marginRight={{ base: "0rem", md: "1rem", lg: "1rem" }}
         >
           <Flex
             justifyContent={"space-between"}
@@ -72,7 +74,18 @@ function Bookmarks() {
                 return <PostCard key={post._id} {...post} />;
               })
             ) : (
-              <Heading>You have not bookmarked any post yet!</Heading>
+              <Box
+                display={"flex"}
+                flexDirection={"column"}
+                alignItems={"center"}
+                justifyContent={"center"}
+                height={"100%"}
+              >
+                <img width={"50%"} src={EmptyIcon} alt="empty-box" srcSet="" />
+                <Heading fontSize={{ base: "1rem", md: "2rem", lg: "2rem" }}>
+                  You have not bookmarked any post yet !
+                </Heading>
+              </Box>
             )}
           </Box>
         </VStack>
