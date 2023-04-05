@@ -16,7 +16,7 @@ Buddy Zone
 
 ## Live Deployment
 
-### Checkout the live deployment here:  <a href="buddy-zone.netlify.app" target="_blank">Buddy Zone</a>
+### Checkout the live deployment here:  <a href="https://buddy-zone.netlify.app/" target="_blank">Buddy Zone</a>
 
 
 
