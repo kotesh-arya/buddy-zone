@@ -14,13 +14,22 @@ Buddy Zone
 - In this App, users can Signup/Login into their own account with right credentials and get connected with peope online.
 - Additionally we have implemented various main features such as Create post, Edit Post, Delete Post, Follow/Unfollow User etc.
 
-## Live Deployment
-
-### Checkout the live deployment here:  <a href="https://buddy-zone.netlify.app/" target="_blank">Buddy Zone</a>
+## Live Deployment:  <a href="https://buddy-zone.netlify.app/" target="_blank">Buddy Zone</a>
 
 
+
+## Desktop View
+![image](https://user-images.githubusercontent.com/69259490/229952569-b194edc1-9c72-4719-bfb2-2eafd4cfdcf0.png)
 
 ![image](https://user-images.githubusercontent.com/69259490/210151237-80ac5565-6f3c-46b7-ab9a-c76484ebe90e.png)
+
+## Mobile view
+
+
+
+User Profile Page          |  Bookmarks Page
+:-------------------------:|:-------------------------:
+  ![image](https://user-images.githubusercontent.com/69259490/229953085-21a8e9c8-5a24-4cb9-a302-15ac4d8dcef7.png) |  ![image](https://user-images.githubusercontent.com/69259490/229953004-88524aca-6fcc-4109-9eed-f81623201f24.png)
 
 ## Features
 
