@@ -18,44 +18,47 @@ const initialState = {
 };
 
 const getSinglePost = createAsyncThunk(
-  "post/getSinglePost",
+  "singlePost/getSinglePost",
   async (postId, { rejectWithValue }) => {
     try {
-      let {
+      const {
         data: { post },
       } = await getSinglePostService(postId);
       return post;
     } catch (error) {
-      rejectWithValue(error);
+      return rejectWithValue(error);
     }
   }
 );
+
 const getSinglePostComments = createAsyncThunk(
-  "post/getSinglePostComments",
+  "singlePost/getSinglePostComments",
   async (postId, { rejectWithValue }) => {
     try {
-      let {
+      const {
         data: { comments },
       } = await getPostCommentsService(postId);
       return comments;
     } catch (error) {
-      rejectWithValue(error);
+      return rejectWithValue(error);
     }
   }
 );
+
 const addComment = createAsyncThunk(
-  "post/addComment",
+  "singlePost/addComment",
   async ({ postId, commentData, token }, { rejectWithValue }) => {
     try {
       const { data } = await addCommentService(postId, commentData, token);
       return data;
     } catch (error) {
-      rejectWithValue("error occured in add comment to post");
+      return rejectWithValue("Error occurred while adding the comment");
     }
   }
 );
+
 const editComment = createAsyncThunk(
-  "post/editComment",
+  "singlePost/editComment",
   async ({ postId, commentId, commentData, token }, { rejectWithValue }) => {
     try {
       const { data } = await editCommentService(
@@ -66,114 +69,124 @@ const editComment = createAsyncThunk(
       );
       return data;
     } catch (error) {
-      rejectWithValue("error occured in add comment to post");
+      return rejectWithValue("Error occurred while editing the comment");
     }
   }
 );
+
 const deleteComment = createAsyncThunk(
-  "post/deleteComment",
+  "singlePost/deleteComment",
   async ({ postId, commentId, token }, { rejectWithValue }) => {
     try {
       const { data } = await deleteCommentService(postId, commentId, token);
       return data;
     } catch (error) {
-      rejectWithValue("error occured in add comment to post");
+      return rejectWithValue("Error occurred while deleting the comment");
     }
   }
 );
 
 const upVoteComment = createAsyncThunk(
-  "post/upVoteComment",
+  "singlePost/upVoteComment",
   async ({ postId, commentId, token }, { rejectWithValue }) => {
     try {
       const { data } = await upVoteCommentService(postId, commentId, token);
       return data;
     } catch (error) {
-      rejectWithValue("error occured in upvoting comment ");
+      return rejectWithValue("Error occurred while upvoting the comment");
     }
   }
 );
+
 const downVoteComment = createAsyncThunk(
-  "post/upVoteComment",
+  "singlePost/downVoteComment",
   async ({ postId, commentId, token }, { rejectWithValue }) => {
     try {
       const { data } = await downVoteCommentService(postId, commentId, token);
       return data;
     } catch (error) {
-      rejectWithValue("error occured in upvoting comment ");
+      return rejectWithValue("Error occurred while downvoting the comment");
     }
   }
 );
+
 const singlePostSlice = createSlice({
   name: "singlePost",
   initialState,
-  extraReducers: {
-    [getSinglePost.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [getSinglePost.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      state.post = action.payload;
-    },
-    [getSinglePost.rejected]: (state) => {
-      state.isLoading = false;
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getSinglePost.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getSinglePost.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.post = action.payload;
+      })
+      .addCase(getSinglePost.rejected, (state) => {
+        state.isLoading = false;
+      })
 
-    [getSinglePostComments.pending]: (state) => {
-      state.comments.isLoading = true;
-    },
-    [getSinglePostComments.fulfilled]: (state, action) => {
-      state.comments.isLoading = false;
-      state.comments.postComments = action.payload;
-    },
-    [getSinglePostComments.rejected]: (state) => {
-      state.comments.isLoading = false;
-    },
-    [addComment.pending]: (state) => {
-      state.comments.isLoading = true;
-    },
-    [addComment.fulfilled]: (state, action) => {
-      state.comments.isLoading = false;
-      state.comments.postComments = action.payload.comments;
-    },
-    [addComment.rejected]: (state) => {
-      state.comments.isLoading = false;
-    },
-    [editComment.pending]: (state) => {
-      state.comments.isLoading = true;
-    },
-    [editComment.fulfilled]: (state, action) => {
-      state.comments.isLoading = false;
-      state.comments.postComments = action.payload.comments;
-    },
-    [editComment.rejected]: (state) => {
-      state.comments.isLoading = false;
-    },
+      .addCase(getSinglePostComments.pending, (state) => {
+        state.comments.isLoading = true;
+      })
+      .addCase(getSinglePostComments.fulfilled, (state, action) => {
+        state.comments.isLoading = false;
+        state.comments.postComments = action.payload;
+      })
+      .addCase(getSinglePostComments.rejected, (state) => {
+        state.comments.isLoading = false;
+      })
 
-    [deleteComment.fulfilled]: (state, action) => {
-      state.comments.isLoading = false;
-      state.comments.postComments = action.payload.comments;
-    },
-    [deleteComment.rejected]: (state) => {
-      state.comments.isLoading = false;
-    },
-    [upVoteComment.fulfilled]: (state, action) => {
-      state.comments.isLoading = false;
-      state.comments.postComments = action.payload.comments;
-    },
-    [upVoteComment.rejected]: (state) => {
-      state.comments.isLoading = false;
-    },
-    [downVoteComment.fulfilled]: (state, action) => {
-      state.comments.isLoading = false;
-      state.comments.postComments = action.payload.comments;
-    },
-    [downVoteComment.rejected]: (state) => {
-      state.comments.isLoading = false;
-    },
+      .addCase(addComment.pending, (state) => {
+        state.comments.isLoading = true;
+      })
+      .addCase(addComment.fulfilled, (state, action) => {
+        state.comments.isLoading = false;
+        state.comments.postComments = action.payload.comments;
+      })
+      .addCase(addComment.rejected, (state) => {
+        state.comments.isLoading = false;
+      })
+
+      .addCase(editComment.pending, (state) => {
+        state.comments.isLoading = true;
+      })
+      .addCase(editComment.fulfilled, (state, action) => {
+        state.comments.isLoading = false;
+        state.comments.postComments = action.payload.comments;
+      })
+      .addCase(editComment.rejected, (state) => {
+        state.comments.isLoading = false;
+      })
+
+      .addCase(deleteComment.fulfilled, (state, action) => {
+        state.comments.isLoading = false;
+        state.comments.postComments = action.payload.comments;
+      })
+      .addCase(deleteComment.rejected, (state) => {
+        state.comments.isLoading = false;
+      })
+
+      .addCase(upVoteComment.fulfilled, (state, action) => {
+        state.comments.isLoading = false;
+        state.comments.postComments = action.payload.comments;
+      })
+      .addCase(upVoteComment.rejected, (state) => {
+        state.comments.isLoading = false;
+      })
+
+      .addCase(downVoteComment.fulfilled, (state, action) => {
+        state.comments.isLoading = false;
+        state.comments.postComments = action.payload.comments;
+      })
+      .addCase(downVoteComment.rejected, (state) => {
+        state.comments.isLoading = false;
+      });
   },
 });
+
 const singlePostReducer = singlePostSlice.reducer;
+
 export {
   singlePostReducer,
   getSinglePost,
@@ -182,5 +195,5 @@ export {
   editComment,
   deleteComment,
   upVoteComment,
-  downVoteComment
+  downVoteComment,
 };

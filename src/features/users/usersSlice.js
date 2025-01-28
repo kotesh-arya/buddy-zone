@@ -5,19 +5,21 @@ import { unfollowUserService } from "../../services/UserServices/unfollowUserSer
 
 const initialState = {
   users: [],
-  isloading: false,
+  isLoading: false,
   followedUsers: [],
+  error: null,
 };
+
 const getAllUsers = createAsyncThunk(
   "users/getAllUsers",
   async (_, { rejectWithValue }) => {
     try {
-      let {
+      const {
         data: { users },
       } = await getAllUsersService();
       return users;
     } catch (error) {
-      rejectWithValue(error);
+      return rejectWithValue(error);
     }
   }
 );
@@ -29,10 +31,11 @@ const followUser = createAsyncThunk(
       const { data } = await followUserService(followUserId, token);
       return data;
     } catch (error) {
-      rejectWithValue(error);
+      return rejectWithValue(error);
     }
   }
 );
+
 const unfollowUser = createAsyncThunk(
   "users/unfollowUser",
   async ({ followUserId, token }, { rejectWithValue }) => {
@@ -40,42 +43,50 @@ const unfollowUser = createAsyncThunk(
       const { data } = await unfollowUserService(followUserId, token);
       return data;
     } catch (error) {
-      rejectWithValue(error);
+      return rejectWithValue(error);
     }
   }
 );
+
 const usersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {},
-  extraReducers: {
-    [getAllUsers.pending]: (state) => {
-      state.isloading = true;
-    },
-    [getAllUsers.fulfilled]: (state, action) => {
-      state.isloading = false;
-      state.users = action.payload;
-    },
-    [getAllUsers.rejected]: (state) => {
-      state.isloading = false;
-    },
-    [followUser.fulfilled]: (state, { payload }) => {
-      state.followedUsers.push(payload?.followUser);
-    },
-    [followUser.rejected]: (state, { payload }) => {
-      state.isloading = false;
-      state.error = payload;
-    },
-    [unfollowUser.fulfilled]: (state, { payload }) => {
-      state.isloading = false;
-      state.followedUsers = state.followedUsers.filter(
-        (user) => user._id !== payload?.followUser?._id
-      );
-    },
-    [unfollowUser.rejected]: (state, { payload }) => {
-      state.isloading = false;
-      state.error = payload;
-    },
+  extraReducers: (builder) => {
+    builder
+      // getAllUsers
+      .addCase(getAllUsers.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getAllUsers.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.users = action.payload;
+      })
+      .addCase(getAllUsers.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
+      // followUser
+      .addCase(followUser.fulfilled, (state, { payload }) => {
+        state.followedUsers.push(payload?.followUser);
+      })
+      .addCase(followUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
+      // unfollowUser
+      .addCase(unfollowUser.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.followedUsers = state.followedUsers.filter(
+          (user) => user._id !== payload?.followUser?._id
+        );
+      })
+      .addCase(unfollowUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      });
   },
 });
 

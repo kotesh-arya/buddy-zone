@@ -3,37 +3,39 @@ import { createPostService } from "../../services/PostServices/createPostService
 import { deletePostService } from "../../services/PostServices/deletePostService";
 import { disLikePostService } from "../../services/PostServices/disLikePostService";
 import { editPostService } from "../../services/PostServices/editPostService";
-
 import { getAllPostsService } from "../../services/PostServices/getAllPostsService";
 import { likePostService } from "../../services/PostServices/likePostService";
-//initial state for the slice
 
+// Initial state
 const initialState = {
   posts: [],
-  isloading: false,
-  error: "",
+  isLoading: false,
+  error: null,
 };
+
+// Thunks
 const getAllPosts = createAsyncThunk(
   "posts/getAllPosts",
   async (_, { rejectWithValue }) => {
     try {
-      let {
+      const {
         data: { posts },
       } = await getAllPostsService();
       return posts;
     } catch (error) {
-      rejectWithValue(error);
+      return rejectWithValue(error.message || "Error fetching posts");
     }
   }
 );
+
 const createPost = createAsyncThunk(
   "posts/createPost",
   async ({ postData, token }, { rejectWithValue }) => {
     try {
       const { data } = await createPostService(postData, token);
-      return data;
+      return data.posts;
     } catch (error) {
-      rejectWithValue("error occured in creating the post");
+      return rejectWithValue(error.message || "Error creating the post");
     }
   }
 );
@@ -45,10 +47,11 @@ const deletePost = createAsyncThunk(
       const { data } = await deletePostService(postId, token);
       return data.posts;
     } catch (error) {
-      rejectWithValue("error occured in delete post service");
+      return rejectWithValue(error.message || "Error deleting the post");
     }
   }
 );
+
 const editPost = createAsyncThunk(
   "posts/editPost",
   async ({ postId, postData, token }, { rejectWithValue }) => {
@@ -56,7 +59,7 @@ const editPost = createAsyncThunk(
       const { data } = await editPostService(postId, postData, token);
       return data.posts;
     } catch (error) {
-      rejectWithValue("error occured in edit post service");
+      return rejectWithValue(error.message || "Error editing the post");
     }
   }
 );
@@ -68,10 +71,11 @@ const likePost = createAsyncThunk(
       const { data } = await likePostService(postId, token);
       return data.posts;
     } catch (error) {
-      rejectWithValue("error occured in like post service");
+      return rejectWithValue(error.message || "Error liking the post");
     }
   }
 );
+
 const disLikePost = createAsyncThunk(
   "posts/disLikePost",
   async ({ postId, token }, { rejectWithValue }) => {
@@ -79,73 +83,68 @@ const disLikePost = createAsyncThunk(
       const { data } = await disLikePostService(postId, token);
       return data.posts;
     } catch (error) {
-      rejectWithValue("error occured in dislike post service");
+      return rejectWithValue(error.message || "Error disliking the post");
     }
   }
 );
 
-// feature-slice
+// Slice
 const postsSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {},
-  extraReducers: {
-    [getAllPosts.pending]: (state) => {
-      state.isloading = true;
-    },
-    [getAllPosts.fulfilled]: (state, action) => {
-      state.isloading = false;
-      state.posts = action.payload;
-    },
-    [getAllPosts.rejected]: (state) => {
-      state.isloading = false;
-    },
-    [createPost.pending]: (state) => {
-      state.error = "";
-    },
-    [createPost.fulfilled]: (state, { payload }) => {
-      state.posts = payload.posts;
-
-      state.error = " ";
-    },
-    [createPost.rejected]: (state, { payload }) => {
-      state.error = payload;
-    },
-
-    [deletePost.fulfilled]: (state, { payload }) => {
-      state.posts = payload;
-      state.posts = payload;
-
-      state.error = "";
-    },
-    [deletePost.rejected]: (state, { payload }) => {
-      state.error = payload;
-    },
-    [editPost.fulfilled]: (state, { payload }) => {
-      state.posts = payload;
-      state.error = "";
-    },
-    [editPost.rejected]: (state, { payload }) => {
-      state.error = payload;
-    },
-    [likePost.fulfilled]: (state, { payload }) => {
-      state.posts = payload;
-      state.error = "";
-    },
-    [likePost.rejected]: (state, { payload }) => {
-      state.error = payload;
-    },
-    [disLikePost.fulfilled]: (state, { payload }) => {
-      state.posts = payload;
-      state.error = "";
-    },
-    [disLikePost.rejected]: (state, { payload }) => {
-      state.error = payload;
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(getAllPosts.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(getAllPosts.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.posts = payload;
+      })
+      .addCase(getAllPosts.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        state.error = payload;
+      })
+      .addCase(createPost.pending, (state) => {
+        state.error = null;
+      })
+      .addCase(createPost.fulfilled, (state, { payload }) => {
+        state.posts = payload;
+      })
+      .addCase(createPost.rejected, (state, { payload }) => {
+        state.error = payload;
+      })
+      .addCase(deletePost.fulfilled, (state, { payload }) => {
+        state.posts = payload;
+      })
+      .addCase(deletePost.rejected, (state, { payload }) => {
+        state.error = payload;
+      })
+      .addCase(editPost.fulfilled, (state, { payload }) => {
+        state.posts = payload;
+      })
+      .addCase(editPost.rejected, (state, { payload }) => {
+        state.error = payload;
+      })
+      .addCase(likePost.fulfilled, (state, { payload }) => {
+        state.posts = payload;
+      })
+      .addCase(likePost.rejected, (state, { payload }) => {
+        state.error = payload;
+      })
+      .addCase(disLikePost.fulfilled, (state, { payload }) => {
+        state.posts = payload;
+      })
+      .addCase(disLikePost.rejected, (state, { payload }) => {
+        state.error = payload;
+      });
   },
 });
 
 const postsReducer = postsSlice.reducer;
+
 export {
   postsReducer,
   getAllPosts,
@@ -153,5 +152,5 @@ export {
   deletePost,
   editPost,
   likePost,
-  disLikePost
+  disLikePost,
 };

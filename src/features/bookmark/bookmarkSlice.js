@@ -17,10 +17,11 @@ const bookmarkPost = createAsyncThunk(
       const { data } = await bookmarkPostService(postId, token);
       return data;
     } catch (error) {
-      rejectWithValue(error);
+      return rejectWithValue(error);
     }
   }
 );
+
 const getAllBookmarks = createAsyncThunk(
   "bookmarks/getAllBookmarks",
   async (token, { rejectWithValue }) => {
@@ -28,11 +29,10 @@ const getAllBookmarks = createAsyncThunk(
       const { data } = await getAllBookmarkService(token);
       return data;
     } catch (error) {
-      rejectWithValue(error);
+      return rejectWithValue(error);
     }
   }
 );
-
 
 const removePostFromBookmark = createAsyncThunk(
   "bookmarks/removePostFromBookmark",
@@ -41,7 +41,7 @@ const removePostFromBookmark = createAsyncThunk(
       const data = await removePostFromBookmarkService(postId, token);
       return data;
     } catch (error) {
-      rejectWithValue(error, "error during remove from bookmark");
+      return rejectWithValue(error, "error during remove from bookmark");
     }
   }
 );
@@ -49,36 +49,41 @@ const removePostFromBookmark = createAsyncThunk(
 const bookmarkSlice = createSlice({
   name: "bookmarks",
   initialState,
-  extraReducers: {
-    [bookmarkPost.fulfilled]: (state, { payload }) => {
-      state.isloading = false;
-      state.bookmarks = payload.bookmarks;
-    },
-    [bookmarkPost.rejected]: (state, { payload }) => {
-      state.isloading = false;
-      state.error = payload;
-    },
-    [getAllBookmarks.pending]: (state) => {
-      state.isloading = true;
-    },
-    [getAllBookmarks.fulfilled]: (state, { payload }) => {
-      state.isloading = false;
-      state.bookmarks = payload.bookmarks;
-      state.error = " ";
-    },
-    [getAllBookmarks.rejected]: (state, { payload }) => {
-      state.isloading = false;
-      state.error = payload;
-    },
+  extraReducers: (builder) => {
+    builder
+      // Handle bookmarkPost
+      .addCase(bookmarkPost.fulfilled, (state, { payload }) => {
+        state.isloading = false;
+        state.bookmarks = payload.bookmarks;
+      })
+      .addCase(bookmarkPost.rejected, (state, { payload }) => {
+        state.isloading = false;
+        state.error = payload;
+      })
 
-    [removePostFromBookmark.fulfilled]: (state, { payload }) => {
-      state.isloading = false;
-      state.bookmarks = payload.data.bookmarks;
-    },
-    [removePostFromBookmark.rejected]: (state, { payload }) => {
-      state.isloading = false;
-      state.error = payload;
-    },
+      // Handle getAllBookmarks
+      .addCase(getAllBookmarks.pending, (state) => {
+        state.isloading = true;
+      })
+      .addCase(getAllBookmarks.fulfilled, (state, { payload }) => {
+        state.isloading = false;
+        state.bookmarks = payload.bookmarks;
+        state.error = null;
+      })
+      .addCase(getAllBookmarks.rejected, (state, { payload }) => {
+        state.isloading = false;
+        state.error = payload;
+      })
+
+      // Handle removePostFromBookmark
+      .addCase(removePostFromBookmark.fulfilled, (state, { payload }) => {
+        state.isloading = false;
+        state.bookmarks = payload.data.bookmarks;
+      })
+      .addCase(removePostFromBookmark.rejected, (state, { payload }) => {
+        state.isloading = false;
+        state.error = payload;
+      });
   },
 });
 
