@@ -1,46 +1,48 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getUserPostsService } from "../../services/PostServices/getUserPostsService";
-import {
-  getSingleUserService,
-  editUserService,
-} from "../../services/UserServices";
+import { getSingleUserService, editUserService } from "../../services/UserServices";
+
 const initialState = {
   profile: {
     userProfile: null,
-    isloading: false,
+    isLoading: false,
     error: null,
   },
   posts: {
     userPosts: [],
     isLoading: false,
+    error: null,
   },
 };
+
 const getSingleUser = createAsyncThunk(
   "user/getSingleUser",
   async (_id, { rejectWithValue }) => {
     try {
-      let {
+      const {
         data: { user },
       } = await getSingleUserService(_id);
       return user;
     } catch (error) {
-      rejectWithValue(error);
+      return rejectWithValue(error);
     }
   }
 );
+
 const getUserPosts = createAsyncThunk(
   "user/getUserPosts",
   async (username, { rejectWithValue }) => {
     try {
-      let {
+      const {
         data: { posts },
       } = await getUserPostsService(username);
       return posts;
     } catch (error) {
-      rejectWithValue(error);
+      return rejectWithValue(error);
     }
   }
 );
+
 const editUser = createAsyncThunk(
   "user/editUser",
   async ({ userData, token }, { rejectWithValue }) => {
@@ -48,7 +50,7 @@ const editUser = createAsyncThunk(
       const { data } = await editUserService(userData, token);
       return data;
     } catch (error) {
-      rejectWithValue(error);
+      return rejectWithValue(error);
     }
   }
 );
@@ -56,39 +58,47 @@ const editUser = createAsyncThunk(
 const singleUserSlice = createSlice({
   name: "singleUser",
   initialState,
-  extraReducers: {
-    [getSingleUser.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [getSingleUser.fulfilled]: (state, action) => {
-      state.isLoading = true;
-      state.profile.userProfile = action.payload;
-    },
-    [getSingleUser.rejected]: (state) => {
-      state.isLoading = false;
-    },
-    [getUserPosts.pending]: (state) => {
-      state.posts.isLoading = true;
-    },
-    [getUserPosts.fulfilled]: (state, action) => {
-      state.posts.isLoading = true;
-      state.posts.userPosts = action.payload;
-    },
-    [getUserPosts.rejected]: (state) => {
-      state.posts.isLoading = false;
-    },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      // getSingleUser
+      .addCase(getSingleUser.pending, (state) => {
+        state.profile.isLoading = true;
+      })
+      .addCase(getSingleUser.fulfilled, (state, action) => {
+        state.profile.isLoading = false;
+        state.profile.userProfile = action.payload;
+      })
+      .addCase(getSingleUser.rejected, (state, action) => {
+        state.profile.isLoading = false;
+        state.profile.error = action.payload;
+      })
+      
+      // getUserPosts
+      .addCase(getUserPosts.pending, (state) => {
+        state.posts.isLoading = true;
+      })
+      .addCase(getUserPosts.fulfilled, (state, action) => {
+        state.posts.isLoading = false;
+        state.posts.userPosts = action.payload;
+      })
+      .addCase(getUserPosts.rejected, (state, action) => {
+        state.posts.isLoading = false;
+        state.posts.error = action.payload;
+      })
 
-    [editUser.pending]: (state) => {
-      state.profile.isloading = true;
-    },
-    [editUser.fulfilled]: (state, action) => {
-      state.profile.isloading = false;
-      state.profile.userProfile = action.payload.user;
-    },
-    [editUser.rejected]: (state, { payload }) => {
-      state.profile.isloading = false;
-      state.profile.error = payload;
-    },
+      // editUser
+      .addCase(editUser.pending, (state) => {
+        state.profile.isLoading = true;
+      })
+      .addCase(editUser.fulfilled, (state, action) => {
+        state.profile.isLoading = false;
+        state.profile.userProfile = action.payload.user;
+      })
+      .addCase(editUser.rejected, (state, action) => {
+        state.profile.isLoading = false;
+        state.profile.error = action.payload;
+      });
   },
 });
 

@@ -1,5 +1,4 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Container,
   Flex,
@@ -9,53 +8,69 @@ import {
   Input,
   Box,
   Button,
+  InputGroup,
+  InputRightElement,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { Navbar } from "../Components/Navbar";
 import { Link, useNavigate } from "react-router-dom";
 import { signUp } from "../features/auth/authSlice";
 import { useDispatch } from "react-redux";
-
 import { USER_DATA, USER_TOKEN } from "../constants";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { toast } from "react-toastify";
 
 function SignUp() {
   const bgColor = useColorModeValue("gray.50", "whiteAlpha.50");
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const [signupLoading, setSignupLoading] = useState(false);
   const [user, setUser] = useState({
     firstname: "",
     lastname: "",
-    username: "",
+    email: "",
     password: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
   const userInputHandler = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
-    setUser((prev) => {
-      return {
-        ...prev,
-        [name]: value,
-      };
-    });
+    setUser((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const signupHandler = async (user) => {
+    setSignupLoading(true);
     if (
       user.firstname === "" ||
       user.lastname === "" ||
-      user.username === "" ||
+      user.email === "" ||
       user.password === ""
     ) {
-      console.log("please check your inputs again!");
+      setSignupLoading(false);
+      toast.error("Please fill out all fields!");
     } else {
-      const res = await dispatch(signUp(user));
-      localStorage.setItem(USER_DATA, JSON.stringify(res.payload.createdUser));
-      localStorage.setItem(USER_TOKEN, res.payload.encodedToken);
-      navigate("/home");
+      try {
+        const res = await dispatch(signUp(user));
+        // const res =  signUp(user);
+        console.log("signup response", res);
+        setSignupLoading(false);
+        toast.success("Sign-up successful!");
+        console.log("response for user registration", res);
+      } catch (error) {
+        setSignupLoading(false);
+        toast.error("Sign-up failed. Please try again.");
+      }
     }
   };
-
   return (
     <Box height={"100vh"} backgroundColor={bgColor}>
       <Navbar />
@@ -68,12 +83,14 @@ function SignUp() {
         >
           <Flex
             borderRadius={20}
-            boxShadow="2xl"
-            border={"1px solid gray"}
             w={{ base: "20rem", md: "25rem", lg: "28rem" }}
             display={"flex"}
             padding={"1rem 2rem"}
             flexDirection={"column"}
+            alignItems="center"
+            bg="whiteAlpha.100"
+            backdropFilter="blur(20px)"
+            boxShadow="0 4px 15px rgba(0, 0, 0, 0.2)"
           >
             <Heading size="xl" marginX={"auto"} marginY="3">
               Signup
@@ -91,7 +108,7 @@ function SignUp() {
                     type={"text"}
                     name="firstname"
                     value={user.firstname}
-                    onChange={(e) => userInputHandler(e)}
+                    onChange={userInputHandler}
                     placeholder="Kotesh"
                   />
                 </FormControl>
@@ -102,31 +119,43 @@ function SignUp() {
                     type={"text"}
                     name="lastname"
                     value={user.lastname}
-                    onChange={(e) => userInputHandler(e)}
+                    onChange={userInputHandler}
                     placeholder="Mudila"
                   />
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <Input
                     type={"text"}
-                    name="username"
-                    value={user.username}
-                    onChange={(e) => userInputHandler(e)}
+                    name="email"
+                    value={user.email}
+                    onChange={userInputHandler}
                     placeholder="kotesharya@gmail.com"
                   />
                 </FormControl>
 
                 <FormControl>
                   <FormLabel>Password</FormLabel>
-                  <Input
-                    type={"password"}
-                    name="password"
-                    value={user.password}
-                    onChange={(e) => userInputHandler(e)}
-                    placeholder="********"
-                  />
+                  <InputGroup>
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      value={user.password}
+                      onChange={userInputHandler}
+                      placeholder="********"
+                    />
+                    <InputRightElement>
+                      <Button
+                        size="sm"
+                        onClick={togglePasswordVisibility}
+                        bg="transparent"
+                        _hover={{ bg: "transparent" }}
+                      >
+                        {showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
                 </FormControl>
 
                 <Box width={"100%"} padding={"1rem 0"} marginTop={"2rem"}>
@@ -135,17 +164,15 @@ function SignUp() {
                     color="white"
                     width={"100%"}
                     marginBottom={"1rem"}
-                    onClick={() => {
-                      signupHandler(user);
-                    }}
+                    onClick={() => signupHandler(user)}
                   >
-                    Signup
+                    {signupLoading ? "Signing Up" : "Signup"}
                   </Button>
 
                   <Button
                     as={Link}
                     to="/"
-                    outline={"1px #08a0e9 "}
+                    outline={"1px #08a0e9"}
                     variant="outline"
                     color="#08a0e9"
                     width={"100%"}
