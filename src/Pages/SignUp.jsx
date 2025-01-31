@@ -47,26 +47,29 @@ function SignUp() {
 
   const signupHandler = async (user) => {
     setSignupLoading(true);
-    if (
-      user.firstname === "" ||
-      user.lastname === "" ||
-      user.email === "" ||
-      user.password === ""
-    ) {
+
+    if (!user.firstname || !user.lastname || !user.email || !user.password) {
       setSignupLoading(false);
       toast.error("Please fill out all fields!");
-    } else {
-      try {
-        const res = await dispatch(signUp(user));
-        // const res =  signUp(user);
-        console.log("signup response", res);
-        setSignupLoading(false);
-        toast.success("Sign-up successful!");
-        console.log("response for user registration", res);
-      } catch (error) {
-        setSignupLoading(false);
-        toast.error("Sign-up failed. Please try again.");
+      return;
+    }
+
+    try {
+      const res = await dispatch(signUp(user));
+
+      // Check if the action was rejected
+      if (res.type === "auth/signUp/rejected") {
+        throw new Error(res.payload || "Sign-up failed. Please try again.");
       }
+
+      toast.success("Sign-up successful!");
+      console.log("Response for user registration:", res);
+    } catch (error) {
+      setSignupLoading(false);
+      toast.error(error.message || "Sign-up failed. Please try again.");
+      console.log(error.message);
+    } finally {
+      setSignupLoading(false);
     }
   };
   return (
@@ -158,13 +161,15 @@ function SignUp() {
 
                 <Box width={"100%"} padding={"1rem 0"} marginTop={"2rem"}>
                   <Button
-                    bg={"#08a0e9"}
+                    bg={signupLoading ? "gray.500" : "#08a0e9"} // Using Chakra's color
+                    _hover={{ bg: signupLoading ? "gray.500" : "#08a0e9" }} // Prevent hover color change while loading
                     color="white"
                     width={"100%"}
                     marginBottom={"1rem"}
                     onClick={() => signupHandler(user)}
+                    isDisabled={signupLoading} // Prevents multiple clicks
                   >
-                    {signupLoading ? "Signing Up" : "Signup"}
+                    {signupLoading ? "Signing Up..." : "Signup"}
                   </Button>
 
                   <Button

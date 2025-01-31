@@ -14,7 +14,7 @@ const firebaseConfig = {
   storageBucket: "buddy-zone-9ac04.firebasestorage.app",
   messagingSenderId: "1084180017638",
   appId: "1:1084180017638:web:fcffc9b7c2f071194ba627",
-  measurementId: "G-H888V378DQ",
+  measurementId: "G-H888V378DQ"
 };
 
 // Initialize Firebase

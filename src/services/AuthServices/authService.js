@@ -1,6 +1,6 @@
 import { auth } from "../../config/firebase";
 import {
-  createUserWithEmailAndPassword,
+  // createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
@@ -16,30 +16,30 @@ import {
 // };
 
 // Register new user
-export const registerUser = async (registeringUser) => {
-  try {
-    console.log("Registering user:", registeringUser);
-    const { email, password } = registeringUser;
+// export const registerUser = async (registeringUser) => {
+//   try {
+//     console.log("Registering user:", registeringUser);
+//     const { email, password } = registeringUser;
 
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
+//     const userCredential = await createUserWithEmailAndPassword(
+//       auth,
+//       email,
+//       password
+//     );
 
-    const user = userCredential.user;
-    console.log("User successfully created:", user);
+//     const user = userCredential.user;
+//     console.log("User successfully created:", user);
 
-    // Return user object if registration is successful
-    return user;
-  } catch (error) {
-    // Improved error handling
-    console.error("Error code:", error.code);
-    console.error("Error message:", error.message);
-    // throw new Error("Error while registering the user, please try again.");
-    return error;
-  }
-};
+//     // Return user object if registration is successful
+//     return user;
+//   } catch (error) {
+//     // Improved error handling
+//     console.error("Error code:", error.code);
+//     console.error("Error message:", error.message);
+//     // throw new Error("Error while registering the user, please try again.");
+//     return error;
+//   }
+// };
 
 // Log in existing user
 export const loginUser = async (email, password) => {

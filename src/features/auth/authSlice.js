@@ -2,8 +2,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { USER_DATA, USER_TOKEN } from "../../constants";
 import {
   loginUser,
-  registerUser,
+  // registerUser,
 } from "../../services/AuthServices/authService";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../config/firebase";
 
 // Initial state for the slice
 const initialState = {
@@ -14,16 +16,26 @@ const initialState = {
 };
 
 // Async thunks
+// const signUp = createAsyncThunk(
+//   "auth/signUp",
+//   async (user, { rejectWithValue }) => {
+//     try {
+//       let data = await registerUser(user);
+//       return data;
+//     } catch (error) {
+//       return rejectWithValue(error.response?.data || "An error occurred");
+//     }
+//   }
+// );
+
 const signUp = createAsyncThunk(
   "auth/signUp",
   async (user, { rejectWithValue }) => {
-    console.log("USER ->>>>>>", user);
     try {
-      let data = await registerUser(user);
-      console.log("data here ->>>>>>>>>", data);
-      return data;
+      const res = await createUserWithEmailAndPassword(auth, user.email, user.password);
+      return res.user; // Return user details on success
     } catch (error) {
-      return rejectWithValue(error.response?.data || "An error occurred");
+      return rejectWithValue(error.message); // Explicitly reject with error message
     }
   }
 );
