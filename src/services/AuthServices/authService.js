@@ -1,11 +1,9 @@
-import axios from "axios";
-import { auth, db } from "../../config/firebase";
+import { auth } from "../../config/firebase";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
 
 // export const loginService = async (user) => {
 //   try {

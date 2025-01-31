@@ -25,7 +25,7 @@ function SignIn() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loginUser, setLoginUser] = useState({ username: "", password: "" });
-  const [tester, setTester] = useState({
+  const [tester] = useState({
     username: "koteshmudila",
     password: "koteshmudila@123",
   });

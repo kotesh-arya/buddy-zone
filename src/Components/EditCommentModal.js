@@ -9,7 +9,6 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
-  Icon,
   Textarea,
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";

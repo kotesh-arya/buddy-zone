@@ -15,7 +15,6 @@ import {
   FaRegBookmark,
   FaRegHeart,
   FaRegCommentAlt,
-  FaShareAlt,
   FaHeart,
   FaBookmark,
 } from "react-icons/fa";

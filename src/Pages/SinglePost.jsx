@@ -32,7 +32,7 @@ function SinglePost() {
   useEffect(() => {
     dispatch(getSinglePost(postId));
     dispatch(getSinglePostComments(postId));
-  }, []);
+  }, [dispatch, postId]);
   const [comment, setComment] = useState({
     username: user.username,
     text: "",

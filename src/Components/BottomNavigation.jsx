@@ -1,10 +1,6 @@
 import React from "react";
 import {
-  Button,
-  Flex,
-  useColorMode,
   Icon,
-  Image,
   useColorModeValue,
   Box,
 } from "@chakra-ui/react";
@@ -29,7 +25,6 @@ function BottomNavigation() {
   const dispatch = useDispatch();
   const {
     user: { _id, username },
-    user,
     token,
   } = useSelector((store) => store.auth);
   return (
@@ -51,17 +46,13 @@ function BottomNavigation() {
         py={2}
         zIndex={"100"}
         boxShadow="md"
-        // border={"1px solid red"}
       >
         <Box
           as={NavLink}
           to="/home"
           padding="10px"
-          //  width="10rem"  set the width here first
           borderRadius={4}
-          // marginBottom={3}
           style={getActiveStyle}
-          // border={"1px solid green"}
         >
           <Icon as={AiFillHome} />
         </Box>
@@ -69,11 +60,8 @@ function BottomNavigation() {
           as={NavLink}
           to="/explore"
           padding="10px"
-          //  width="10rem"  set the width here first
           borderRadius={4}
-          // marginBottom={3}
           style={getActiveStyle}
-          // border={"1px solid green"}
         >
           <Icon as={MdExplore} />
         </Box>
@@ -84,11 +72,8 @@ function BottomNavigation() {
             dispatch(getAllBookmarks(token));
           }}
           padding="10px"
-          //  width="10rem"  set the width here first
           borderRadius={4}
-          // marginBottom={3}
           style={getActiveStyle}
-          // border={"1px solid green"}
         >
           <Icon as={BsFillBookmarkHeartFill} />
         </Box>
@@ -100,11 +85,8 @@ function BottomNavigation() {
             dispatch(getUserPosts(username));
           }}
           padding="10px"
-          //  width="10rem"  set the width here first
           borderRadius={4}
-          // marginBottom={3}
           style={getActiveStyle}
-          // border={"1px solid green"}
         >
           <Icon as={CgProfile} />
         </Box>
@@ -117,7 +99,6 @@ function BottomNavigation() {
           }}
           padding="10px"
           borderRadius={4}
-          // border={"1px solid green"}
         >
           <Icon fontSize={"1rem"} color={"red"} as={IoLogOut} />
         </Box>

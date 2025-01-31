@@ -10,7 +10,6 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   useDisclosure,
@@ -32,7 +31,7 @@ function EditUserModal({ firstname, lastname, bio, website }) {
   });
   const handleEditUserProfile = async (e) => {
     e.preventDefault();
-    const res = await dispatch(editUser({ userData: profileData, token }));
+     await dispatch(editUser({ userData: profileData, token }));
   };
   return (
     <>

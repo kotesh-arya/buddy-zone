@@ -15,7 +15,7 @@ function App() {
   useEffect(() => {
     dispatch(getAllUsers());
     dispatch(getAllPosts());
-  }, []);
+  }, [dispatch]);
   return (
     <div className="App">
       <ToastContainer />

@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Box,
-  Button,
   Divider,
   Flex,
   Text,
@@ -13,7 +12,7 @@ import { UserMiniCard } from "./UserMiniCard";
 
 function Suggestionbar() {
   const bgColor = useColorModeValue("gray.50", "gray.900");
-  const { users, followedUsers } = useSelector((store) => store.users);
+  const { users } = useSelector((store) => store.users);
   const {
     user: { _id },
   } = useSelector((store) => store.auth);
@@ -34,8 +33,8 @@ function Suggestionbar() {
       padding={"2rem 1rem"}
       bg={bgColor}
       borderRadius={"10px"}
-      marginRight={{md:"auto",lg:"20rem",xl:"0rem"}}
-      marginLeft={{md:"auto",lg:"0rem",xl:"0rem"}}
+      marginRight={{ md: "auto", lg: "20rem", xl: "0rem" }}
+      marginLeft={{ md: "auto", lg: "0rem", xl: "0rem" }}
       // border={"3px solid blue"}
     >
       <Box bg="black.600">

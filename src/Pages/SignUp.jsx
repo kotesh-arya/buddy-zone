@@ -13,16 +13,14 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { Navbar } from "../Components/Navbar";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { signUp } from "../features/auth/authSlice";
 import { useDispatch } from "react-redux";
-import { USER_DATA, USER_TOKEN } from "../constants";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { toast } from "react-toastify";
 
 function SignUp() {
   const bgColor = useColorModeValue("gray.50", "whiteAlpha.50");
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [signupLoading, setSignupLoading] = useState(false);
   const [user, setUser] = useState({

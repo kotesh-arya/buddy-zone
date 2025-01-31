@@ -32,7 +32,7 @@ function Profile() {
   useEffect(() => {
     dispatch(getSingleUser(userId));
     dispatch(getUserPosts(userId));
-  }, []);
+  }, [dispatch, userId]);
 
   return (
     <Box>
