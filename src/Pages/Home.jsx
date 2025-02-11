@@ -30,7 +30,7 @@ function Home() {
   useEffect(() => {
     dispatch(getAllPosts());
   }, [dispatch]);
-  console.log("posts", posts);
+
   return (
     <Box>
       <Navbar />
@@ -54,6 +54,7 @@ function Home() {
         >
           {/* Sorting Buttons */}
           <Flex
+            position="fixed"
             width="100%"
             maxW="600px"
             justifyContent="space-between"
@@ -62,6 +63,7 @@ function Home() {
             borderRadius="md"
             boxShadow="sm"
             mb={4}
+            zIndex="100"
           >
             <Button bg={btnBg} flex="1" mx={1}>
               <Icon as={AiFillFire} mr={2} />
@@ -86,7 +88,7 @@ function Home() {
               </Text>
             </Flex>
           ) : (
-            <VStack spacing={6} width="100%" maxW="600px">
+            <VStack mt={"4rem"} spacing={6} width="100%" maxW="600px">
               {posts?.length > 0 &&
                 posts?.map((post) => <PostCard key={post.id} {...post} />)}
             </VStack>
