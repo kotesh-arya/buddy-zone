@@ -87,8 +87,8 @@ function Home() {
             </Flex>
           ) : (
             <VStack spacing={6} width="100%" maxW="600px">
-              {posts.length > 0 &&
-                posts.map((post) => <PostCard key={post.id} {...post} />)}
+              {posts?.length > 0 &&
+                posts?.map((post) => <PostCard key={post.id} {...post} />)}
             </VStack>
           )}
         </Box>

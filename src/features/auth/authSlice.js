@@ -13,6 +13,7 @@ const initialState = {
   user: null,
   isLoading: false,
   isLoggedIn: false,
+  token: null,
 };
 
 // Listen for Firebase authentication state changes
@@ -44,6 +45,9 @@ const signUp = createAsyncThunk(
         user.email,
         user.password
       );
+
+      const token = await res.user.getIdToken(); // Fetch Firebase token
+
       await updateProfile(res.user, {
         displayName: `${user.firstName} ${user.lastName}`,
       });
@@ -53,6 +57,7 @@ const signUp = createAsyncThunk(
         firstName: res.user.displayName?.split(" ")[0] || "",
         lastName: res.user.displayName?.split(" ")[1] || "",
         username: res.user.displayName,
+        token, // Include token in the response
       };
     } catch (error) {
       return rejectWithValue(error.message);
@@ -70,15 +75,14 @@ const logIn = createAsyncThunk(
         user.password
       );
 
-      // if (res.user) {
-      //   res.user.getIdToken().then((token) => console.log(token));
-      // }
+      const token = await res.user.getIdToken(); // Fetch Firebase token
       return {
         uid: res.user.uid,
         email: res.user.email,
         firstName: res.user.displayName?.split(" ")[0] || "",
         lastName: res.user.displayName?.split(" ")[1] || "",
         username: res.user.displayName,
+        token, // Include token in the response
       };
     } catch (error) {
       return rejectWithValue(error.message);

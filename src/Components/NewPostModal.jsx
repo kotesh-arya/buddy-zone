@@ -19,7 +19,7 @@ import { createPost, getAllPosts } from "../features/post/postsSlice";
 
 function NewPostModal({ fromBottom }) {
   const dispatch = useDispatch();
-  const { user, token } = useSelector((store) => store.auth);
+  const { user } = useSelector((store) => store.auth);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [contentData, setContentData] = useState({
     firstName: user.firstName,
@@ -68,8 +68,10 @@ function NewPostModal({ fromBottom }) {
                     width={"20%"}
                     marginBottom={"1rem"}
                     onClick={() => {
-                      dispatch(createPost({ postData: contentData, token }));
-                      getAllPosts();
+                      dispatch(
+                        createPost({ postData: contentData, token: user.token })
+                      );
+                      dispatch(getAllPosts());
                       onClose();
                     }}
                   >
