@@ -80,7 +80,7 @@ const usersSlice = createSlice({
       .addCase(unfollowUser.fulfilled, (state, { payload }) => {
         state.isLoading = false;
         state.followedUsers = state.followedUsers.filter(
-          (user) => user._id !== payload?.followUser?._id
+          (user) => user.id !== payload?.followUser?.id
         );
       })
       .addCase(unfollowUser.rejected, (state, action) => {

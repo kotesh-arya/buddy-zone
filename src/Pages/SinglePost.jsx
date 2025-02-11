@@ -128,9 +128,9 @@ function SinglePost() {
               {postComments?.map((comment) => {
                 return (
                   <CommentContainer
-                    key={comment._id}
+                    key={comment.id}
                     postId={postId}
-                    commentId={comment._id}
+                    commentId={comment.id}
                     {...comment}
                   />
                 );

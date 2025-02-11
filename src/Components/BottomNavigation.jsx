@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllBookmarks } from "../features/bookmark/bookmarkSlice";
 import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
 import { NewPostModal } from "./NewPostModal";
-import { signOut } from "../features/auth/authSlice";
+import { logOut } from "../features/auth/authSlice";
 
 function BottomNavigation() {
   const bgColor = useColorModeValue("gray.50", "gray.900");
@@ -24,7 +24,7 @@ function BottomNavigation() {
   });
   const dispatch = useDispatch();
   const {
-    user: { _id, username },
+    user: { id, username },
     token,
   } = useSelector((store) => store.auth);
   return (
@@ -79,9 +79,9 @@ function BottomNavigation() {
         </Box>
         <Box
           as={NavLink}
-          to={`/user/${_id}`}
+          to={`/user/${id}`}
           onClick={() => {
-            dispatch(getSingleUser(_id));
+            dispatch(getSingleUser(id));
             dispatch(getUserPosts(username));
           }}
           padding="10px"
@@ -95,7 +95,7 @@ function BottomNavigation() {
           as={Link}
           to="/"
           onClick={() => {
-            dispatch(signOut());
+            dispatch(logOut());
           }}
           padding="10px"
           borderRadius={4}

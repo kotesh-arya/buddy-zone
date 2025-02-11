@@ -22,13 +22,13 @@ function NewPostModal({ fromBottom }) {
   const { user, token } = useSelector((store) => store.auth);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [contentData, setContentData] = useState({
-    firstname: user.firstname,
-    lastname: user.lastname,
+    firstName: user.firstName,
+    lastName: user.lastName,
     content: "",
   });
   return (
     <>
-      <Button bg= {{ base: "", md: "#08a0e9", lg: "#08a0e9" }} onClick={onOpen}>
+      <Button bg={{ base: "", md: "#08a0e9", lg: "#08a0e9" }} onClick={onOpen}>
         <Icon marginRight={{ base: "0", md: "15px", lg: "15px" }} as={FaPen} />{" "}
         {!fromBottom && "New Post"}
       </Button>

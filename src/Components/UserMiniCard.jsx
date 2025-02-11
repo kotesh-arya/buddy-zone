@@ -6,7 +6,7 @@ import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
 import { Link } from "react-router-dom";
 import { followUser, unfollowUser } from "../features/users/usersSlice";
 
-function UserMiniCard({ _id, firstname, lastname, username, userImage }) {
+function UserMiniCard({ id, firstName, lastName, username, userImage }) {
   const dispatch = useDispatch();
   const { token } = useSelector((store) => store.auth);
   const { followedUsers } = useSelector((store) => store.users);
@@ -21,9 +21,9 @@ function UserMiniCard({ _id, firstname, lastname, username, userImage }) {
     >
       <Box
         as={Link}
-        to={`/user/${_id}`}
+        to={`/user/${id}`}
         onClick={() => {
-          dispatch(getSingleUser(_id));
+          dispatch(getSingleUser(id));
           dispatch(getUserPosts(username));
         }}
         width={"60%"}
@@ -31,31 +31,26 @@ function UserMiniCard({ _id, firstname, lastname, username, userImage }) {
         alignItems={"center"}
         // border={"3px solid green"}
         // background={{ base: "red", md: "orange", lg: "green" }}
-
       >
         <Avatar
           marginRight={{ base: "5px", md: "8px", lg: "5px" }}
-          name={`${firstname} ${lastname}`}
+          name={`${firstName} ${lastName}`}
           src={userImage}
         />
-        <Text
-          fontWeight={"bold"}
-            fontSize={{ base: "sm", md: "sm", lg: "sm" }}>
-          {firstname}
-           {lastname}
+        <Text fontWeight={"bold"} fontSize={{ base: "sm", md: "sm", lg: "sm" }}>
+          {firstName}
+          {lastName}
         </Text>
       </Box>
       <Button
         onClick={() => {
-          followedUsers?.find((user) => user._id === _id)
-            ? dispatch(unfollowUser({ followUserId: _id, token }))
-            : dispatch(followUser({ followUserId: _id, token }));
+          followedUsers?.find((user) => user.id === id)
+            ? dispatch(unfollowUser({ followUserId: id, token }))
+            : dispatch(followUser({ followUserId: id, token }));
         }}
         bg={"#08a0e9"}
       >
-        {followedUsers.find((user) => user._id === _id)
-          ? "Unfollow"
-          : "Follow +"}
+        {followedUsers.find((user) => user.id === id) ? "Unfollow" : "Follow +"}
       </Button>
     </Flex>
   );

@@ -7,7 +7,7 @@ import { IoLogOut } from "react-icons/io5";
 import { BsFillBookmarkHeartFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
-import { signOut } from "../features/auth/authSlice";
+import { logOut } from "../features/auth/authSlice";
 import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
 import { NewPostModal } from "./NewPostModal";
 import { getAllBookmarks } from "../features/bookmark/bookmarkSlice";
@@ -19,10 +19,11 @@ function Sidebar() {
   });
   const dispatch = useDispatch();
   const {
-    user: { _id, username },
+    user: { id, username },
     user,
     token,
   } = useSelector((store) => store.auth);
+
   return (
     <VStack
       height="50vh"
@@ -72,6 +73,7 @@ function Sidebar() {
           </Flex>
         </Box>
 
+        {/* Bookmarks */}
         <Box
           as={NavLink}
           to="/bookmarks"
@@ -91,11 +93,12 @@ function Sidebar() {
           </Flex>
         </Box>
 
+        {/* Profile */}
         <Box
           as={NavLink}
-          to={`/user/${_id}`}
+          to={`/user/${id}`}
           onClick={() => {
-            dispatch(getSingleUser(_id));
+            dispatch(getSingleUser(id));
             dispatch(getUserPosts(username));
           }}
           padding="10px"
@@ -111,7 +114,7 @@ function Sidebar() {
         </Box>
         <NewPostModal />
       </Flex>
-      {user?.firstname && (
+      {user?.firstName && (
         <Box
           // padding="10px"
           minWidth="110%"
@@ -119,12 +122,13 @@ function Sidebar() {
           alignItems="center"
           justifyContent={"space-between"}
           // border={"3px solid red"}
+          marginTop={"1rem"}
         >
           <Box
             as={Link}
-            to={`/user/${_id}`}
+            to={`/user/${id}`}
             onClick={() => {
-              dispatch(getSingleUser(_id));
+              dispatch(getSingleUser(id));
               dispatch(getUserPosts(username));
             }}
             display={"flex"}
@@ -133,18 +137,18 @@ function Sidebar() {
           >
             <Avatar
               marginRight={"2px"}
-              name={`${user?.firstname} ${user?.lastname}`}
+              name={`${user?.firstName} ${user?.lastName}`}
               size={{ base: "sm", md: "sm", lg: "sm" }}
             />{" "}
             <Text as={"strong"}>
-              {user?.firstname} {user?.lastname}
+              {user?.firstName} {user?.lastName}
             </Text>
           </Box>
           <Box
             as={Link}
             to="/"
             onClick={() => {
-              dispatch(signOut());
+              dispatch(logOut());
             }}
             marginTop={"2px"}
           >

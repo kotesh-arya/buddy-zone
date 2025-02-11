@@ -14,9 +14,9 @@ function Suggestionbar() {
   const bgColor = useColorModeValue("gray.50", "gray.900");
   const { users } = useSelector((store) => store.users);
   const {
-    user: { _id },
+    user: { id },
   } = useSelector((store) => store.auth);
-  const usersList = users?.filter((user) => user._id !== _id);
+  const usersList = users?.filter((user) => user.id !== id);
   return (
     <Box
       display={{
@@ -50,7 +50,7 @@ function Suggestionbar() {
           </Flex>
           <Divider />
           {usersList?.map((user) => {
-            return <UserMiniCard key={user._id} {...user} />;
+            return <UserMiniCard key={user.id} {...user} />;
           })}
         </VStack>
       </Box>

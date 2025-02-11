@@ -36,13 +36,13 @@ import {
 } from "../features/bookmark/bookmarkSlice";
 
 function PostCard({
-  _id,
+  id,
   updatedAt,
   username,
   content,
   userImage,
-  firstname,
-  lastname,
+  firstName,
+  lastName,
   likes,
 }) {
   const { token, user } = useSelector((store) => store.auth);
@@ -78,7 +78,7 @@ function PostCard({
         >
           <Avatar
             marginRight={{ base: "5px", md: "8px", lg: "10px" }}
-            name={`${firstname} ${lastname}`}
+            name={`${firstName} ${lastName}`}
             src={userImage}
             size={{ base: "sm", md: "md", lg: "md" }}
           />
@@ -87,7 +87,7 @@ function PostCard({
             fontWeight={"bolder"}
             fontSize={{ base: "sm", md: "md", lg: "lg" }}
           >
-            {firstname} {lastname}
+            {firstName} {lastName}
           </Text>
           <Text
             marginLeft={"5px"}
@@ -109,12 +109,12 @@ function PostCard({
                 <PopoverArrow />
 
                 <PopoverBody>
-                  <EditPostModal id={_id} content={content} />
+                  <EditPostModal id={id} content={content} />
                   <Button
                     bg={"#08a0e9"}
                     marginLeft={"10px"}
                     onClick={() => {
-                      dispatch(deletePost({ postId: _id, token }));
+                      dispatch(deletePost({ postId: id, token }));
                     }}
                     cursor={"pointer"}
                   >
@@ -128,13 +128,13 @@ function PostCard({
       </Flex>
       <Flex
         as={Link}
-        to={`/posts/${_id}`}
+        to={`/posts/${id}`}
         flexDirection={"column"}
         alignItems="flex-start"
         padding={" 0 2rem "}
         onClick={() => {
-          dispatch(getSinglePost(_id));
-          dispatch(getSinglePostComments(_id));
+          dispatch(getSinglePost(id));
+          dispatch(getSinglePostComments(id));
         }}
       >
         {/* <Image
@@ -170,30 +170,30 @@ function PostCard({
           <Icon
             onClick={() => {
               likes?.likeCount > 0
-                ? dispatch(disLikePost({ postId: _id, token }))
-                : dispatch(likePost({ postId: _id, token }));
+                ? dispatch(disLikePost({ postId: id, token }))
+                : dispatch(likePost({ postId: id, token }));
             }}
             color={likes?.likeCount > 0 ? "red" : " "}
             as={likes?.likeCount > 0 ? FaHeart : FaRegHeart}
             cursor={"pointer"}
           />
         </Flex>
-        <Box as={Link} to={`/posts/${_id}`}>
+        <Box as={Link} to={`/posts/${id}`}>
           <Icon
             onClick={() => {
-              dispatch(getSinglePostComments(_id));
+              dispatch(getSinglePostComments(id));
             }}
             as={FaRegCommentAlt}
           />
         </Box>
         <Icon
           onClick={() => {
-            bookmarks.find((post) => post._id === _id)
-              ? dispatch(removePostFromBookmark({ postId: _id, token }))
-              : dispatch(bookmarkPost({ postId: _id, token }));
+            bookmarks.find((post) => post.id === id)
+              ? dispatch(removePostFromBookmark({ postId: id, token }))
+              : dispatch(bookmarkPost({ postId: id, token }));
           }}
           as={
-            bookmarks.find((post) => post._id === _id)
+            bookmarks.find((post) => post.id === id)
               ? FaBookmark
               : FaRegBookmark
           }

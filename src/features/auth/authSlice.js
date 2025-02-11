@@ -1,41 +1,62 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { USER_DATA, USER_TOKEN } from "../../constants";
 import {
-  loginUser,
-  // registerUser,
-} from "../../services/AuthServices/authService";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  updateProfile,
+  signOut,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { auth } from "../../config/firebase";
 
 // Initial state for the slice
 const initialState = {
-  token: localStorage.getItem(USER_TOKEN),
-  user: JSON.parse(localStorage.getItem(USER_DATA)),
+  user: null,
   isLoading: false,
-  isLoggedin: false,
+  isLoggedIn: false,
+};
+
+// Listen for Firebase authentication state changes
+const authListener = (dispatch) => {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      dispatch(
+        setUser({
+          uid: user.uid,
+          email: user.email,
+          firstName: user.displayName?.split(" ")[0] || "",
+          lastName: user.displayName?.split(" ")[1] || "",
+          username: user.displayName,
+        })
+      );
+    } else {
+      dispatch(logOut());
+    }
+  });
 };
 
 // Async thunks
-// const signUp = createAsyncThunk(
-//   "auth/signUp",
-//   async (user, { rejectWithValue }) => {
-//     try {
-//       let data = await registerUser(user);
-//       return data;
-//     } catch (error) {
-//       return rejectWithValue(error.response?.data || "An error occurred");
-//     }
-//   }
-// );
-
 const signUp = createAsyncThunk(
   "auth/signUp",
   async (user, { rejectWithValue }) => {
+    console.log("user into thunk", user);
     try {
-      const res = await createUserWithEmailAndPassword(auth, user.email, user.password);
-      return res.user; // Return user details on success
+      const res = await createUserWithEmailAndPassword(
+        auth,
+        user.email,
+        user.password
+      );
+      await updateProfile(res.user, {
+        displayName: `${user.firstName} ${user.lastName}`,
+      });
+      return {
+        uid: res.user.uid,
+        email: res.user.email,
+        firstName: res.user.displayName?.split(" ")[0] || "",
+        lastName: res.user.displayName?.split(" ")[1] || "",
+        username: res.user.displayName,
+      };
     } catch (error) {
-      return rejectWithValue(error.message); // Explicitly reject with error message
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -44,10 +65,32 @@ const logIn = createAsyncThunk(
   "auth/logIn",
   async (user, { rejectWithValue }) => {
     try {
-      const { data } = await loginUser(user);
-      return data;
+      const res = await signInWithEmailAndPassword(
+        auth,
+        user.email,
+        user.password
+      );
+      return {
+        uid: res.user.uid,
+        email: res.user.email,
+        firstName: res.user.displayName?.split(" ")[0] || "",
+        lastName: res.user.displayName?.split(" ")[1] || "",
+        username: res.user.displayName,
+      };
     } catch (error) {
-      return rejectWithValue(error.response?.data?.error[0] || "An error occurred");
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+const logOut = createAsyncThunk(
+  "auth/logOut",
+  async (_, { rejectWithValue }) => {
+    try {
+      await signOut(auth);
+      return null;
+    } catch (error) {
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -57,47 +100,43 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    signOut: (state) => {
-      localStorage.removeItem(USER_DATA);
-      localStorage.removeItem(USER_TOKEN);
-      state.token = null;
-      state.user = null;
+    setUser: (state, { payload }) => {
+      state.user = payload;
+      state.isLoggedIn = true;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(signUp.pending, (state) => {
         state.isLoading = true;
-        state.isLoggedin = false;
       })
       .addCase(signUp.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        console.log("check**************** state now here", state);
-        state.token = payload.encodedToken;
-        state.user = payload.createdUser;
-        state.isLoggedin = true;
+        state.user = payload;
+        state.isLoggedIn = true;
       })
       .addCase(signUp.rejected, (state) => {
         state.isLoading = false;
       })
       .addCase(logIn.pending, (state) => {
         state.isLoading = true;
-        state.isLoggedin = true;
       })
       .addCase(logIn.fulfilled, (state, { payload }) => {
         state.isLoading = false;
-        state.token = payload.encodedToken;
-        state.user = payload.foundUser;
-        state.isLoggedin = true;
+        state.user = payload;
+        state.isLoggedIn = true;
       })
       .addCase(logIn.rejected, (state) => {
         state.isLoading = false;
-        state.isLoggedin = false;
+      })
+      .addCase(logOut.fulfilled, (state) => {
+        state.user = null;
+        state.isLoggedIn = false;
       });
   },
 });
 
 // Export
 const authReducer = authSlice.reducer;
-const { signOut } = authSlice.actions;
-export { authReducer, signUp, logIn, signOut };
+const { setUser } = authSlice.actions;
+export { authReducer, signUp, logIn, logOut, authListener };

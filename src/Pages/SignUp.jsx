@@ -18,14 +18,17 @@ import { signUp } from "../features/auth/authSlice";
 import { useDispatch } from "react-redux";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function SignUp() {
   const bgColor = useColorModeValue("gray.50", "whiteAlpha.50");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [signupLoading, setSignupLoading] = useState(false);
   const [user, setUser] = useState({
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
   });
@@ -48,7 +51,7 @@ function SignUp() {
   const signupHandler = async (user) => {
     setSignupLoading(true);
 
-    if (!user.firstname || !user.lastname || !user.email || !user.password) {
+    if (!user.firstName || !user.lastName || !user.email || !user.password) {
       setSignupLoading(false);
       toast.error("Please fill out all fields!");
       return;
@@ -57,17 +60,24 @@ function SignUp() {
     try {
       const res = await dispatch(signUp(user));
 
-      // Check if the action was rejected
       if (res.type === "auth/signUp/rejected") {
         throw new Error(res.payload || "Sign-up failed. Please try again.");
       }
 
+      // API call to save user in DB
+      await axios.post("http://localhost:3001/api/users", {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: `${user.firstName} ${user.lastName}`,
+        userImage: "",
+        bio: "",
+        website: "",
+      });
+
       toast.success("Sign-up successful!");
-      console.log("Response for user registration:", res);
+      navigate("/home"); // Redirect to Home page
     } catch (error) {
-      setSignupLoading(false);
       toast.error(error.message || "Sign-up failed. Please try again.");
-      console.log(error.message);
     } finally {
       setSignupLoading(false);
     }
@@ -107,8 +117,8 @@ function SignUp() {
                   <FormLabel>First Name</FormLabel>
                   <Input
                     type={"text"}
-                    name="firstname"
-                    value={user.firstname}
+                    name="firstName"
+                    value={user.firstName}
                     onChange={userInputHandler}
                     placeholder="Kotesh"
                   />
@@ -118,8 +128,8 @@ function SignUp() {
                   <FormLabel>Last Name</FormLabel>
                   <Input
                     type={"text"}
-                    name="lastname"
-                    value={user.lastname}
+                    name="lastName"
+                    value={user.lastName}
                     onChange={userInputHandler}
                     placeholder="Mudila"
                   />
