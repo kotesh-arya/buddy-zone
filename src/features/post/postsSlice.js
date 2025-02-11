@@ -18,10 +18,8 @@ const getAllPosts = createAsyncThunk(
   "posts/getAllPosts",
   async (_, { rejectWithValue }) => {
     try {
-      const {
-        data: { posts },
-      } = await getAllPostsService();
-      return posts;
+      const allPosts = await getAllPostsService();
+      return allPosts?.data;
     } catch (error) {
       return rejectWithValue(error.message || "Error fetching posts");
     }

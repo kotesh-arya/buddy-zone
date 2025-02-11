@@ -69,6 +69,10 @@ const logIn = createAsyncThunk(
         user.email,
         user.password
       );
+
+      // if (res.user) {
+      //   res.user.getIdToken().then((token) => console.log(token));
+      // }
       return {
         uid: res.user.uid,
         email: res.user.email,

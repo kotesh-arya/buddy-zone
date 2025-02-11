@@ -35,6 +35,7 @@ function Suggestionbar() {
       borderRadius={"10px"}
       marginRight={{ md: "auto", lg: "20rem", xl: "0rem" }}
       marginLeft={{ md: "auto", lg: "0rem", xl: "0rem" }}
+      marginTop={"5rem"}
       // border={"3px solid blue"}
     >
       <Box bg="black.600">
