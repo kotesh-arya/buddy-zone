@@ -3,185 +3,156 @@ import {
   Container,
   Flex,
   Heading,
-  Text,
   FormControl,
   FormLabel,
   Input,
-  Button,
   Box,
+  Button,
+  InputGroup,
+  InputRightElement,
   useColorModeValue,
-  Image,
 } from "@chakra-ui/react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import Logo from "../assets/buddy-zone-blue.png";
 import { Navbar } from "../Components/Navbar";
-import { useDispatch } from "react-redux";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { logIn } from "../features/auth/authSlice";
-import { USER_DATA, USER_TOKEN } from "../constants";
+import { useDispatch } from "react-redux";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { toast } from "react-toastify";
 
 function SignIn() {
-  const location = useLocation();
   const bgColor = useColorModeValue("gray.50", "whiteAlpha.50");
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [loginUser, setLoginUser] = useState({ username: "", password: "" });
-  const [tester] = useState({
-    username: "koteshmudila",
-    password: "koteshmudila@123",
-  });
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [loginLoading, setLoginLoading] = useState(false);
+  const [user, setUser] = useState({ email: "", password: "" });
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   const userInputHandler = (e) => {
-    setLoginUser((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
+    const { name, value } = e.target;
+    setUser((prev) => ({
+      ...prev,
+      [name]: value,
     }));
   };
 
-  const loginHandler = async (loginUser) => {
-    console.log("from the login handler function");
+  const loginHandler = async (user) => {
+    setLoginLoading(true);
 
-    if (loginUser.username === "" || loginUser.password === "") {
-      console.log("Please enter Valid credentials!!");
-    } else {
-      const res = await dispatch(logIn(loginUser));
-      console.log("RESPONSE", res.payload.foundUser);
+    if (!user.email || !user.password) {
+      setLoginLoading(false);
+      toast.error("Please fill out all fields!");
+      return;
+    }
 
-      if (res.payload.foundUser !== undefined) {
-        localStorage.setItem(USER_DATA, JSON.stringify(res.payload.foundUser));
-        localStorage.setItem(USER_TOKEN, res.payload.encodedToken);
-        navigate("/home");
+    try {
+      const res = await dispatch(logIn(user));
 
-        if (location?.state) {
-          navigate(location?.state?.from?.pathname);
-        } else {
-          navigate("/home");
-        }
-      } else {
-        console.log("check your credentials!!");
+      if (!res.payload?.email) {
+        throw new Error("Invalid credentials! Please try again.");
       }
+
+      // No need to manually store data in localStorage; redux-persist handles it
+      toast.success("Sign-in successful!");
+      navigate(location.state?.from?.pathname || "/home");
+    } catch (error) {
+      toast.error(error.message || "Sign-in failed. Please try again.");
+    } finally {
+      setLoginLoading(false);
     }
   };
 
   return (
-    <Box
-      position="relative"
-      backgroundColor={bgColor}
-      minHeight="100vh"
-      overflow="hidden"
-    >
-      {/* Background Circles */}
-      <Box
-        position="absolute"
-        w="300px"
-        h="300px"
-        bg="blue.200"
-        borderRadius="full"
-        top="10%"
-        left="20%"
-        opacity="0.4"
-        filter="blur(100px)"
-      />
-      <Box
-        position="absolute"
-        w="400px"
-        h="400px"
-        bg="purple.200"
-        borderRadius="full"
-        bottom="10%"
-        right="15%"
-        opacity="0.3"
-        filter="blur(150px)"
-      />
-      {/* NavBar */}
+    <Box height={"100vh"} backgroundColor={bgColor}>
       <Navbar />
-
-      {/* Layout container */}
-      <Container maxW="container.xl" padding="5rem">
-        <Flex justifyContent="center" alignItems="center" gap="10rem">
-          {/* Image container */}
-          <Box
-            display={{ base: "none", md: "flex" }}
-            flexDirection="column"
-            alignItems="center"
-          >
-            <Image
-              src={Logo}
-              w="34rem"
-              objectFit="contain"
-              alt="Buddy-zone-logo"
-            />
-            <Text as="strong" fontSize={20}>
-              Only Zone for the friendly Ones
-            </Text>
-          </Box>
-
-          {/* Glassmorphic Signin Form */}
+      <Container maxW="container.xl" p={0}>
+        <Flex
+          h="90vh"
+          paddingTop={"7rem"}
+          justifyContent="center"
+          alignItems={"center"}
+        >
           <Flex
-            borderRadius="20px"
-            w={{ base: "full", md: "28rem" }}
-            display="flex"
-            flexDirection="column"
-            padding="2rem"
+            borderRadius={20}
+            w={{ base: "20rem", md: "25rem", lg: "28rem" }}
+            display={"flex"}
+            padding={"1rem 2rem"}
+            flexDirection={"column"}
+            alignItems="center"
             bg="whiteAlpha.100"
             backdropFilter="blur(20px)"
             boxShadow="0 4px 15px rgba(0, 0, 0, 0.2)"
           >
-            <Heading size="xl" marginX="auto" marginY="3" color="white.900">
+            <Heading size="xl" marginX={"auto"} marginY="3">
               Signin
             </Heading>
             <form onSubmit={(e) => e.preventDefault()}>
-              <Box alignItems="center" display="flex" flexDirection="column">
-                <FormControl marginBottom="10px">
+              <Box
+                alignItems={"center"}
+                display={"flex"}
+                flexDirection={"column"}
+                width="100%"
+              >
+                <FormControl>
                   <FormLabel>Email</FormLabel>
                   <Input
                     type="text"
                     name="email"
-                    value={loginUser.email}
+                    value={user.email}
                     onChange={userInputHandler}
-                    placeholder="kotesharya@gmail.com"
+                    placeholder="Enter your email"
                   />
                 </FormControl>
+
                 <FormControl>
                   <FormLabel>Password</FormLabel>
-                  <Input
-                    type="password"
-                    name="password"
-                    value={loginUser.password}
-                    onChange={userInputHandler}
-                    placeholder="********"
-                  />
+                  <InputGroup>
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      value={user.password}
+                      onChange={userInputHandler}
+                      placeholder="********"
+                    />
+                    <InputRightElement>
+                      <Button
+                        size="sm"
+                        onClick={togglePasswordVisibility}
+                        bg="transparent"
+                        _hover={{ bg: "transparent" }}
+                      >
+                        {showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
                 </FormControl>
-                <Box width="100%" padding="1rem 0" marginTop="2rem">
+
+                <Box width={"100%"} padding={"1rem 0"} marginTop={"2rem"}>
                   <Button
-                    bg="#08a0e9"
+                    bg={loginLoading ? "gray.500" : "#08a0e9"}
+                    _hover={{ bg: loginLoading ? "gray.500" : "#08a0e9" }}
                     color="white"
-                    width="100%"
-                    marginBottom="1rem"
-                    onClick={() => loginHandler(loginUser)}
+                    width={"100%"}
+                    marginBottom={"1rem"}
+                    onClick={() => loginHandler(user)}
+                    isDisabled={loginLoading}
                   >
-                    SignIn
+                    {loginLoading ? "Signing In..." : "Signin"}
                   </Button>
+
                   <Button
                     as={Link}
                     to="/signup"
-                    outline="1px #08a0e9"
+                    outline={"1px #08a0e9"}
                     variant="outline"
                     color="#08a0e9"
-                    width="100%"
-                    marginBottom="1rem"
+                    width={"100%"}
                   >
-                    Create Account
-                  </Button>
-                  <Button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      loginHandler(tester);
-                      navigate("/home");
-                    }}
-                    bg="#08a0e9"
-                    width="100%"
-                  >
-                    Guest Login
+                    Don't have an Account? Signup
                   </Button>
                 </Box>
               </Box>
@@ -193,4 +164,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export { SignIn };

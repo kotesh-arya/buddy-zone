@@ -46,7 +46,7 @@ function Suggestionbar() {
             alignItems={"center"}
             width={"full"}
           >
-            <Text as={"strong"}>Who to Follow </Text>
+            <Text as={"strong"}>Whom to Follow </Text>
           </Flex>
           <Divider />
           {usersList?.map((user) => {

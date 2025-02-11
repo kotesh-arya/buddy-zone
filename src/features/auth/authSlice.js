@@ -38,7 +38,6 @@ const authListener = (dispatch) => {
 const signUp = createAsyncThunk(
   "auth/signUp",
   async (user, { rejectWithValue }) => {
-    console.log("user into thunk", user);
     try {
       const res = await createUserWithEmailAndPassword(
         auth,

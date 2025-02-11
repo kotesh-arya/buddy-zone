@@ -6,6 +6,7 @@ import { MdExplore } from "react-icons/md";
 import { IoLogOut } from "react-icons/io5";
 import { BsFillBookmarkHeartFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
+import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../features/auth/authSlice";
 import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
@@ -149,6 +150,7 @@ function Sidebar() {
             to="/"
             onClick={() => {
               dispatch(logOut());
+              toast.success("successfully signed-out!");
             }}
             marginTop={"2px"}
           >

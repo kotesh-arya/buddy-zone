@@ -1,5 +1,5 @@
 import "./App.css";
-import SignIn from "../src/Pages/SignIn";
+import { SignIn } from "../src/Pages/SignIn";
 import { SignUp } from "./Pages/SignUp";
 import { Routes, Route } from "react-router-dom";
 import { Home, Explore, Bookmarks, Profile, SinglePost } from "../src/Pages";
