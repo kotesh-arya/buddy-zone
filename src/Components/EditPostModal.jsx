@@ -23,8 +23,8 @@ function EditPostModal({ id, content }) {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [contentData, setContentData] = useState({
-    firstname: user.firstname,
-    lastname: user.lastname,
+    firstName: user.firstName,
+    lastName: user.lastName,
     content: content,
   });
   return (

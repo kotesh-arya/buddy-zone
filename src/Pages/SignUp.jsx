@@ -13,21 +13,22 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { Navbar } from "../Components/Navbar";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { signUp } from "../features/auth/authSlice";
 import { useDispatch } from "react-redux";
-import { USER_DATA, USER_TOKEN } from "../constants";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function SignUp() {
   const bgColor = useColorModeValue("gray.50", "whiteAlpha.50");
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [signupLoading, setSignupLoading] = useState(false);
   const [user, setUser] = useState({
-    firstname: "",
-    lastname: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
   });
@@ -49,26 +50,36 @@ function SignUp() {
 
   const signupHandler = async (user) => {
     setSignupLoading(true);
-    if (
-      user.firstname === "" ||
-      user.lastname === "" ||
-      user.email === "" ||
-      user.password === ""
-    ) {
+
+    if (!user.firstName || !user.lastName || !user.email || !user.password) {
       setSignupLoading(false);
       toast.error("Please fill out all fields!");
-    } else {
-      try {
-        const res = await dispatch(signUp(user));
-        // const res =  signUp(user);
-        console.log("signup response", res);
-        setSignupLoading(false);
-        toast.success("Sign-up successful!");
-        console.log("response for user registration", res);
-      } catch (error) {
-        setSignupLoading(false);
-        toast.error("Sign-up failed. Please try again.");
+      return;
+    }
+
+    try {
+      const res = await dispatch(signUp(user));
+
+      if (res.type === "auth/signUp/rejected") {
+        throw new Error(res.payload || "Sign-up failed. Please try again.");
       }
+
+      // API call to save user in DB
+      await axios.post("http://localhost:3001/api/users", {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        username: `${user.firstName} ${user.lastName}`,
+        userImage: "",
+        bio: "",
+        website: "",
+      });
+
+      toast.success("Sign-up successful!");
+      navigate("/home"); // Redirect to Home page
+    } catch (error) {
+      toast.error(error.message || "Sign-up failed. Please try again.");
+    } finally {
+      setSignupLoading(false);
     }
   };
   return (
@@ -106,8 +117,8 @@ function SignUp() {
                   <FormLabel>First Name</FormLabel>
                   <Input
                     type={"text"}
-                    name="firstname"
-                    value={user.firstname}
+                    name="firstName"
+                    value={user.firstName}
                     onChange={userInputHandler}
                     placeholder="Kotesh"
                   />
@@ -117,8 +128,8 @@ function SignUp() {
                   <FormLabel>Last Name</FormLabel>
                   <Input
                     type={"text"}
-                    name="lastname"
-                    value={user.lastname}
+                    name="lastName"
+                    value={user.lastName}
                     onChange={userInputHandler}
                     placeholder="Mudila"
                   />
@@ -160,13 +171,15 @@ function SignUp() {
 
                 <Box width={"100%"} padding={"1rem 0"} marginTop={"2rem"}>
                   <Button
-                    bg={"#08a0e9"}
+                    bg={signupLoading ? "gray.500" : "#08a0e9"} // Using Chakra's color
+                    _hover={{ bg: signupLoading ? "gray.500" : "#08a0e9" }} // Prevent hover color change while loading
                     color="white"
                     width={"100%"}
                     marginBottom={"1rem"}
                     onClick={() => signupHandler(user)}
+                    isDisabled={signupLoading} // Prevents multiple clicks
                   >
-                    {signupLoading ? "Signing Up" : "Signup"}
+                    {signupLoading ? "Signing Up..." : "Signup"}
                   </Button>
 
                   <Button

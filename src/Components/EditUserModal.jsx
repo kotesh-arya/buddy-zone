@@ -10,7 +10,6 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   useDisclosure,
@@ -20,19 +19,19 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { editUser } from "../features/users/singleUserSlice";
 
-function EditUserModal({ firstname, lastname, bio, website }) {
+function EditUserModal({ firstName, lastName, bio, website }) {
   const { token } = useSelector((store) => store.auth);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
   const [profileData, setProfileData] = useState({
-    firstname,
-    lastname,
+    firstName,
+    lastName,
     bio,
     website,
   });
   const handleEditUserProfile = async (e) => {
     e.preventDefault();
-    const res = await dispatch(editUser({ userData: profileData, token }));
+    await dispatch(editUser({ userData: profileData, token }));
   };
   return (
     <>
@@ -57,11 +56,11 @@ function EditUserModal({ firstname, lastname, bio, website }) {
                   <FormLabel>First Name</FormLabel>
                   <Input
                     type={"text"}
-                    name="firstname"
+                    name="firstName"
                     onChange={(e) =>
                       setProfileData({
                         ...profileData,
-                        firstname: e.target.value,
+                        firstName: e.target.value,
                       })
                     }
                     placeholder="Kotesh"
@@ -72,11 +71,11 @@ function EditUserModal({ firstname, lastname, bio, website }) {
                   <FormLabel>Last Name</FormLabel>
                   <Input
                     type={"text"}
-                    name="lastname"
+                    name="lastName"
                     onChange={(e) =>
                       setProfileData({
                         ...profileData,
-                        lastname: e.target.value,
+                        lastName: e.target.value,
                       })
                     }
                     placeholder="Mudila"
@@ -127,7 +126,6 @@ function EditUserModal({ firstname, lastname, bio, website }) {
               </Box>
             </form>
           </ModalBody>
-
         </ModalContent>
       </Modal>
     </>

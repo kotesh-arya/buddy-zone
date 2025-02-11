@@ -17,7 +17,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
 import { Link, useParams } from "react-router-dom";
 import { EditUserModal } from "../Components/EditUserModal";
-import { signOut } from "../features/auth/authSlice";
+import { logOut } from "../features/auth/authSlice";
 import { BottomNavigation } from "../Components/BottomNavigation";
 
 function Profile() {
@@ -32,7 +32,7 @@ function Profile() {
   useEffect(() => {
     dispatch(getSingleUser(userId));
     dispatch(getUserPosts(userId));
-  }, []);
+  }, [dispatch, userId]);
 
   return (
     <Box>
@@ -77,7 +77,7 @@ function Profile() {
               <Avatar
                 margin={"auto"}
                 size="2xl"
-                name={`${userProfile?.firstname} ${userProfile?.lastname}`}
+                name={`${userProfile?.firstName} ${userProfile?.lastName}`}
                 src={userProfile?.userProfile}
               />
             </Box>
@@ -90,7 +90,7 @@ function Profile() {
           </Flex>
           <VStack paddingTop={"3rem"}>
             <Heading as={"strong"}>
-              {userProfile?.firstname} {userProfile?.lastname}
+              {userProfile?.firstName} {userProfile?.lastName}
             </Heading>
             <Text as={"strong"}>@{userProfile?.username}</Text>
             <Text as={"strong"}>
@@ -111,7 +111,7 @@ function Profile() {
                   as={Link}
                   to="/"
                   onClick={() => {
-                    dispatch(signOut());
+                    dispatch(logOut());
                   }}
                 >
                   <Text>Logout</Text>
@@ -132,13 +132,9 @@ function Profile() {
             alignItems={"center"}
             justifyContent={"space-between"}
           >
-            <Heading
-              marginBottom={"1rem"}
-            >
-              Recent Posts
-            </Heading>
+            <Heading marginBottom={"1rem"}>Recent Posts</Heading>
             {latestOrderPosts.map((post) => {
-              return <PostCard key={post._id} {...post} />;
+              return <PostCard key={post.id} {...post} />;
             })}
           </Box>
         </VStack>

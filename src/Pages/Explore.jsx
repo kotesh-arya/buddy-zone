@@ -78,7 +78,7 @@ function Explore() {
           </Flex>
           <Box>
             {posts.map((post) => {
-              return <PostCard key={post._id} {...post} />;
+              return <PostCard key={post.id} {...post} />;
             })}
           </Box>
         </VStack>

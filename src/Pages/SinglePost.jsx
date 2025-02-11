@@ -32,7 +32,7 @@ function SinglePost() {
   useEffect(() => {
     dispatch(getSinglePost(postId));
     dispatch(getSinglePostComments(postId));
-  }, []);
+  }, [dispatch, postId]);
   const [comment, setComment] = useState({
     username: user.username,
     text: "",
@@ -128,9 +128,9 @@ function SinglePost() {
               {postComments?.map((comment) => {
                 return (
                   <CommentContainer
-                    key={comment._id}
+                    key={comment.id}
                     postId={postId}
-                    commentId={comment._id}
+                    commentId={comment.id}
                     {...comment}
                   />
                 );

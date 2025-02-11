@@ -71,7 +71,7 @@ function Bookmarks() {
           <Box>
             {bookmarks.length > 0 ? (
               bookmarks.map((post) => {
-                return <PostCard key={post._id} {...post} />;
+                return <PostCard key={post.id} {...post} />;
               })
             ) : (
               <Box

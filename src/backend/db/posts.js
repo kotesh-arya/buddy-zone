@@ -1,4 +1,3 @@
-import { v4 as uuid } from "uuid";
 import { formatDate } from "../utils/authUtils";
 
 /**
@@ -17,8 +16,8 @@ export const posts = [
       dislikedBy: [],
     },
     username: "rameshboddula",
-    firstname: "Ramesh",
-    lastname: "Boddula",
+    firstName: "Ramesh",
+    lastName: "Boddula",
     createdAt: formatDate(),
     updatedAt: formatDate(),
     comments: [
@@ -53,8 +52,8 @@ export const posts = [
       dislikedBy: [],
     },
     username: "saibharath",
-    firstname: "Sai",
-    lastname: "Bharath",
+    firstName: "Sai",
+    lastName: "Bharath",
 
     comments: [
       {
@@ -89,8 +88,8 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
-    firstname: "Saiie",
-    lastname: "Kumar",
+    firstName: "Saiie",
+    lastName: "Kumar",
     username: "saikumar",
 
     comments: [
@@ -126,8 +125,8 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
-    firstname: "Chinna",
-    lastname: "Prabha",
+    firstName: "Chinna",
+    lastName: "Prabha",
     username: "chinnaprabha",
     comments: [
       {
@@ -162,12 +161,12 @@ export const posts = [
       likedBy: [],
       dislikedBy: [],
     },
-    firstname: "Kotesh",
-    lastname: "Mudila",
+    firstName: "Kotesh",
+    lastName: "Mudila",
     username: "koteshmudila",
     comments: [
       {
-        _id:1,
+        _id: 1,
         username: "Prakhar",
         text: "Failure is your life-long teacher",
         votes: {

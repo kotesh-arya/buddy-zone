@@ -1,6 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getUserPostsService } from "../../services/PostServices/getUserPostsService";
-import { getSingleUserService, editUserService } from "../../services/UserServices";
+import {
+  getSingleUserService,
+  editUserService,
+} from "../../services/UserServices";
 
 const initialState = {
   profile: {
@@ -17,11 +20,11 @@ const initialState = {
 
 const getSingleUser = createAsyncThunk(
   "user/getSingleUser",
-  async (_id, { rejectWithValue }) => {
+  async (id, { rejectWithValue }) => {
     try {
       const {
         data: { user },
-      } = await getSingleUserService(_id);
+      } = await getSingleUserService(id);
       return user;
     } catch (error) {
       return rejectWithValue(error);
@@ -73,7 +76,7 @@ const singleUserSlice = createSlice({
         state.profile.isLoading = false;
         state.profile.error = action.payload;
       })
-      
+
       // getUserPosts
       .addCase(getUserPosts.pending, (state) => {
         state.posts.isLoading = true;

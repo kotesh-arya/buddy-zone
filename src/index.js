@@ -3,7 +3,7 @@ import "./index.css";
 import App from "./App";
 import { store } from "./store";
 import { Provider } from "react-redux";
-import { makeServer } from "./server";
+// import { makeServer } from "./server";
 import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
@@ -25,4 +25,4 @@ root.render(
   </React.StrictMode>
 );
 
-makeServer();
+// makeServer();

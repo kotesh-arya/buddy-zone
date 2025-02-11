@@ -1,10 +1,6 @@
 import React from "react";
 import {
-  Button,
-  Flex,
-  useColorMode,
   Icon,
-  Image,
   useColorModeValue,
   Box,
 } from "@chakra-ui/react";
@@ -18,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllBookmarks } from "../features/bookmark/bookmarkSlice";
 import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
 import { NewPostModal } from "./NewPostModal";
-import { signOut } from "../features/auth/authSlice";
+import { logOut } from "../features/auth/authSlice";
 
 function BottomNavigation() {
   const bgColor = useColorModeValue("gray.50", "gray.900");
@@ -28,8 +24,7 @@ function BottomNavigation() {
   });
   const dispatch = useDispatch();
   const {
-    user: { _id, username },
-    user,
+    user: { id, username },
     token,
   } = useSelector((store) => store.auth);
   return (
@@ -51,17 +46,13 @@ function BottomNavigation() {
         py={2}
         zIndex={"100"}
         boxShadow="md"
-        // border={"1px solid red"}
       >
         <Box
           as={NavLink}
           to="/home"
           padding="10px"
-          //  width="10rem"  set the width here first
           borderRadius={4}
-          // marginBottom={3}
           style={getActiveStyle}
-          // border={"1px solid green"}
         >
           <Icon as={AiFillHome} />
         </Box>
@@ -69,11 +60,8 @@ function BottomNavigation() {
           as={NavLink}
           to="/explore"
           padding="10px"
-          //  width="10rem"  set the width here first
           borderRadius={4}
-          // marginBottom={3}
           style={getActiveStyle}
-          // border={"1px solid green"}
         >
           <Icon as={MdExplore} />
         </Box>
@@ -84,27 +72,21 @@ function BottomNavigation() {
             dispatch(getAllBookmarks(token));
           }}
           padding="10px"
-          //  width="10rem"  set the width here first
           borderRadius={4}
-          // marginBottom={3}
           style={getActiveStyle}
-          // border={"1px solid green"}
         >
           <Icon as={BsFillBookmarkHeartFill} />
         </Box>
         <Box
           as={NavLink}
-          to={`/user/${_id}`}
+          to={`/user/${id}`}
           onClick={() => {
-            dispatch(getSingleUser(_id));
+            dispatch(getSingleUser(id));
             dispatch(getUserPosts(username));
           }}
           padding="10px"
-          //  width="10rem"  set the width here first
           borderRadius={4}
-          // marginBottom={3}
           style={getActiveStyle}
-          // border={"1px solid green"}
         >
           <Icon as={CgProfile} />
         </Box>
@@ -113,11 +95,10 @@ function BottomNavigation() {
           as={Link}
           to="/"
           onClick={() => {
-            dispatch(signOut());
+            dispatch(logOut());
           }}
           padding="10px"
           borderRadius={4}
-          // border={"1px solid green"}
         >
           <Icon fontSize={"1rem"} color={"red"} as={IoLogOut} />
         </Box>
