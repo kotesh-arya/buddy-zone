@@ -81,7 +81,13 @@ function Home() {
 
           {/* Loader or Post List */}
           {isLoading ? (
-            <Flex flexDirection="column" alignItems="center" mt="10">
+            <Flex
+              flexDirection="column"
+              position="fixed"
+              top="50%"
+              alignItems="center"
+              mt="10"
+            >
               <Spinner size="md" color="blue.500" />
               <Text mt={4} fontSize="lg">
                 Loading posts...
