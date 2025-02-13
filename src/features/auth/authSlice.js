@@ -46,17 +46,22 @@ const signUp = createAsyncThunk(
         user.password
       );
 
-      const token = await res.user.getIdToken(); // Fetch Firebase token
-
       await updateProfile(res.user, {
         displayName: `${user.firstName} ${user.lastName}`,
       });
+
+      //  Force a refresh to get updated displayName
+      await res.user.reload();
+
+      const updatedUser = auth.currentUser; // Get the latest user data
+      const token = await updatedUser.getIdToken(); // Fetch Firebase token
+
       return {
-        uid: res.user.uid,
-        email: res.user.email,
-        firstName: res.user.displayName?.split(" ")[0] || "",
-        lastName: res.user.displayName?.split(" ")[1] || "",
-        username: res.user.displayName,
+        uid: updatedUser.uid,
+        email: updatedUser.email,
+        firstName: updatedUser.displayName?.split(" ")[0] || "",
+        lastName: updatedUser.displayName?.split(" ")[1] || "",
+        username: updatedUser.displayName,
         token, // Include token in the response
       };
     } catch (error) {

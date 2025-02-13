@@ -31,7 +31,7 @@ const createPost = createAsyncThunk(
   async ({ postData, token }, { rejectWithValue }) => {
     try {
       const { data } = await createPostService(postData, token);
-      return data.posts;
+      return data;
     } catch (error) {
       return rejectWithValue(error.message || "Error creating the post");
     }
@@ -109,7 +109,7 @@ const postsSlice = createSlice({
         state.error = null;
       })
       .addCase(createPost.fulfilled, (state, { payload }) => {
-        state.posts = payload;
+        state.posts = [...state.posts, payload];
       })
       .addCase(createPost.rejected, (state, { payload }) => {
         state.error = payload;

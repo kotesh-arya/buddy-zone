@@ -30,6 +30,9 @@ function Home() {
   useEffect(() => {
     dispatch(getAllPosts());
   }, [dispatch]);
+  const { user } = useSelector((store) => store.auth);
+  // console.log("posts in home page", posts);
+  // console.log("existing token of user", user.token);
 
   return (
     <Box>
@@ -95,8 +98,13 @@ function Home() {
             </Flex>
           ) : (
             <VStack mt={"4rem"} spacing={6} width="100%" maxW="600px">
-              {posts?.length > 0 &&
-                posts?.map((post) => <PostCard key={post.id} {...post} />)}
+              {posts?.length > 0 ? (
+                posts?.map((post) => <PostCard key={post.id} {...post} />)
+              ) : (
+                <div position="fixed" top="50%">
+                  <h2>No posts yet, go ahead and post one!</h2>
+                </div>
+              )}
             </VStack>
           )}
         </Box>
