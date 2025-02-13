@@ -97,11 +97,11 @@ function PostCard({
             <Moment fromNow>{updatedAt}</Moment>
           </Text>
         </Box>
-        {username === user.username && (
+        {username === user.email && (
           <Box>
             <Popover>
               <PopoverTrigger>
-                <Button bg={"transparent"}>
+                <Button bg={"transparent"} >
                   <Icon as={FiMoreVertical} cursor={"pointer"} />
                 </Button>
               </PopoverTrigger>

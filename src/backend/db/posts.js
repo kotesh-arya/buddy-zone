@@ -7,7 +7,6 @@ import { formatDate } from "../utils/authUtils";
 
 export const posts = [
   {
-    _id: 1,
     content:
       "Our greatest weakness lies in giving up. The most certain way to succeed is always to try just one more time.",
     likes: {
@@ -22,7 +21,6 @@ export const posts = [
     updatedAt: formatDate(),
     comments: [
       {
-        _id: 1,
         username: "pawankalyan",
         text: "Truth Bomb💣",
         votes: {
@@ -31,7 +29,6 @@ export const posts = [
         },
       },
       {
-        _id: 2,
         username: "Kiran",
         text: "Can't agree more..💯",
         votes: {

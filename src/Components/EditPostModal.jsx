@@ -15,12 +15,12 @@ import {
 
 import { RiImageAddLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import { editPost } from "../features/post/postsSlice";
+import { editPost, getAllPosts } from "../features/post/postsSlice";
+import { toast } from "react-toastify";
 
 function EditPostModal({ id, content }) {
   const dispatch = useDispatch();
-  const { user, token } = useSelector((store) => store.auth);
-
+  const { user } = useSelector((store) => store.auth);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [contentData, setContentData] = useState({
     firstName: user.firstName,
@@ -70,8 +70,14 @@ function EditPostModal({ id, content }) {
                     marginBottom={"1rem"}
                     onClick={() => {
                       dispatch(
-                        editPost({ postData: contentData, postId: id, token })
+                        editPost({
+                          postData: contentData,
+                          postId: id,
+                          token: user.token,
+                        })
                       );
+                      toast.success("Post edited successfully")
+                      dispatch(getAllPosts());
                       onClose();
                     }}
                   >

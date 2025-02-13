@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Divider,
@@ -7,18 +7,28 @@ import {
   VStack,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { UserMiniCard } from "./UserMiniCard";
+import { getAllUsers } from "../features/users/usersSlice";
 
 function Suggestionbar() {
+  const dispatch = useDispatch();
   const bgColor = useColorModeValue("gray.50", "gray.900");
   const { users } = useSelector((store) => store.users);
   const {
     user: { id },
   } = useSelector((store) => store.auth);
-  const usersList = users?.filter((user) => user.id !== id);
+
+  useEffect(() => {
+    dispatch(getAllUsers());
+  }, [dispatch]);
+
+  const usersList = users
+    ?.filter((user) => user._id !== id)
+    .filter((user) => user.firstName);
   return (
     <Box
+      position="fixed"
       display={{
         base: "none",
         md: "none",
@@ -35,6 +45,7 @@ function Suggestionbar() {
       borderRadius={"10px"}
       marginRight={{ md: "auto", lg: "20rem", xl: "0rem" }}
       marginLeft={{ md: "auto", lg: "0rem", xl: "0rem" }}
+      marginTop={"5rem"}
       // border={"3px solid blue"}
     >
       <Box bg="black.600">
@@ -50,7 +61,7 @@ function Suggestionbar() {
           </Flex>
           <Divider />
           {usersList?.map((user) => {
-            return <UserMiniCard key={user.id} {...user} />;
+            return <UserMiniCard key={user._id} {...user} />;
           })}
         </VStack>
       </Box>

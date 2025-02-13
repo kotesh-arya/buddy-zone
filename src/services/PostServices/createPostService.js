@@ -2,9 +2,9 @@ import axios from "axios";
 
 export const createPostService = async (postData, token) => {
   const response = await axios.post(
-    "/api/posts",
+    "http://localhost:3001/api/posts",
     { postData },
-    { headers: { authorization: token } }
+    { headers: { authorization: `Bearer ${token}` } }
   );
   return response;
 };
