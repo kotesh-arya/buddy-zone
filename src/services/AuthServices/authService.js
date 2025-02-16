@@ -1,57 +1,58 @@
-import { auth } from "../../config/firebase";
-import {
-  // createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
+import axios from "axios";
 
-// export const loginService = async (user) => {
-//   try {
-//     const response = await axios.post("/api/auth/login", user);
-//     console.log(response, "core response at the API call function");
-//     return response;
-//   } catch (error) {
-//     console.log(error, "error while loggin in the user");
-//   }
-// };
+const API_BASE_URL = "http://localhost:3001/api/auth"; // Replace with your actual API URL
 
 // Register new user
-// export const registerUser = async (registeringUser) => {
-//   try {
-//     console.log("Registering user:", registeringUser);
-//     const { email, password } = registeringUser;
-
-//     const userCredential = await createUserWithEmailAndPassword(
-//       auth,
-//       email,
-//       password
-//     );
-
-//     const user = userCredential.user;
-//     console.log("User successfully created:", user);
-
-//     // Return user object if registration is successful
-//     return user;
-//   } catch (error) {
-//     // Improved error handling
-//     console.error("Error code:", error.code);
-//     console.error("Error message:", error.message);
-//     // throw new Error("Error while registering the user, please try again.");
-//     return error;
-//   }
-// };
-
-// Log in existing user
-export const loginUser = async (email, password) => {
-  const userCredential = await signInWithEmailAndPassword(
-    auth,
-    email,
-    password
-  );
-  return userCredential.user;
+export const registerUser = async (userData) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/signup`, userData, {
+      withCredentials: true, // Ensures cookies are sent
+    });
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error registering user:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
 };
 
-// Log out user
+// Log in existing user
+export const loginUser = async (userData) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/login`, userData, {
+      withCredentials: true, // Ensures cookies are sent
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error logging in:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+// Log out user by calling API
 export const logoutUser = async () => {
-  await signOut(auth);
+  try {
+    await axios.post(`${API_BASE_URL}/logout`, {}, { withCredentials: true });
+  } catch (error) {
+    console.error("Error logging out:", error.response?.data || error.message);
+    throw error;
+  }
+};
+
+// Get current user
+export const fetchCurrentUser = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}/me`, {
+      withCredentials: true, // Ensures cookies are sent
+    });
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error fetching user data:",
+      error.response?.data || error.message
+    );
+    throw error;
+  }
 };

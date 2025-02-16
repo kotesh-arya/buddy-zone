@@ -16,6 +16,8 @@ import { FaPen } from "react-icons/fa";
 import { RiImageAddLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost, getAllPosts } from "../features/post/postsSlice";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function NewPostModal({ fromBottom }) {
   const dispatch = useDispatch();
@@ -26,6 +28,30 @@ function NewPostModal({ fromBottom }) {
     lastName: user.lastName,
     content: "",
   });
+
+  const handlePost = () => {
+    if (!contentData.content.trim()) {
+      toast.warn("Post cannot be empty", {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+      return;
+    }
+
+    dispatch(createPost({ postData: contentData, token: user.token }));
+    dispatch(getAllPosts());
+    onClose();
+    setContentData({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      content: "",
+    });
+  };
+
   return (
     <>
       <Button bg={{ base: "", md: "#08a0e9", lg: "#08a0e9" }} onClick={onOpen}>
@@ -54,11 +80,12 @@ function NewPostModal({ fromBottom }) {
                   alignItems={"flex-end"}
                 >
                   <Textarea
-                    onChange={(e) => {
-                      setContentData((prev) => {
-                        return { ...prev, content: e.target.value };
-                      });
-                    }}
+                    onChange={(e) =>
+                      setContentData((prev) => ({
+                        ...prev,
+                        content: e.target.value,
+                      }))
+                    }
                     resize={"none"}
                   />{" "}
                   <Icon as={RiImageAddLine} />
@@ -67,13 +94,7 @@ function NewPostModal({ fromBottom }) {
                     color="white"
                     width={"20%"}
                     marginBottom={"1rem"}
-                    onClick={() => {
-                      dispatch(
-                        createPost({ postData: contentData, token: user.token })
-                      );
-                      dispatch(getAllPosts());
-                      onClose();
-                    }}
+                    onClick={handlePost}
                   >
                     POST
                   </Button>

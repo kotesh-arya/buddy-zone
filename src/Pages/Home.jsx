@@ -32,8 +32,6 @@ function Home() {
   }, [dispatch]);
   const { user } = useSelector((store) => store.auth);
   // console.log("posts in home page", posts);
-  // console.log("existing token of user", user.token);
-
   return (
     <Box>
       <Navbar />

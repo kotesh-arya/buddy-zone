@@ -1,25 +1,22 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { auth } from "../src/config/firebase"; // Import Firebase auth instance
-import { onAuthStateChanged } from "firebase/auth";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { fetchUser } from "./features/auth/authSlice.js";
 
 const RequiresAuth = ({ children }) => {
+  const dispatch = useDispatch();
   const location = useLocation();
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
-    });
+    if (!user) {
+      dispatch(fetchUser());
+    }
+  }, [user, dispatch]);
 
-    return () => unsubscribe();
-  }, []);
+  if (user === null) return <p>Loading...</p>; // Show loading state
 
-  if (loading) return <p>Loading...</p>; // Show a loading state while checking auth status
-
-  return user ? children : <Navigate state={{ from: location }} to="/" replace />;
+  return user ? children : <Navigate to="/" state={{ from: location }} replace />;
 };
 
 export { RequiresAuth };

@@ -60,20 +60,6 @@ function SignUp() {
     try {
       const res = await dispatch(signUp(user));
 
-      if (res.type === "auth/signUp/rejected") {
-        throw new Error(res.payload || "Sign-up failed. Please try again.");
-      }
-
-      // API call to save user in DB
-      await axios.post("http://localhost:3001/api/users", {
-        firstName: user.firstName,
-        lastName: user.lastName,
-        username: `${user.firstName} ${user.lastName}`,
-        userImage: "",
-        bio: "",
-        website: "",
-      });
-
       toast.success("Sign-up successful!");
       navigate("/home"); // Redirect to Home page
     } catch (error) {

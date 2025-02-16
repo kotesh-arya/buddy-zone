@@ -1,38 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  updateProfile,
-  signOut,
-  onAuthStateChanged,
-} from "firebase/auth";
-import { auth } from "../../config/firebase";
+  loginUser,
+  logoutUser,
+  registerUser,
+  fetchCurrentUser,
+} from "../../services/AuthServices/authService";
 
 // Initial state for the slice
 const initialState = {
   user: null,
   isLoading: false,
   isLoggedIn: false,
-  token: null,
-};
-
-// Listen for Firebase authentication state changes
-const authListener = (dispatch) => {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      dispatch(
-        setUser({
-          uid: user.uid,
-          email: user.email,
-          firstName: user.displayName?.split(" ")[0] || "",
-          lastName: user.displayName?.split(" ")[1] || "",
-          username: user.displayName,
-        })
-      );
-    } else {
-      dispatch(logOut());
-    }
-  });
 };
 
 // Async thunks
@@ -40,29 +18,13 @@ const signUp = createAsyncThunk(
   "auth/signUp",
   async (user, { rejectWithValue }) => {
     try {
-      const res = await createUserWithEmailAndPassword(
-        auth,
-        user.email,
-        user.password
-      );
-
-      await updateProfile(res.user, {
-        displayName: `${user.firstName} ${user.lastName}`,
-      });
-
-      //  Force a refresh to get updated displayName
-      await res.user.reload();
-
-      const updatedUser = auth.currentUser; // Get the latest user data
-      const token = await updatedUser.getIdToken(); // Fetch Firebase token
-
+      const res = await registerUser(user);
       return {
-        uid: updatedUser.uid,
-        email: updatedUser.email,
-        firstName: updatedUser.displayName?.split(" ")[0] || "",
-        lastName: updatedUser.displayName?.split(" ")[1] || "",
-        username: updatedUser.displayName,
-        token, // Include token in the response
+        uid: res.userId,
+        email: res.email,
+        firstName: res.firstName,
+        lastName: res.lastName,
+        username: `${res.firstName}${res.lastName}`,
       };
     } catch (error) {
       return rejectWithValue(error.message);
@@ -74,21 +36,26 @@ const logIn = createAsyncThunk(
   "auth/logIn",
   async (user, { rejectWithValue }) => {
     try {
-      const res = await signInWithEmailAndPassword(
-        auth,
-        user.email,
-        user.password
-      );
-
-      const token = await res.user.getIdToken(); // Fetch Firebase token
+      const res = await loginUser(user);
       return {
-        uid: res.user.uid,
-        email: res.user.email,
-        firstName: res.user.displayName?.split(" ")[0] || "",
-        lastName: res.user.displayName?.split(" ")[1] || "",
-        username: res.user.displayName,
-        token, // Include token in the response
+        uid: res.userId,
+        email: res.email,
+        firstName: res.firstName,
+        lastName: res.lastName,
+        username: `${res.firstName}${res.lastName}`,
       };
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+const fetchUser = createAsyncThunk(
+  "auth/fetchUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await fetchCurrentUser();
+      return res;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -99,8 +66,8 @@ const logOut = createAsyncThunk(
   "auth/logOut",
   async (_, { rejectWithValue }) => {
     try {
-      await signOut(auth);
-      return null;
+      await logoutUser();
+      return {}; // Reset user state properly
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -141,6 +108,9 @@ const authSlice = createSlice({
       .addCase(logIn.rejected, (state) => {
         state.isLoading = false;
       })
+      .addCase(fetchUser.fulfilled, (state, action) => {
+        state.user = action.payload;
+      })
       .addCase(logOut.fulfilled, (state) => {
         state.user = null;
         state.isLoggedIn = false;
@@ -151,4 +121,4 @@ const authSlice = createSlice({
 // Export
 const authReducer = authSlice.reducer;
 const { setUser } = authSlice.actions;
-export { authReducer, signUp, logIn, logOut, authListener };
+export { authReducer, signUp, logIn, logOut, fetchUser, setUser };

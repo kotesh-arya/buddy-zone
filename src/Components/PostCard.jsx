@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -28,12 +28,18 @@ import {
 import Moment from "react-moment";
 import { Link } from "react-router-dom";
 import { getSingleUser } from "../features/users/singleUserSlice";
-import { deletePost, disLikePost, likePost } from "../features/post/postsSlice";
+import {
+  deletePost,
+  disLikePost,
+  getAllPosts,
+  likePost,
+} from "../features/post/postsSlice";
 import { EditPostModal } from "./EditPostModal";
 import {
   bookmarkPost,
   removePostFromBookmark,
 } from "../features/bookmark/bookmarkSlice";
+import { toast } from "react-toastify";
 
 function PostCard({
   id,
@@ -45,6 +51,7 @@ function PostCard({
   lastName,
   likes,
 }) {
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const { token, user } = useSelector((store) => store.auth);
   const bgColor = useColorModeValue("gray.50", "gray.900");
   const dispatch = useDispatch();
@@ -101,7 +108,7 @@ function PostCard({
           <Box>
             <Popover>
               <PopoverTrigger>
-                <Button bg={"transparent"} >
+                <Button bg={"transparent"}>
                   <Icon as={FiMoreVertical} cursor={"pointer"} />
                 </Button>
               </PopoverTrigger>
@@ -113,12 +120,16 @@ function PostCard({
                   <Button
                     bg={"#08a0e9"}
                     marginLeft={"10px"}
-                    onClick={() => {
-                      dispatch(deletePost({ postId: id, token }));
+                    onClick={async () => {
+                      setDeleteLoading(true);
+                      await dispatch(deletePost({ postId: id })).unwrap(); // Ensure deletion completes
+                      dispatch(getAllPosts()); // Fetch updated list
+                      setDeleteLoading(false);
+                      toast.success("Post deleted");
                     }}
                     cursor={"pointer"}
                   >
-                    delete
+                    {deleteLoading ? "Deleting" : "delete"}
                   </Button>
                 </PopoverBody>
               </PopoverContent>
