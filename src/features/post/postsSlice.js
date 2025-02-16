@@ -30,7 +30,7 @@ const createPost = createAsyncThunk(
   "posts/createPost",
   async ({ postData, token }, { rejectWithValue }) => {
     try {
-      const { data } = await createPostService(postData, token);
+      const { data } = await createPostService(postData);
       return data;
     } catch (error) {
       return rejectWithValue(error.message || "Error creating the post");
@@ -40,9 +40,9 @@ const createPost = createAsyncThunk(
 
 const deletePost = createAsyncThunk(
   "posts/deletePost",
-  async ({ postId, token }, { rejectWithValue }) => {
+  async ({ postId }, { rejectWithValue }) => {
     try {
-      const { data } = await deletePostService(postId, token);
+      const { data } = await deletePostService(postId);
       return data.posts;
     } catch (error) {
       return rejectWithValue(error.message || "Error deleting the post");
@@ -52,9 +52,9 @@ const deletePost = createAsyncThunk(
 
 const editPost = createAsyncThunk(
   "posts/editPost",
-  async ({ postId, postData, token }, { rejectWithValue }) => {
+  async ({ postId, postData }, { rejectWithValue }) => {
     try {
-      const { data } = await editPostService(postId, postData, token);
+      const { data } = await editPostService(postId, postData);
       return data.posts;
     } catch (error) {
       return rejectWithValue(error.message || "Error editing the post");

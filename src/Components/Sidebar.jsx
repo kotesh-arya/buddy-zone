@@ -115,7 +115,7 @@ function Sidebar() {
         </Box>
         <NewPostModal />
       </Flex>
-      {user?.firstName && (
+      {user?.email && (
         <Box
           // padding="10px"
           minWidth="110%"
