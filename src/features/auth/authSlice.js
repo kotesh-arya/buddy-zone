@@ -111,6 +111,10 @@ const authSlice = createSlice({
       .addCase(fetchUser.fulfilled, (state, action) => {
         state.user = action.payload;
       })
+      .addCase(fetchUser.rejected, (state, action) => {
+        state.user = null;
+        state.isLoggedIn = false;
+      })
       .addCase(logOut.fulfilled, (state) => {
         state.user = null;
         state.isLoggedIn = false;

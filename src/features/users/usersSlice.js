@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { followUserService } from "../../services/UserServices/followUserService";
-import { getAllUsersService } from "../../services/UserServices/getAllUsersService";
+import { getUsersService } from "../../services/UserServices/getUsersService";
 import { unfollowUserService } from "../../services/UserServices/unfollowUserService";
 
 const initialState = {
@@ -10,11 +10,11 @@ const initialState = {
   error: null,
 };
 
-const getAllUsers = createAsyncThunk(
-  "users/getAllUsers",
+const getUsers = createAsyncThunk(
+  "users/getUsers",
   async (_, { rejectWithValue }) => {
     try {
-      const { data } = await getAllUsersService();
+      const { data } = await getUsersService();
       return data;
     } catch (error) {
       return rejectWithValue(error);
@@ -52,15 +52,15 @@ const usersSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // getAllUsers
-      .addCase(getAllUsers.pending, (state) => {
+      // getUsers
+      .addCase(getUsers.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getAllUsers.fulfilled, (state, action) => {
+      .addCase(getUsers.fulfilled, (state, action) => {
         state.isLoading = false;
         state.users = action.payload;
       })
-      .addCase(getAllUsers.rejected, (state, action) => {
+      .addCase(getUsers.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
@@ -90,4 +90,4 @@ const usersSlice = createSlice({
 
 const usersReducer = usersSlice.reducer;
 
-export { getAllUsers, followUser, unfollowUser, usersReducer };
+export { getUsers, followUser, unfollowUser, usersReducer };
