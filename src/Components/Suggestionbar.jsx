@@ -63,7 +63,6 @@ function Suggestionbar() {
               </Flex>
               <Divider />
               {usersList?.map((user) => {
-                console.log("user", user);
                 return <UserMiniCard key={user._id} {...user} />;
               })}
             </VStack>
