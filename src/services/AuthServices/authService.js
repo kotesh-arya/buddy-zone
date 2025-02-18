@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:3001/api/auth"; // Replace with your actual API URL
+const environment = process.env.NODE_ENV;
+const API_BASE_URL = environment === "development" ?  "http://localhost:3001/api/auth" : "https://buddy-zone-backend.onrender.com/api/auth"; // Replace with your actual API URL
 
 // Register new user
 export const registerUser = async (userData) => {
