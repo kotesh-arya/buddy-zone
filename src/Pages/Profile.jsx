@@ -8,6 +8,7 @@ import {
   Image,
   Avatar,
   Text,
+  Divider,
 } from "@chakra-ui/react";
 import { Navbar } from "../Components/Navbar";
 import { Sidebar } from "../Components/Sidebar";
@@ -23,125 +24,101 @@ import { BottomNavigation } from "../Components/BottomNavigation";
 function Profile() {
   const dispatch = useDispatch();
   const { userId } = useParams();
+  
   const {
     profile: { userProfile },
     posts: { userPosts },
   } = useSelector((store) => store.singleUser);
-  const latestOrderPosts = [...userPosts].reverse();
   const { user } = useSelector((store) => store.auth);
+
   useEffect(() => {
-    dispatch(getSingleUser(userId));
-    dispatch(getUserPosts(userId));
+    if (userId) {
+      dispatch(getSingleUser(userId));
+      dispatch(getUserPosts(userId));
+    }
   }, [dispatch, userId]);
 
   return (
-    <Box>
-      <Sidebar />
+    <Flex direction="column">
       <Navbar />
-      <Box
-        width={"100%"}
-        display={"flex"}
-        flexDirection={{
-          base: "column",
-          md: "column",
-          lg: "column",
-          xl: "row",
-        }}
-        alignItems={{
-          base: "center",
-          md: "flex-end",
-          lg: "flex-end",
-          xl: "flex-start",
-        }}
-        justifyContent={{
-          base: "center",
-          md: "center",
-          lg: "center",
-          xl: "flex-end",
-        }}
-        padding={"80px 0px"}
-        paddingRight={{ sm: "0rem", md: "0rem", lg: "1.5rem", xl: "0rem" }}
-      >
-        <VStack
-          width={{ base: "100%", md: "75%", lg: "80%", xl: "59%" }}
-          spacing={12}
-          marginRight={{ base: "0rem", md: "1rem", lg: "0.5rem", xl: "1.3rem" }}
-        >
-          <Flex
-            justifyContent={"space-between"}
-            width="100%"
-            height={"15rem"}
-            position={"relative"}
-          >
-            <Box position={"absolute"} width={"100%"} marginTop={"13rem"}>
-              <Avatar
-                margin={"auto"}
-                size="2xl"
-                name={`${userProfile?.firstName} ${userProfile?.lastName}`}
-                src={userProfile?.userProfile}
-              />
-            </Box>
+      <Flex>
+        <Sidebar />
+        <Box flex="1" p={{ base: 4, md: 8 }} ml={{ md: "12rem" }} mr={{ lg: "20rem", xl: "0rem" }}>
+          {/* Profile Banner */}
+          <Box position="relative" textAlign="center">
             <Image
-              borderRadius={"5px"}
-              width={"100%"}
-              objectFit={"cover"}
+              borderRadius="lg"
+              width="100%"
+              height="200px"
+              objectFit="cover"
               src="https://wallpapercave.com/wp/wp4447988.jpg"
+              alt="Profile Banner"
             />
-          </Flex>
-          <VStack paddingTop={"3rem"}>
-            <Heading as={"strong"}>
+            <Avatar
+              size="2xl"
+              name={`${userProfile?.firstName} ${userProfile?.lastName}`}
+              src={userProfile?.avatarURL}
+              position="absolute"
+              left="50%"
+              transform="translateX(-50%)"
+              bottom="-30px"
+              border="4px solid white"
+            />
+          </Box>
+
+          {/* User Info */}
+          <VStack spacing={4} mt="50px" textAlign="center">
+            <Heading>
               {userProfile?.firstName} {userProfile?.lastName}
             </Heading>
-            <Text as={"strong"}>@{userProfile?.username}</Text>
-            <Text as={"strong"}>
-              {userProfile?.following.length} Following |{" "}
-              {userProfile?.followers.length} Followers
+            <Text fontSize="lg" color="gray.600">
+              @{userProfile?.username}
             </Text>
-
-            <Text as={"strong"}>My Website:{userProfile?.website}</Text>
-            <Text as={"strong"}>Bio: {userProfile?.bio}</Text>
+            <Text fontSize="md">
+              {userProfile?.following?.length} Following | {userProfile?.followers?.length} Followers
+            </Text>
+            {userProfile?.website && (
+              <Text fontSize="md">
+                Website: <Link to={userProfile.website} target="_blank" color="blue.500">{userProfile.website}</Link>
+              </Text>
+            )}
+            <Text fontSize="md">Bio: {userProfile?.bio || "No bio available"}</Text>
 
             {userProfile?.username === user?.username ? (
-              <Box width={"60%"}>
+              <VStack>
                 <EditUserModal {...user} />
                 <Button
-                  marginTop={"10px"}
-                  bg={"transparent"}
-                  border={"1px solid #08a0e9"}
+                  mt={2}
+                  colorScheme="red"
+                  variant="outline"
                   as={Link}
                   to="/"
-                  onClick={() => {
-                    dispatch(logOut());
-                  }}
+                  onClick={() => dispatch(logOut())}
                 >
-                  <Text>Logout</Text>
+                  Logout
                 </Button>
-              </Box>
+              </VStack>
             ) : (
-              <Box>
-                <Button bg={"#08a0e9"}>
-                  <Text>Follow</Text>
-                </Button>
-              </Box>
+              <Button colorScheme="blue">Follow</Button>
             )}
           </VStack>
-          <Box
-            width={"100%"}
-            display={"flex"}
-            flexDirection={"column"}
-            alignItems={"center"}
-            justifyContent={"space-between"}
-          >
-            <Heading marginBottom={"1rem"}>Recent Posts</Heading>
-            {latestOrderPosts.map((post) => {
-              return <PostCard key={post.id} {...post} />;
-            })}
+
+          <Divider my={6} />
+
+          {/* User Posts */}
+          <Box mt={8}>
+            <Heading size="lg" mb={4}>Recent Posts</Heading>
+            {userPosts?.length > 0 ? (
+              userPosts.map((post) => <PostCard key={post._id} {...post} />)
+            ) : (
+              <Text textAlign="center" color="gray.500">No posts yet.</Text>
+            )}
           </Box>
-        </VStack>
-        <Suggestionbar />
-      </Box>
+        </Box>
+        {/* <Suggestionbar /> */}
+      </Flex>
       <BottomNavigation />
-    </Box>
+    </Flex>
   );
 }
 
