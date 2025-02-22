@@ -1,4 +1,4 @@
-import { Flex, Box, VStack, Icon, Text, Avatar } from "@chakra-ui/react";
+import { Flex, Box, VStack, Icon, Text, Avatar, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
@@ -12,12 +12,9 @@ import { logOut } from "../features/auth/authSlice";
 import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
 import { NewPostModal } from "./NewPostModal";
 import { getAllBookmarks } from "../features/bookmark/bookmarkSlice";
+import { useMediaQuery } from "@chakra-ui/react";
 
 function Sidebar() {
-  const getActiveStyle = ({ isActive }) => ({
-    backgroundColor: isActive ? "#08a0e9" : "none",
-    color: isActive ? "white" : "none",
-  });
   const dispatch = useDispatch();
   const {
     user: { id, username },
@@ -25,123 +22,99 @@ function Sidebar() {
     token,
   } = useSelector((store) => store.auth);
 
+  const bgColor = useColorModeValue("rgba(255, 255, 255, 0.05)", "rgba(0, 0, 0, 0.3)");
+  const activeBg = useColorModeValue("#08a0e9", "#3182ce");
+  const inactiveColor = useColorModeValue("gray.400", "gray.300");
+  const [isLessThan1270] = useMediaQuery("(max-width: 1270px)");
+  console.log("islessthan1270 --->", isLessThan1270);
+  const getActiveStyle = ({ isActive }) => ({
+    backgroundColor: isActive
+      ? (activeBg ? (isLessThan1270 ? "transparent" : activeBg) : "transparent")
+      : "transparent",
+    color: isActive ? "white" : inactiveColor,
+    borderRadius: "8px",
+    padding: "12px",
+    fontWeight: isActive ? "bold" : "normal",
+    transition: "background-color 0.3s ease-in-out, transform 0.2s",
+  });
+
   return (
     <VStack
-      height="50vh"
-      spacing={65}
-      width={"10rem"}
+      height="100vh"
+      // width={{ sm: "4rem", md: "14rem" }}  // Adjust width dynamically
       position="fixed"
-      paddingTop={"5rem"}
-      // border={"3px solid green"}
-      display={{
-        base: "none",
-        md: "block",
-        lg: "block",
-        xl: "block",
-        "2xl": "block",
-      }}
+      top="4"
+      left="0"
+      // bg="transparent"
+      // backdropFilter="blur(10px)"
+      borderRadius="12px"
+      paddingY="4rem"
+      paddingX="1rem"
+      spacing={6}
+      align="flex-start"
+      display={{ base: "none", md: "block" }} // Hide in small screens
     >
-      <Flex flexDirection={"column"} justifyContent="space-between">
-        <Box
-          as={NavLink}
-          to="/home"
-          padding="10px"
-          width="10rem"
-          borderRadius={4}
-          marginBottom={3}
-          style={getActiveStyle}
-        >
-          <Flex alignItems="center" justifyContent={"flex-start"}>
-            {" "}
-            <Icon marginRight="15px" as={AiFillHome} />{" "}
-            <Text as="strong">Home</Text>{" "}
-          </Flex>
-        </Box>
-
-        <Box
-          as={NavLink}
-          to="/explore"
-          padding="10px"
-          width="10rem"
-          borderRadius={4}
-          marginBottom={3}
-          style={getActiveStyle}
-        >
-          <Flex alignItems="center">
-            {" "}
-            <Icon marginRight="15px" as={MdExplore} />{" "}
-            <Text as="strong">Explore</Text>{" "}
-          </Flex>
-        </Box>
-
-        {/* Bookmarks */}
-        <Box
-          as={NavLink}
-          to="/bookmarks"
-          onClick={() => {
-            dispatch(getAllBookmarks(token));
-          }}
-          padding="10px"
-          width="10rem"
-          borderRadius={4}
-          marginBottom={3}
-          style={getActiveStyle}
-        >
-          <Flex alignItems="center">
-            {" "}
-            <Icon marginRight="15px" as={BsFillBookmarkHeartFill} />{" "}
-            <Text as="strong">Bookmarks</Text>{" "}
-          </Flex>
-        </Box>
-
-        {/* Profile */}
-        <Box
-          as={NavLink}
-          to={`/user/${id}`}
-          onClick={() => {
-            dispatch(getSingleUser(id));
-            dispatch(getUserPosts(username));
-          }}
-          padding="10px"
-          width="10rem"
-          borderRadius={4}
-          marginBottom={3}
-          style={getActiveStyle}
-        >
-          <Flex alignItems="center">
-            <Icon marginRight="15px" as={CgProfile} />{" "}
-            <Text as="strong">Profile</Text>{" "}
-          </Flex>
-        </Box>
+      <Flex flexDirection="column" width="full">
+        {[
+          { to: "/home", label: "Home", icon: AiFillHome },
+          { to: "/explore", label: "Explore", icon: MdExplore },
+          {
+            to: "/bookmarks",
+            label: "Bookmarks",
+            icon: BsFillBookmarkHeartFill,
+            action: () => dispatch(getAllBookmarks(token))
+          },
+          {
+            to: `/user/${id}`,
+            label: "Profile",
+            icon: CgProfile,
+            action: () => {
+              dispatch(getSingleUser(id));
+              dispatch(getUserPosts(username));
+            }
+          },
+        ].map(({ to, label, icon, action }) => (
+          <Box
+            as={NavLink}
+            to={to}
+            key={to}
+            onClick={action}
+            style={getActiveStyle}
+            _hover={{ bg: "rgba(255, 255, 255, 0.15)", transform: "scale(1.05)" }}
+            width={isLessThan1270 ? "0" : "full"}
+            transition="all 0.2s ease-in-out"
+            textAlign={isLessThan1270 ? "end" : "center"}
+            border={"2px solid red"}
+          >
+            <Flex alignItems="center">
+              <Icon as={icon} fontSize="1.4rem" mr={isLessThan1270 ? "0px" : "12px"} />
+              {!isLessThan1270 && <Text>{label}</Text>}
+            </Flex>
+          </Box>
+        ))}
         <NewPostModal />
       </Flex>
+
       {user?.email && (
         <Box
-          // padding="10px"
-          minWidth="110%"
-          display={"flex"}
+          width="full"
+          display="flex"
           alignItems="center"
-          justifyContent={"space-between"}
-          // border={"3px solid red"}
-          marginTop={"1rem"}
+          justifyContent="space-between"
+          py="0.5rem"
+          borderTop="1px solid rgba(255, 255, 255, 0.2)"
+          pt="1rem"
         >
           <Box
             as={Link}
             to={`/user/${id}`}
-            onClick={() => {
-              dispatch(getSingleUser(id));
-              dispatch(getUserPosts(username));
-            }}
-            display={"flex"}
+            display="flex"
             alignItems="center"
-            // border={"3px solid blue"}
+            _hover={{ transform: "scale(1.05)" }}
+            transition="all 0.2s ease-in-out"
           >
-            <Avatar
-              marginRight={"2px"}
-              name={`${user?.firstName} ${user?.lastName}`}
-              size={{ base: "sm", md: "sm", lg: "sm" }}
-            />{" "}
-            <Text as={"strong"}>
+            <Avatar name={`${user?.firstName} ${user?.lastName}`} size="sm" />
+            <Text ml="10px" fontWeight="medium" color="white">
               {user?.firstName} {user?.lastName}
             </Text>
           </Box>
@@ -150,11 +123,12 @@ function Sidebar() {
             to="/"
             onClick={() => {
               dispatch(logOut());
-              toast.success("successfully signed-out!");
+              toast.success("Successfully signed out!");
             }}
-            marginTop={"2px"}
+            _hover={{ transform: "scale(1.2)" }}
+            transition="all 0.2s ease-in-out"
           >
-            <Icon color={"red"} as={IoLogOut} />
+            <Icon as={IoLogOut} fontSize="1.3rem" color="red.400" />
           </Box>
         </Box>
       )}

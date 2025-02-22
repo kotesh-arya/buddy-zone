@@ -13,63 +13,50 @@ import { getUsers } from "../features/users/usersSlice";
 
 function Suggestionbar() {
   const dispatch = useDispatch();
-  const bgColor = useColorModeValue("gray.50", "gray.900");
+  const bgColor = useColorModeValue("white", "gray.800");
+  const boxShadow = useColorModeValue("lg", "dark-lg");
+  const textColor = useColorModeValue("gray.700", "whiteAlpha.900");
+
   const { users } = useSelector((store) => store.users);
   const {
-    user: { uid },
+    user: { userId },
   } = useSelector((store) => store.auth);
+
   useEffect(() => {
     dispatch(getUsers());
   }, [dispatch]);
 
   const usersList = users
-    ?.filter((user) => user._id !== uid)
+    ?.filter((user) => user._id !== userId)
     .filter((user) => user.firstName);
 
   return (
     <>
-      {usersList.length > 0 ? (
+      {usersList.length > 0 && (
         <Box
           position="fixed"
-          display={{
-            base: "none",
-            md: "none",
-            lg: "flex",
-            xl: "flex",
-            "2xl": "flex",
-          }}
-          flexDirection={"column"}
-          justifyContent={"space-between"}
-          minWidth={"20rem"}
-          maxWidth={"21rem"}
-          padding={"2rem 1rem"}
+          top="5rem"
+          right="1rem"
+          display={{ base: "none", lg: "flex" }}
+          flexDirection="column"
+          width="20rem"
+          p="1.5rem"
           bg={bgColor}
-          borderRadius={"10px"}
-          marginRight={{ md: "auto", lg: "20rem", xl: "0rem" }}
-          marginLeft={{ md: "auto", lg: "0rem", xl: "0rem" }}
-          marginTop={"5rem"}
-          // border={"3px solid blue"}
+          boxShadow={boxShadow}
+          borderRadius="12px"
         >
-          <Box bg="black.600">
-            <VStack>
-              <Flex
-                display={"flex"}
-                flexDirection={"row"}
-                justifyContent={"space-between"}
-                alignItems={"center"}
-                width={"full"}
-              >
-                <Text as={"strong"}>Whom to Follow </Text>
-              </Flex>
-              <Divider />
-              {usersList?.map((user) => {
-                return <UserMiniCard key={user._id} {...user} />;
-              })}
-            </VStack>
-          </Box>
+          <VStack spacing={3} align="stretch">
+            <Flex justifyContent="space-between" alignItems="center">
+              <Text fontWeight="bold" fontSize="lg" color={textColor}>
+                Suggested for you
+              </Text>
+            </Flex>
+            <Divider />
+            {usersList?.map((user) => (
+              <UserMiniCard key={user._id} {...user} />
+            ))}
+          </VStack>
         </Box>
-      ) : (
-        ""
       )}
     </>
   );

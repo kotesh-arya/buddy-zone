@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 import { ChakraProvider } from "@chakra-ui/react";
 import { BrowserRouter } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-
+import theme from "./utils/theme";
 // ---------------------
 
 import { createRoot } from "react-dom/client";
@@ -16,7 +16,7 @@ const root = createRoot(container); // createRoot(container!) if you use TypeScr
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <Provider store={store}>
           <App />
         </Provider>

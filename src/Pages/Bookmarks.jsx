@@ -3,9 +3,11 @@ import {
   Box,
   Button,
   Flex,
-  useColorModeValue,
   VStack,
   Icon,
+  useColorModeValue,
+  Spinner,
+  Text,
   Heading,
   Image,
 } from "@chakra-ui/react";
@@ -23,61 +25,87 @@ function Bookmarks() {
   const { bookmarks } = useSelector((store) => store.bookmark);
 
   return (
-    <Box display="flex" flexDirection={{ base: "column", xl: "row" }}>
-      <Sidebar />
-      <Box flex="1">
-        <Navbar />
-        <Flex
-          direction="column"
-          align="center"
-          py={8}
-          px={{ base: 4, md: 8 }}
-          maxW={{ base: "100%", md: "70%", xl: "50%" }}
-          mx="auto"
+    <Box bg={useColorModeValue("gray.50", "gray.900")} minH="100vh">
+      <Navbar />
+
+      <Flex width="100%" flexDirection={{ base: "column", md: "row" }}>
+        {/* Sidebar */}
+        <Box display={{ base: "none", md: "block" }} width={{ md: "20%", lg: "15%" }}>
+          <Sidebar />
+        </Box>
+
+        {/* Bookmarks Container */}
+        <Box
+          flex="1"
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          padding={{ base: "2", md: "8" }}
+          marginTop={{ base: "1rem", md: "0rem" }}
+          width={{ base: "100%", md: "60%" }}
         >
+          {/* Sorting Buttons */}
           <Flex
-            justify="space-between"
-            w="full"
-            maxW="md"
-            mb={4}
-            position="sticky"
-            top={16}
-            bg={useColorModeValue("white", "gray.800")}
-            p={2}
-            borderRadius="md"
-            boxShadow="sm"
-            zIndex={10}
+            position="fixed"
+            top="0"
+            width="100%"
+            maxW="800px"
+            justifyContent="space-between"
+            bg="rgba(255, 255, 255, 0.1)"
+            backdropFilter="blur(8px)"
+            padding="8px"
+            borderRadius="12px"
+            boxShadow="lg"
+            zIndex="100"
+            transition="all 0.3s"
+            marginTop="5rem"
           >
-            <Button bg={btnBg} _hover={{ opacity: 0.8 }}>
-              <Icon as={AiOutlineArrowUp} mr={2} /> Newest
-            </Button>
-            <Button bg={btnBg} _hover={{ opacity: 0.8 }}>
-              <Icon as={AiOutlineArrowDown} mr={2} /> Oldest
-            </Button>
+            {[
+              { label: "Newest", icon: AiOutlineArrowUp },
+              { label: "Oldest", icon: AiOutlineArrowDown },
+            ].map(({ label, icon }) => (
+              <Button
+                key={label}
+                flex="1"
+                mx={1}
+                bg={btnBg}
+                color="white"
+                fontWeight="medium"
+                _hover={{ bg: "blue.500", transform: "scale(1.05)" }}
+                _active={{ bg: "blue.600", transform: "scale(0.98)" }}
+                transition="all 0.2s ease-in-out"
+              >
+                <Icon as={icon} mr={2} />
+                {label}
+              </Button>
+            ))}
           </Flex>
-          <Box w="full">
+
+          {/* Bookmarks List */}
+          <VStack mt="7rem" spacing={6} width="100%" maxW="600px">
             {bookmarks.length > 0 ? (
               bookmarks.map((post) => <PostCard key={post.id} {...post} />)
             ) : (
-              <Flex
-                direction="column"
-                align="center"
-                justify="center"
-                h="60vh"
-              >
+              <Flex direction="column" alignItems="center" justifyContent="center" minH="50vh" textAlign="center">
                 <Image src={EmptyIcon} alt="empty-box" boxSize="50%" mb={4} />
                 <Heading fontSize={{ base: "lg", md: "xl" }} textAlign="center">
                   You have not bookmarked any posts yet!
                 </Heading>
               </Flex>
             )}
-          </Box>
-        </Flex>
+          </VStack>
+        </Box>
+
+        {/* Suggestionbar for large screens */}
+        <Box display={{ base: "none", lg: "block" }} width={{ lg: "25%" }}>
+          <Suggestionbar />
+        </Box>
+      </Flex>
+
+      {/* Bottom Navigation for mobile */}
+      <Box display={{ base: "block", md: "none" }}>
+        <BottomNavigation />
       </Box>
-      {/* <Box display={{ base: "none", lg: "block" }} width="20%">
-        <Suggestionbar />
-      </Box> */}
-      <BottomNavigation />
     </Box>
   );
 }
