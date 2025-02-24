@@ -10,7 +10,7 @@ import {
   ModalCloseButton,
   useDisclosure,
   Icon,
-  Textarea,
+  Textarea, useMediaQuery
 } from "@chakra-ui/react";
 import { FaPen } from "react-icons/fa";
 import { RiImageAddLine } from "react-icons/ri";
@@ -19,7 +19,10 @@ import { createPost, getAllPosts } from "../features/post/postsSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
 function NewPostModal({ fromBottom }) {
+  const [isLessThan1240] = useMediaQuery("(max-width: 1240px)");
+  // console.log("isLessThan1240 --->", isLessThan1240);
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.auth);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -54,9 +57,9 @@ function NewPostModal({ fromBottom }) {
 
   return (
     <>
-      <Button bg={{ base: "", md: "#08a0e9", lg: "#08a0e9" }} onClick={onOpen}>
-        <Icon marginRight={{ base: "0", md: "15px", lg: "15px" }} as={FaPen} />{" "}
-        {!fromBottom && "New Post"}
+      <Button bg={{ base: "", md: "#08a0e9", lg: "#08a0e9" }} width={isLessThan1240 ? "3rem" : "100%"} justifySelf="center" onClick={onOpen}>
+        <Icon mr={isLessThan1240 ? "0px" : "12px"} as={FaPen} />{" "}
+        {!fromBottom && isLessThan1240 ? "" : "New Post"}
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>

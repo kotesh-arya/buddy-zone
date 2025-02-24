@@ -105,7 +105,7 @@ function PostCard({
               <PopoverBody>
                 <EditPostModal id={id} content={content} />
                 <Button
-                  size="sm"
+                  size="md"
                   colorScheme="red"
                   ml="2"
                   isLoading={deleteLoading}

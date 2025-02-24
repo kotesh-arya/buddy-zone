@@ -36,7 +36,7 @@ function Suggestionbar() {
         <Box
           position="fixed"
           top="5rem"
-          right="1rem"
+          right="8.5rem"
           display={{ base: "none", lg: "flex" }}
           flexDirection="column"
           width="20rem"

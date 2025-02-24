@@ -6,7 +6,7 @@ import {
   Icon,
   useColorModeValue,
   Spinner,
-  Text,
+  Text, useMediaQuery
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import {
@@ -26,7 +26,8 @@ function Home() {
   const dispatch = useDispatch();
   const btnBg = useColorModeValue("gray.300", "gray.700");
   const { posts, isLoading } = useSelector((store) => store.posts);
-
+  const [isLessThan1240] = useMediaQuery("(max-width: 1240px)");
+  const bgColor = useColorModeValue("rgba(255, 255, 255, 0.05)", "rgba(0, 0, 0, 0.3)");
   useEffect(() => {
     dispatch(getAllPosts());
   }, [dispatch]);
@@ -36,13 +37,15 @@ function Home() {
     <Box bg={useColorModeValue("gray.50", "gray.900")} minH="100vh">
       <Navbar />
 
-      <Flex width="100%" flexDirection={{ base: "column", md: "row" }}>
+      <Flex width="100%" flexDirection={{ base: "column", md: "row" }} justifyContent={{ md: "center" }} maxW="1200px" mx="auto" >
         {/* Sidebar */}
-        <Box display={{ base: "none", md: "block" }} width={{ md: "20%", lg: "15%" }}>
+        <Box display={{ base: "none", md: "block" }} width={{ md: "20%", lg: "15%" }}
+        //  border={"3px solid blue"}
+        >
           <Sidebar />
         </Box>
 
-        {/* Posts Container */}
+        {/*  Posts Container */}
         <Box
           flex="1"
           display="flex"
@@ -50,15 +53,14 @@ function Home() {
           alignItems="center"
           padding={{ base: "2", md: "8" }}
           marginTop={{ base: "1rem", md: "0rem" }}
-          width={{ base: "100%", md: "60%" }} // Make full width on small screens
+          width={{ base: "100%", md: "60%" }} // Keeps original behavior
+        // border={"3px solid blue"}
         >
-
           {/* Sorting Buttons */}
           <Flex
             position="fixed"
             top="0"
-            width="100%"
-            // maxW="600px"
+            // width="50%"
             maxW={{ base: "600px", md: "700px" }}
             justifyContent="space-between"
             bg="rgba(255, 255, 255, 0.1)"
@@ -70,7 +72,6 @@ function Home() {
             transition="all 0.3s"
             marginTop="5rem"
           >
-
             {[
               { label: "Trending", icon: AiFillFire },
               { label: "Newest", icon: AiOutlineArrowUp },
@@ -80,8 +81,7 @@ function Home() {
                 key={label}
                 flex="1"
                 mx={1}
-                bg={btnBg}
-                color="white"
+                bg={bgColor}
                 fontWeight="medium"
                 _hover={{ bg: "blue.500", transform: "scale(1.05)" }}
                 _active={{ bg: "blue.600", transform: "scale(0.98)" }}
@@ -95,13 +95,7 @@ function Home() {
 
           {/* Loader or Post List */}
           {isLoading ? (
-            <Flex
-              flexDirection="column"
-              alignItems="center"
-              justifyContent="center"
-              minH="50vh"
-              textAlign="center"
-            >
+            <Flex flexDirection="column" alignItems="center" justifyContent="center" minH="50vh" textAlign="center">
               <Spinner size="lg" color="blue.400" />
               <Text mt={4} fontSize="lg" fontWeight="semibold" color="white">
                 Loading posts...
@@ -123,10 +117,11 @@ function Home() {
         </Box>
 
         {/* Suggestionbar for large screens */}
-        <Box display={{ base: "none", lg: "block" }} width={{ lg: "25%" }}>
+        <Box display={{ base: "none", xl: "block" }} width={{ lg: "25%" }}
+        // border={"3px solid green"}
+        >
           <Suggestionbar />
         </Box>
-
       </Flex>
 
       {/* Bottom Navigation for mobile */}

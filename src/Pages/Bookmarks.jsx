@@ -22,6 +22,8 @@ import EmptyIcon from "../assets/empty-inbox.png";
 
 function Bookmarks() {
   const btnBg = useColorModeValue("gray.300", "gray.700");
+  const bgColor = useColorModeValue("rgba(255, 255, 255, 0.05)", "rgba(0, 0, 0, 0.3)");
+
   const { bookmarks } = useSelector((store) => store.bookmark);
 
   return (
@@ -46,34 +48,33 @@ function Bookmarks() {
         >
           {/* Sorting Buttons */}
           <Flex
-            position="fixed"
-            top="0"
-            width="100%"
-            maxW="800px"
-            justifyContent="space-between"
-            bg="rgba(255, 255, 255, 0.1)"
-            backdropFilter="blur(8px)"
-            padding="8px"
-            borderRadius="12px"
-            boxShadow="lg"
-            zIndex="100"
-            transition="all 0.3s"
-            marginTop="5rem"
+             position="fixed"
+             top="0"
+             // width="50%"
+             maxW={{ base: "600px", md: "700px" }}
+             justifyContent="space-between"
+             bg="rgba(255, 255, 255, 0.1)"
+             backdropFilter="blur(8px)"
+             padding="8px"
+             borderRadius="12px"
+             boxShadow="lg"
+             zIndex="100"
+             transition="all 0.3s"
+             marginTop="5rem"
           >
             {[
               { label: "Newest", icon: AiOutlineArrowUp },
               { label: "Oldest", icon: AiOutlineArrowDown },
             ].map(({ label, icon }) => (
               <Button
-                key={label}
-                flex="1"
-                mx={1}
-                bg={btnBg}
-                color="white"
-                fontWeight="medium"
-                _hover={{ bg: "blue.500", transform: "scale(1.05)" }}
-                _active={{ bg: "blue.600", transform: "scale(0.98)" }}
-                transition="all 0.2s ease-in-out"
+              key={label}
+              flex="1"
+              mx={1}
+              bg={bgColor}
+              fontWeight="medium"
+              _hover={{ bg: "blue.500", transform: "scale(1.05)" }}
+              _active={{ bg: "blue.600", transform: "scale(0.98)" }}
+              transition="all 0.2s ease-in-out"
               >
                 <Icon as={icon} mr={2} />
                 {label}

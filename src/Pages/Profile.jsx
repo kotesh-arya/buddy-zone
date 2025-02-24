@@ -8,7 +8,7 @@ import {
   Image,
   Avatar,
   Text,
-  Divider,
+  Divider, useColorModeValue
 } from "@chakra-ui/react";
 import { Navbar } from "../Components/Navbar";
 import { Sidebar } from "../Components/Sidebar";
@@ -24,12 +24,16 @@ import { BottomNavigation } from "../Components/BottomNavigation";
 function Profile() {
   const dispatch = useDispatch();
   const { userId } = useParams();
-  
+
   const {
     profile: { userProfile },
     posts: { userPosts },
   } = useSelector((store) => store.singleUser);
-  const { user } = useSelector((store) => store.auth);
+  const {
+    user: { id, username },
+    user,
+    token,
+  } = useSelector((store) => store.auth);
 
   useEffect(() => {
     if (userId) {
@@ -39,13 +43,22 @@ function Profile() {
   }, [dispatch, userId]);
 
   return (
-    <Flex direction="column">
+    <Box bg={useColorModeValue("gray.50", "gray.900")} minH="100vh">
       <Navbar />
-      <Flex>
-        <Sidebar />
-        <Box flex="1" p={{ base: 4, md: 8 }} ml={{ md: "12rem" }} mr={{ lg: "20rem", xl: "0rem" }}>
+
+      <Flex width="100%" flexDirection={{ base: "column", md: "row" }} justifyContent={{ md: "center" }} maxW="1200px" mx="auto">
+        {/* Sidebar */}
+        <Box display={{ base: "none", md: "block" }} width={{ md: "20%", lg: "15%" }}>
+          <Sidebar />
+        </Box>
+
+        {/* Profile Content */}
+        <Box flex="1" display="flex" flexDirection="column" alignItems="center" p={{ base: 4, md: 8 }} width={{ base: "100%", md: "60%" }}
+          marginTop={{ base: "1rem", md: "3.5rem" }}
+
+        >
           {/* Profile Banner */}
-          <Box position="relative" textAlign="center">
+          <Box position="relative" textAlign="center" width="100%">
             <Image
               borderRadius="lg"
               width="100%"
@@ -56,8 +69,8 @@ function Profile() {
             />
             <Avatar
               size="2xl"
-              name={`${userProfile?.firstName} ${userProfile?.lastName}`}
-              src={userProfile?.avatarURL}
+              name={`${user?.firstName} ${user?.lastName}`}
+              src={user?.avatarURL}
               position="absolute"
               left="50%"
               transform="translateX(-50%)"
@@ -68,23 +81,17 @@ function Profile() {
 
           {/* User Info */}
           <VStack spacing={4} mt="50px" textAlign="center">
-            <Heading>
-              {userProfile?.firstName} {userProfile?.lastName}
-            </Heading>
-            <Text fontSize="lg" color="gray.600">
-              @{userProfile?.username}
-            </Text>
-            <Text fontSize="md">
-              {userProfile?.following?.length} Following | {userProfile?.followers?.length} Followers
-            </Text>
-            {userProfile?.website && (
+            <Heading>{user?.firstName} {user?.lastName}</Heading>
+            <Text fontSize="lg" color="gray.600">@{user?.username}</Text>
+            <Text fontSize="md">{user?.following?.length} Following | {user?.followers?.length} Followers</Text>
+            {user?.website && (
               <Text fontSize="md">
-                Website: <Link to={userProfile.website} target="_blank" color="blue.500">{userProfile.website}</Link>
+                Website: <Link to={user.website} target="_blank" color="blue.500">{user.website}</Link>
               </Text>
             )}
-            <Text fontSize="md">Bio: {userProfile?.bio || "No bio available"}</Text>
+            <Text fontSize="md">Bio: {user?.bio || "No bio available"}</Text>
 
-            {userProfile?.username === user?.username ? (
+            {user?.username === user?.username ? (
               <VStack>
                 <EditUserModal {...user} />
                 <Button
@@ -106,7 +113,7 @@ function Profile() {
           <Divider my={6} />
 
           {/* User Posts */}
-          <Box mt={8}>
+          <Box mt={8} width="100%" maxW="600px">
             <Heading size="lg" mb={4}>Recent Posts</Heading>
             {userPosts?.length > 0 ? (
               userPosts.map((post) => <PostCard key={post._id} {...post} />)
@@ -115,10 +122,19 @@ function Profile() {
             )}
           </Box>
         </Box>
-        {/* <Suggestionbar /> */}
+
+        {/* Suggestionbar for large screens */}
+        <Box display={{ base: "none", xl: "block" }} width={{ lg: "25%" }}>
+          <Suggestionbar />
+        </Box>
       </Flex>
-      <BottomNavigation />
-    </Flex>
+
+      {/* Bottom Navigation for mobile */}
+      <Box display={{ base: "block", md: "none" }}>
+        <BottomNavigation />
+      </Box>
+    </Box>
+
   );
 }
 
