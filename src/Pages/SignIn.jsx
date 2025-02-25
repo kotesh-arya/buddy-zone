@@ -10,7 +10,7 @@ import {
   Button,
   InputGroup,
   InputRightElement,
-  useColorModeValue,
+  useColorModeValue,Spinner
 } from "@chakra-ui/react";
 import { Navbar } from "../Components/Navbar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -68,7 +68,7 @@ function SignIn() {
 
   return (
     <Box height={"100vh"} backgroundColor={bgColor}>
-      <Navbar />
+      {/* <Navbar /> */}
       <Container maxW="container.xl" p={0}>
         <Flex
           h="90vh"
@@ -141,7 +141,8 @@ function SignIn() {
                     onClick={() => loginHandler(user)}
                     isDisabled={loginLoading}
                   >
-                    {loginLoading ? "Signing In..." : "Signin"}
+                    {loginLoading ?  <Spinner size="lg" color="white.900" />
+ : "Signin"}
                   </Button>
 
                   <Button

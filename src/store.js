@@ -12,7 +12,7 @@ import { persistReducer, persistStore } from "redux-persist";
 const persistConfig = {
   key: "auth",
   storage,
-  whitelist: ["user", "token"], // Only persist these fields from auth state
+  whitelist: ["user", "token", "isLoggedIn"], // Only persist these fields from auth state
 };
 
 const rootReducer = combineReducers({

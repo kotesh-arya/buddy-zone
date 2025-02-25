@@ -59,7 +59,7 @@ function NewPostModal({ fromBottom }) {
     <>
       <Button bg={{ base: "", md: "#08a0e9", lg: "#08a0e9" }} width={isLessThan1240 ? "3rem" : "100%"} justifySelf="center" onClick={onOpen}>
         <Icon mr={isLessThan1240 ? "0px" : "12px"} as={FaPen} />{" "}
-        {!fromBottom && isLessThan1240 ? "" : "New Post"}
+        {isLessThan1240 ? "" : "New Post"}
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>

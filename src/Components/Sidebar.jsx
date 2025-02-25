@@ -27,11 +27,10 @@ function Sidebar() {
     token,
   } = useSelector((store) => store.auth);
 
-  const bgColor = useColorModeValue("rgba(255, 255, 255, 0.05)", "rgba(0, 0, 0, 0.3)");
+  const textColor =useColorModeValue("gray.700", "whiteAlpha.900");
   const activeBg = useColorModeValue("#08a0e9", "#3182ce");
   const inactiveColor = useColorModeValue("gray.400", "gray.300");
   const [isLessThan1240] = useMediaQuery("(max-width: 1240px)");
-  console.log("isLessThan1240 ?", isLessThan1240);
   const getActiveStyle = ({ isActive }) => ({
     backgroundColor: isActive
       ? activeBg
@@ -130,7 +129,7 @@ function Sidebar() {
               >
                 <Avatar name={`${user?.firstName} ${user?.lastName}`} size="md" />
                 {!isLessThan1240 && <Text fontWeight="bold"
-                  bg={bgColor}
+                  color={textColor}
                 >
                   {user?.firstName} {user?.lastName}
                 </Text>}

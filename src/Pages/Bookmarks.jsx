@@ -98,7 +98,7 @@ function Bookmarks() {
         </Box>
 
         {/* Suggestionbar for large screens */}
-        <Box display={{ base: "none", lg: "block" }} width={{ lg: "25%" }}>
+        <Box display={{ base: "none", xl: "block" }} width={{ lg: "25%" }}>
           <Suggestionbar />
         </Box>
       </Flex>

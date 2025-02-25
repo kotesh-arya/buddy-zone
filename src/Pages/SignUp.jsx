@@ -10,7 +10,7 @@ import {
   Button,
   InputGroup,
   InputRightElement,
-  useColorModeValue,
+  useColorModeValue,Spinner
 } from "@chakra-ui/react";
 import { Navbar } from "../Components/Navbar";
 import { Link } from "react-router-dom";
@@ -70,7 +70,7 @@ function SignUp() {
   };
   return (
     <Box height={"100vh"} backgroundColor={bgColor}>
-      <Navbar />
+      {/* <Navbar /> */}
       <Container maxW="container.xl" p={0}>
         <Flex
           h="90vh"
@@ -165,7 +165,7 @@ function SignUp() {
                     onClick={() => signupHandler(user)}
                     isDisabled={signupLoading} // Prevents multiple clicks
                   >
-                    {signupLoading ? "Signing Up..." : "Signup"}
+                    {signupLoading ?  <Spinner size="lg" color="blue.400" /> : "Signup"}
                   </Button>
 
                   <Button

@@ -14,7 +14,7 @@ import { getUsers } from "../features/users/usersSlice";
 function Suggestionbar() {
   const dispatch = useDispatch();
   const bgColor = useColorModeValue("white", "gray.800");
-  const boxShadow = useColorModeValue("lg", "dark-lg");
+  // const boxShadow = useColorModeValue("lg", "dark-lg");
   const textColor = useColorModeValue("gray.700", "whiteAlpha.900");
 
   const { users } = useSelector((store) => store.users);
@@ -42,7 +42,7 @@ function Suggestionbar() {
           width="20rem"
           p="1.5rem"
           bg={bgColor}
-          boxShadow={boxShadow}
+          // boxShadow={boxShadow}
           borderRadius="12px"
         >
           <VStack spacing={3} align="stretch">
