@@ -18,7 +18,6 @@ import { useSelector } from "react-redux";
 import { BottomNavigation } from "../Components/BottomNavigation";
 
 function Explore() {
-  const btnBg = useColorModeValue("gray.300", "gray.700");
   const bgColor = useColorModeValue("rgba(255, 255, 255, 0.05)", "rgba(0, 0, 0, 0.3)");
 
   const { posts, isLoading } = useSelector((store) => store.posts);
@@ -41,23 +40,23 @@ function Explore() {
           alignItems="center"
           padding={{ base: "2", md: "8" }}
           marginTop={{ base: "1rem", md: "0rem" }}
-          width={{ base: "100%", md: "60%" }}
+          width={{ base: "100%", md: "60%" }} // Keeps original behavior
         >
           {/* Sorting Buttons */}
           <Flex
-              position="fixed"
-              top="0"
-              // width="50%"
-              maxW={{ base: "600px", md: "700px" }}
-              justifyContent="space-between"
-              bg="rgba(255, 255, 255, 0.1)"
-              backdropFilter="blur(8px)"
-              padding="8px"
-              borderRadius="12px"
-              boxShadow="lg"
-              zIndex="100"
-              transition="all 0.3s"
-              marginTop="5rem"
+            position="fixed"
+            top="0"
+            // width="50%"
+            maxW={{ base: "600px", md: "700px" }}
+            justifyContent="space-between"
+            bg="rgba(255, 255, 255, 0.1)"
+            backdropFilter="blur(8px)"
+            padding="8px"
+            borderRadius="12px"
+            boxShadow="lg"
+            zIndex="100"
+            transition="all 0.3s"
+            marginTop="5rem"
           >
             {[
               { label: "Trending", icon: AiFillFire },
@@ -65,14 +64,14 @@ function Explore() {
               { label: "Oldest", icon: AiOutlineArrowDown },
             ].map(({ label, icon }) => (
               <Button
-              key={label}
-              flex="1"
-              mx={1}
-              bg={bgColor}
-              fontWeight="medium"
-              _hover={{ bg: "blue.500", transform: "scale(1.05)" }}
-              _active={{ bg: "blue.600", transform: "scale(0.98)" }}
-              transition="all 0.2s ease-in-out"
+                key={label}
+                flex="1"
+                mx={1}
+                bg={bgColor}
+                fontWeight="medium"
+                _hover={{ bg: "blue.500", transform: "scale(1.05)" }}
+                _active={{ bg: "blue.600", transform: "scale(0.98)" }}
+                transition="all 0.2s ease-in-out"
               >
                 <Icon as={icon} mr={2} />
                 {label}
@@ -110,7 +109,9 @@ function Explore() {
         </Box>
 
         {/* Suggestionbar for large screens */}
-        <Box display={{ base: "none", lg: "block" }} width={{ lg: "25%" }}>
+        <Box display={{ base: "none", xl: "block" }} width={{ lg: "25%" }}
+        // border={"3px solid green"}
+        >
           <Suggestionbar />
         </Box>
       </Flex>
