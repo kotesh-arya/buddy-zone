@@ -1,5 +1,5 @@
 import {
-  Flex, Box, VStack, Icon, Text, Avatar, useColorModeValue, useMediaQuery, Button, Popover,
+  Flex, Box, Icon, Text, Avatar, useColorModeValue, useMediaQuery, Button, Popover,
   PopoverTrigger,
   PopoverContent,
   PopoverBody,
@@ -9,7 +9,6 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { AiFillHome } from "react-icons/ai";
 import { MdExplore } from "react-icons/md";
-import { IoLogOut } from "react-icons/io5";
 import { BsFillBookmarkHeartFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { toast } from "react-toastify";

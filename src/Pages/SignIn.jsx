@@ -12,7 +12,6 @@ import {
   InputRightElement,
   useColorModeValue,Spinner
 } from "@chakra-ui/react";
-import { Navbar } from "../Components/Navbar";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { logIn } from "../features/auth/authSlice";
 import { useDispatch } from "react-redux";

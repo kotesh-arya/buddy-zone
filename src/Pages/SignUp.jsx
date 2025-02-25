@@ -10,16 +10,14 @@ import {
   Button,
   InputGroup,
   InputRightElement,
-  useColorModeValue,Spinner
+  useColorModeValue, Spinner
 } from "@chakra-ui/react";
-import { Navbar } from "../Components/Navbar";
 import { Link } from "react-router-dom";
 import { signUp } from "../features/auth/authSlice";
 import { useDispatch } from "react-redux";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 function SignUp() {
   const bgColor = useColorModeValue("gray.50", "whiteAlpha.50");
@@ -58,8 +56,7 @@ function SignUp() {
     }
 
     try {
-      const res = await dispatch(signUp(user));
-
+      await dispatch(signUp(user));
       toast.success("Sign-up successful!");
       navigate("/home"); // Redirect to Home page
     } catch (error) {
@@ -165,7 +162,7 @@ function SignUp() {
                     onClick={() => signupHandler(user)}
                     isDisabled={signupLoading} // Prevents multiple clicks
                   >
-                    {signupLoading ?  <Spinner size="lg" color="blue.400" /> : "Signup"}
+                    {signupLoading ? <Spinner size="lg" color="blue.400" /> : "Signup"}
                   </Button>
 
                   <Button

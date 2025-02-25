@@ -16,13 +16,12 @@ import { FaPen } from "react-icons/fa";
 import { RiImageAddLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost, getAllPosts } from "../features/post/postsSlice";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 
 function NewPostModal({ fromBottom }) {
   const [isLessThan1240] = useMediaQuery("(max-width: 1240px)");
-  // console.log("isLessThan1240 --->", isLessThan1240);
   const dispatch = useDispatch();
   const { user } = useSelector((store) => store.auth);
   const { isOpen, onOpen, onClose } = useDisclosure();

@@ -4,14 +4,11 @@ import {
   Flex,
   useColorMode,
   Icon,
-  Image,
   useColorModeValue,
   Box,
 } from "@chakra-ui/react";
-import Logo from "../assets/buddy-zone-blue.png";
 import { ImSun } from "react-icons/im";
 import { BsMoonStarsFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
 function Navbar() {
   const { toggleColorMode } = useColorMode();
   const bgColor = useColorModeValue("gray.50", "gray.900");
@@ -27,7 +24,7 @@ function Navbar() {
         py={5}
         zIndex={"100"}
         boxShadow="md"
-        // border={"2px solid red"}
+      // border={"2px solid red"}
       >
         {/* <Box as={Link} to="/home">
           <Image

@@ -1,12 +1,12 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { fetchUser, logOut } from "./features/auth/authSlice.js";
+import { fetchUser } from "./features/auth/authSlice.js";
 
 const RequiresAuth = ({ children }) => {
   const dispatch = useDispatch();
   const location = useLocation();
-  const { user, isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoggedIn } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(fetchUser());

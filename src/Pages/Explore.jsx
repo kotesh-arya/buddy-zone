@@ -18,7 +18,6 @@ import { useSelector } from "react-redux";
 import { BottomNavigation } from "../Components/BottomNavigation";
 
 function Explore() {
-  const btnBg = useColorModeValue("gray.300", "gray.700");
   const bgColor = useColorModeValue("rgba(255, 255, 255, 0.05)", "rgba(0, 0, 0, 0.3)");
 
   const { posts, isLoading } = useSelector((store) => store.posts);

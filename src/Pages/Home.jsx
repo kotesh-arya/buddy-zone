@@ -6,7 +6,7 @@ import {
   Icon,
   useColorModeValue,
   Spinner,
-  Text, useMediaQuery
+  Text,
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import {
@@ -24,14 +24,11 @@ import { getAllPosts } from "../features/post/postsSlice";
 
 function Home() {
   const dispatch = useDispatch();
-  const btnBg = useColorModeValue("gray.300", "gray.700");
   const { posts, isLoading } = useSelector((store) => store.posts);
-  const [isLessThan1240] = useMediaQuery("(max-width: 1240px)");
   const bgColor = useColorModeValue("rgba(255, 255, 255, 0.05)", "rgba(0, 0, 0, 0.3)");
   useEffect(() => {
     dispatch(getAllPosts());
   }, [dispatch]);
-  const { user } = useSelector((store) => store.auth);
 
   return (
     <Box bg={useColorModeValue("gray.50", "gray.900")} minH="100vh">
