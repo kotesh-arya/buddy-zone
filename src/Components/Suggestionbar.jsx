@@ -13,7 +13,7 @@ import { getUsers } from "../features/users/usersSlice";
 
 function Suggestionbar() {
   const dispatch = useDispatch();
-  const bgColor = useColorModeValue("white", "gray.800");
+  const bgColor = useColorModeValue("white", "gray.700");
   // const boxShadow = useColorModeValue("lg", "dark-lg");
   const textColor = useColorModeValue("gray.700", "whiteAlpha.900");
 
@@ -36,7 +36,7 @@ function Suggestionbar() {
         <Box
           position="fixed"
           top="5rem"
-          right="8.5rem"
+          right="9.5rem"
           display={{ base: "none", lg: "flex" }}
           flexDirection="column"
           width="20rem"
