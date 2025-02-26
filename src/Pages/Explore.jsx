@@ -9,7 +9,9 @@ import {
   Spinner,
   Text,
 } from "@chakra-ui/react";
-import { AiFillFire, AiOutlineArrowUp, AiOutlineArrowDown } from "react-icons/ai";
+import { AiFillFire } from "react-icons/ai";
+import { RiMovie2Line } from "react-icons/ri";
+import { GrTechnology } from "react-icons/gr";
 import { Navbar } from "../Components/Navbar";
 import { Sidebar } from "../Components/Sidebar";
 import { Suggestionbar } from "../Components/Suggestionbar";
@@ -60,8 +62,8 @@ function Explore() {
           >
             {[
               { label: "Trending", icon: AiFillFire },
-              { label: "Newest", icon: AiOutlineArrowUp },
-              { label: "Oldest", icon: AiOutlineArrowDown },
+              { label: "Technology", icon: GrTechnology },
+              { label: "Entertainment", icon: RiMovie2Line },
             ].map(({ label, icon }) => (
               <Button
                 key={label}

@@ -24,12 +24,10 @@ import {
 import { FiMoreVertical } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  getSinglePost,
-  getSinglePostComments,
+  deleteCommentsOfPost,
 } from "../features/post/singlePostSlice";
 import Moment from "react-moment";
-import { Link } from "react-router-dom";
-import { getSingleUser } from "../features/users/singleUserSlice";
+import { Link, useNavigate } from "react-router-dom";
 import {
   deletePost,
   disLikePost,
@@ -52,6 +50,7 @@ function PostCard({
   firstName,
   lastName,
   likes,
+  fromSinglePostPage
 }) {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const { token, user } = useSelector((store) => store.auth);
@@ -61,7 +60,7 @@ function PostCard({
   const cardBg = useColorModeValue("white", "gray.700");
   const textColor = useColorModeValue("gray.700", "gray.200");
   const borderColor = useColorModeValue("gray.200", "gray.700");
-
+  const navigate = useNavigate();
   return (
     <Box
       bg={cardBg}
@@ -71,8 +70,9 @@ function PostCard({
       marginY="1rem"
       width="100%"
       maxW="600px"
-      transition="all 0.3s"
-      _hover={{ boxShadow: "xl", transform: "scale(1.02)" }}
+    // transition="all 0.3s"
+    // _hover={{ boxShadow: "xl", transform: "scale(1.02)" }}
+    // border="2px solid red"
     >
       {/* Header Section */}
       <Flex alignItems="center" justifyContent="space-between">
@@ -88,7 +88,7 @@ function PostCard({
           </Box>
         </Flex>
 
-        {username === user.email && (
+        {(username === user.email && fromSinglePostPage) && (
           <Popover>
             <PopoverTrigger>
               <Button
@@ -110,11 +110,19 @@ function PostCard({
                   ml="2"
                   isLoading={deleteLoading}
                   onClick={async () => {
-                    setDeleteLoading(true);
-                    await dispatch(deletePost({ postId: id })).unwrap();
-                    dispatch(getAllPosts());
-                    setDeleteLoading(false);
-                    toast.success("Post deleted");
+                    try {
+                      setDeleteLoading(true);
+                      await dispatch(deletePost({ postId: id })).unwrap();
+                      await dispatch(deleteCommentsOfPost({ postId: id })).unwrap();
+                      if (fromSinglePostPage) {
+                        navigate("/home");
+                      }
+                      dispatch(getAllPosts());
+                      setDeleteLoading(false);
+                      toast.success("Post deleted");
+                    } catch (error) {
+                      toast.error("failed to delete post")
+                    }
                   }}
                 >
                   Delete

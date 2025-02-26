@@ -26,18 +26,14 @@ function Profile() {
   const { userId } = useParams();
 
   const {
-    profile: { userProfile },
     posts: { userPosts },
   } = useSelector((store) => store.singleUser);
   const {
-    user: { id, username },
     user,
-    token,
   } = useSelector((store) => store.auth);
-
   useEffect(() => {
     if (userId) {
-      dispatch(getSingleUser(userId));
+      dispatch(getSingleUser());
       dispatch(getUserPosts(userId));
     }
   }, [dispatch, userId]);
@@ -70,7 +66,7 @@ function Profile() {
             <Avatar
               size="2xl"
               name={`${user?.firstName} ${user?.lastName}`}
-              src={user?.avatarURL}
+              src={user?.userImage}
               position="absolute"
               left="50%"
               transform="translateX(-50%)"
@@ -91,8 +87,8 @@ function Profile() {
             )}
             <Text fontSize="md">Bio: {user?.bio || "No bio available"}</Text>
 
-            {user?.username === user?.username ? (
-              <VStack>
+            {user?.userId === userId ? (
+              <VStack >
                 <EditUserModal {...user} />
                 <Button
                   mt={2}
