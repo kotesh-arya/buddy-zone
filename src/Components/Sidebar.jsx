@@ -29,7 +29,6 @@ function Sidebar() {
   const textColor = useColorModeValue("gray.700", "whiteAlpha.900");
   const activeBg = useColorModeValue("#08a0e9", "#3182ce");
   const inactiveColor = useColorModeValue("gray.400", "gray.300");
-  const cardBg = useColorModeValue("white", "gray.700");
 
   const [isLessThan1240] = useMediaQuery("(max-width: 1240px)");
 
@@ -63,11 +62,11 @@ function Sidebar() {
       justifyContent="flex-start"
       gap="1rem"
       display={{ base: "none", md: "flex" }} // Hide in small screens
-      // border={"2px solid red"}
+    // border={"2px solid red"}
 
     >
       <Box display="flex" justifyContent={{ base: "flex-start", md: "center" }}
-        // border={"2px solid pink"}
+      // border={"2px solid pink"}
       >
 
         <Box as={Link} to="/home">

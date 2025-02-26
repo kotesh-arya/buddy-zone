@@ -26,7 +26,6 @@ function Profile() {
   const { userId } = useParams();
 
   const {
-    profile: { userProfile },
     posts: { userPosts },
   } = useSelector((store) => store.singleUser);
   const {
@@ -88,8 +87,8 @@ function Profile() {
             )}
             <Text fontSize="md">Bio: {user?.bio || "No bio available"}</Text>
 
-            {user?.username === user?.username ? (
-              <VStack>
+            {user?.userId === userId ? (
+              <VStack >
                 <EditUserModal {...user} />
                 <Button
                   mt={2}
