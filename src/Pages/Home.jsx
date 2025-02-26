@@ -15,6 +15,7 @@ import {
   AiOutlineArrowDown,
 } from "react-icons/ai";
 import { Navbar } from "../Components/Navbar";
+import { NavLink } from "react-router-dom";
 import { Sidebar } from "../Components/Sidebar";
 import { Suggestionbar } from "../Components/Suggestionbar";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,22 +27,21 @@ function Home() {
   const dispatch = useDispatch();
   const { posts, isLoading } = useSelector((store) => store.posts);
   const bgColor = useColorModeValue("rgba(255, 255, 255, 0.05)", "rgba(0, 0, 0, 0.3)");
-
   const [sortOrder, setSortOrder] = useState("newest"); // Default sorting order
 
   useEffect(() => {
     dispatch(getAllPosts());
   }, [dispatch]);
 
+
   // Sorting function
-  const sortedPosts = [...posts].sort((a, b) => {
+  const sortedPosts = [...(posts || [])].sort((a, b) => {
     if (sortOrder === "newest") {
       return new Date(b.createdAt) - new Date(a.createdAt);
     } else {
       return new Date(a.createdAt) - new Date(b.createdAt);
     }
   });
-
   return (
     <Box bg={useColorModeValue("gray.50", "gray.900")} minH="100vh">
       <Navbar />
@@ -55,9 +55,7 @@ function Home() {
       >
         {/* Sidebar */}
         <Box display={{ base: "none", md: "block" }} width={{ md: "20%", lg: "15%" }}
-          // border={"2px solid red"}
-        
-        
+        // border={"2px solid red"}
         >
           <Sidebar />
         </Box>
@@ -71,7 +69,7 @@ function Home() {
           padding={{ base: "2", md: "8" }}
           marginTop={{ base: "1rem", md: "0rem" }}
           width={{ base: "100%", md: "60%" }}
-          // border={"2px solid red"}
+        // border={"2px solid red"}
 
         >
           {/* Sorting Buttons */}
@@ -137,9 +135,24 @@ function Home() {
               ))}
             </VStack>
           ) : (
-            <VStack mt="7.2rem" spacing={6} width="100%" maxW="600px">
+            <VStack mt="7.2rem" spacing={6} width="100%" maxW="600px"
+            // border="2px solid blue"
+
+            >
               {sortedPosts?.length > 0 ? (
-                sortedPosts.map((post) => <PostCard key={post.id} {...post} />)
+                sortedPosts?.map((post) => (
+                  <Flex
+                    as={NavLink}
+                    to={`/post/${post.id}`}
+                    key={post.id}
+                    // border="2px solid green"
+                    width="100%"
+                  // _hover={{ background: "rgba(255, 255, 255, 0.1)", transform: "scale(1.02)" }}
+                  // transition="all 0.2s ease-in-out"
+                  >
+                    <PostCard key={post.id} {...post} />
+                  </Flex>
+                ))
               ) : (
                 <Flex direction="column" alignItems="center" justifyContent="center" minH="50vh" textAlign="center">
                   <Text fontSize="xl" fontWeight="medium" color="gray.400">
@@ -153,8 +166,8 @@ function Home() {
 
         {/* Suggestionbar for large screens */}
         <Box display={{ base: "none", xl: "block" }} width={{ lg: "25%" }}
-          // border={"2px solid red"}
-        
+        // border={"2px solid red"}
+
         >
           <Suggestionbar />
         </Box>

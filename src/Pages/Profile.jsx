@@ -30,14 +30,11 @@ function Profile() {
     posts: { userPosts },
   } = useSelector((store) => store.singleUser);
   const {
-    user: { id, username },
     user,
-    token,
   } = useSelector((store) => store.auth);
-
   useEffect(() => {
     if (userId) {
-      dispatch(getSingleUser(userId));
+      dispatch(getSingleUser());
       dispatch(getUserPosts(userId));
     }
   }, [dispatch, userId]);
@@ -70,7 +67,7 @@ function Profile() {
             <Avatar
               size="2xl"
               name={`${user?.firstName} ${user?.lastName}`}
-              src={user?.avatarURL}
+              src={user?.userImage}
               position="absolute"
               left="50%"
               transform="translateX(-50%)"

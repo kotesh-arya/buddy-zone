@@ -35,8 +35,8 @@ function Suggestionbar() {
       {usersList.length > 0 && (
         <Box
           position="fixed"
-          top="5rem"
-          right="9.5rem"
+          top="10rem"
+          right="6rem"
           display={{ base: "none", lg: "flex" }}
           flexDirection="column"
           width="20rem"

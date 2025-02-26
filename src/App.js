@@ -55,7 +55,7 @@ function App() {
           }
         />
         <Route
-          path="/posts/:postId"
+          path="/post/:postId"
           element={
             <RequiresAuth>
               <SinglePost />

@@ -17,6 +17,7 @@ import { RiImageAddLine } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import { editPost, getAllPosts } from "../features/post/postsSlice";
 import { toast } from "react-toastify";
+import { getSinglePost } from "../features/post/singlePostSlice";
 
 function EditPostModal({ id, content }) {
   const dispatch = useDispatch();
@@ -68,18 +69,25 @@ function EditPostModal({ id, content }) {
                     color="white"
                     width={"20%"}
                     marginBottom={"1rem"}
-                    onClick={() => {
-                      dispatch(
-                        editPost({
-                          postData: contentData,
-                          postId: id,
-                          token: user.token,
-                        })
-                      );
-                      toast.success("Post edited successfully")
-                      dispatch(getAllPosts());
-                      onClose();
+                    onClick={async () => {
+                      try {
+                        await dispatch(
+                          editPost({
+                            postData: contentData,
+                            postId: id,
+                            token: user.token,
+                          })
+                        ).unwrap();  // Ensures the update is complete before fetching
+
+                        toast.success("Post edited successfully");
+
+                        dispatch(getSinglePost(id)); // Now fetch updated post
+                        onClose();
+                      } catch (error) {
+                        toast.error("Failed to edit post");
+                      }
                     }}
+
                   >
                     DONE
                   </Button>

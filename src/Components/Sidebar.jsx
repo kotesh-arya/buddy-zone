@@ -22,11 +22,10 @@ import Logo from "../assets/buddy-zone-blue.png"
 function Sidebar() {
   const dispatch = useDispatch();
   const {
-    user: { id, username },
+    user: { userId, username },
     user,
     token,
   } = useSelector((store) => store.auth);
-
   const textColor = useColorModeValue("gray.700", "whiteAlpha.900");
   const activeBg = useColorModeValue("#08a0e9", "#3182ce");
   const inactiveColor = useColorModeValue("gray.400", "gray.300");
@@ -48,13 +47,13 @@ function Sidebar() {
   return (
     <Flex
       height="80vh"
-      width={{ sm: "4rem", md: "14rem" }}  // Adjust width dynamically
+      maxWidth={{ sm: "4rem", md: "14rem" }}  // Adjust width dynamically
       position="fixed"
       top="5rem"
       left="8rem"
       // bg="transparent"
-      bg={cardBg}
-
+      // bg={cardBg}
+      // maxWidth="12rem"
       // backdropFilter="blur(10px)"
       borderRadius="12px"
       paddingY="1rem"
@@ -64,30 +63,30 @@ function Sidebar() {
       justifyContent="flex-start"
       gap="1rem"
       display={{ base: "none", md: "flex" }} // Hide in small screens
-    // border={"2px solid red"}
+      // border={"2px solid red"}
 
     >
-      <Box display="flex" justifyContent="center" 
-      // border={"2px solid red"}
+      <Box display="flex" justifyContent={{ base: "flex-start", md: "center" }}
+        // border={"2px solid pink"}
       >
 
-         <Box as={Link} to="/home">
+        <Box as={Link} to="/home">
           <Image
             src={Logo}
             boxSize="80px"
             objectFit="contain"
             alt="Buddy-zone-logo"
             marginY="-15px"
-      // border={"2px solid red"}
+          // border={"2px solid green"}
 
           />
         </Box>
       </Box>
-      <Flex flexDirection="column" gap="2rem" 
+      <Flex flexDirection="column" gap="2rem"
       // border={"2px solid red"}
-      
+
       >
-        <Flex flexDirection="column" width="full" alignItems={isLessThan1240 ? "flex-start" : "center"}
+        <Flex flexDirection="column" width="full" alignItems={"center"}
         // border={"2px solid blue"}
         >
           {[
@@ -100,11 +99,11 @@ function Sidebar() {
               action: () => dispatch(getAllBookmarks(token))
             },
             {
-              to: `/user/${id}`,
+              to: `/user/${userId}`,
               label: "Profile",
               icon: CgProfile,
               action: () => {
-                dispatch(getSingleUser(id));
+                dispatch(getSingleUser(userId));
                 dispatch(getUserPosts(username));
               }
             },
@@ -119,10 +118,14 @@ function Sidebar() {
               width={isLessThan1240 ? "none" : "full"}
               transition="all 0.2s ease-in-out"
               justifySelf={isLessThan1240 ? "end" : "center"}
-              // border={"2px solid green"}
+              // border={"2px solid red"}
               mb="0.5rem"
             >
-              <Flex alignItems="center" justifyContent="center">
+              <Flex alignItems="center" justifyContent="center"
+
+              // border={"2px solid green"}
+
+              >
                 <Icon as={icon} fontSize="1.4rem" mr={isLessThan1240 ? "0px" : "12px"} />
                 {!isLessThan1240 && <Text>{label}</Text>}
               </Flex>
@@ -136,7 +139,7 @@ function Sidebar() {
             width="full"
             display="flex"
             alignItems="center"
-            justifyContent={isLessThan1240 ? "flex-start" : "center"}
+            justifyContent={"center"}
             py="0.5rem"
             // borderTop="1px solid rgba(255, 255, 255, 0.2)"
             // border={"2px solid green"}
@@ -149,8 +152,8 @@ function Sidebar() {
                   // border={"2px solid blue"}
                   alignItems="center"
                   width={isLessThan1240 ? "20%" : "90%"}
-                  justifyContent="flex-start"
-                  gap="0.8rem"
+                  justifyContent="center"
+                  gap="0.1rem"
                 >
                   <Avatar name={`${user?.firstName} ${user?.lastName}`} size="md" />
                   {!isLessThan1240 && <Text fontWeight="bold"
@@ -178,10 +181,10 @@ function Sidebar() {
               <PopoverContent width="16rem" boxShadow="lg">
                 <PopoverArrow />
                 <PopoverBody>
-                  {/* <EditPostModal id={id} content={content} /> */}
+                  {/* <EditPostModal userId={id} content={content} /> */}
                   <Flex>
                     <Button as={Link}
-                      to={`/user/${id}`}
+                      to={`/user/${userId}`}
                       display="flex"
                       alignItems="center"
                       _hover={{ transform: "scale(1.05)" }}

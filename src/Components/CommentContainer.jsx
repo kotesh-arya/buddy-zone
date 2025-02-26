@@ -19,12 +19,14 @@ import { BiUpvote, BiDownvote } from "react-icons/bi";
 import {
   deleteComment,
   downVoteComment,
+  getSinglePostComments,
   upVoteComment,
 } from "../features/post/singlePostSlice";
+import { toast } from "react-toastify";
 
-function CommentContainer({ postId, commentId, username, text, votes }) {
+function CommentContainer({ postId, commentId, username, text, votes, firstName, lastName }) {
   const bgColor = useColorModeValue("gray.50", "gray.900");
-  const { user, token } = useSelector((store) => store.auth);
+  const { user } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   return (
     <Box
@@ -52,8 +54,8 @@ function CommentContainer({ postId, commentId, username, text, votes }) {
           alignItems={"center"}
           justifyContent={"space-between"}
         >
-          <Text as={"strong"}>{username}</Text>
-          {username === user.username && (
+          <Text as={"strong"}>{`${firstName} ${lastName}`}</Text>
+          {username === user.email && (
             <Box height={"10px"}>
               <Popover>
                 <PopoverTrigger>
@@ -73,14 +75,17 @@ function CommentContainer({ postId, commentId, username, text, votes }) {
                     <Button
                       bg={"#08a0e9"}
                       marginLeft={"10px"}
-                      onClick={() => {
-                        dispatch(
-                          deleteComment({
-                            postId: postId,
-                            commentId: commentId,
-                            token,
-                          })
-                        );
+                      onClick={async () => {
+                        try {
+                          await dispatch(
+                            deleteComment({
+                              commentId: commentId,
+                            })
+                          ).unwrap();
+                          dispatch(getSinglePostComments(postId))
+                        } catch (error) {
+                          toast.error("Failed to Delete comment");
+                        }
                       }}
                       cursor={"pointer"}
                     >
@@ -92,40 +97,51 @@ function CommentContainer({ postId, commentId, username, text, votes }) {
             </Box>
           )}
         </Box>
-        <Text>{text}</Text>
+        <Text 
+        // border="2px solid red" 
+        textAlign="start" width="90%">{text}</Text>
         <Box width={"30%"} display={"flex"} justifyContent={"space-between"}>
           <Text>
             <Icon
-              onClick={() => {
-                dispatch(
-                  upVoteComment({
-                    postId: postId,
-                    commentId: commentId,
-                    token,
-                  })
-                );
+              onClick={async () => {
+                try {
+                  await dispatch(
+                    upVoteComment({
+                      commentId: commentId,
+                    })
+                  ).unwrap();
+                  dispatch(getSinglePostComments(postId));
+                } catch (error) {
+                  toast.error("Failed to upvote comment");
+                }
               }}
               cursor={"pointer"}
               as={BiUpvote}
             />
-            {votes.upvotedBy.length}{" "}
+            {votes.upvotedBy?.length}{" "}
           </Text>
           <Text>
             {" "}
             <Icon
-              onClick={() => {
-                dispatch(
-                  downVoteComment({
-                    postId: postId,
-                    commentId: commentId,
-                    token,
-                  })
-                );
+              onClick={async () => {
+                try {
+                  await dispatch(
+                    downVoteComment({
+                      commentId: commentId,
+                    })
+                  ).unwrap();
+                  dispatch(getSinglePostComments(postId));
+                } catch (error) {
+                  toast.error("Failed to upvote comment");
+
+                }
+
               }}
               cursor={"pointer"}
               as={BiDownvote}
             />{" "}
-            {votes.downvotedBy.length}{" "}
+            {votes.downvotedBy?.length}{" "}
+
           </Text>
         </Box>
       </Box>

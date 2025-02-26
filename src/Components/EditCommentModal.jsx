@@ -12,11 +12,12 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { editComment } from "../features/post/singlePostSlice";
+import { editComment, getSinglePostComments } from "../features/post/singlePostSlice";
+import { toast } from "react-toastify";
 
 function EditCommentModal({ postId, commentId, text }) {
   const dispatch = useDispatch();
-  const { user, token } = useSelector((store) => store.auth);
+  const { user } = useSelector((store) => store.auth);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [contentData, setContentData] = useState({
     firstName: user.firstName,
@@ -63,16 +64,20 @@ function EditCommentModal({ postId, commentId, text }) {
                     color="white"
                     width={"20%"}
                     marginBottom={"1rem"}
-                    onClick={() => {
-                      dispatch(
-                        editComment({
-                          commentData: contentData,
-                          postId: postId,
-                          commentId: commentId,
-                          token,
-                        })
-                      );
-                      onClose();
+                    onClick={async () => {
+                      try {
+                        await dispatch(
+                          editComment({
+                            text: contentData.text,
+                            commentId: commentId,
+                          })
+                        ).unwrap();
+                        dispatch(getSinglePostComments(postId))
+                        onClose();
+                      } catch (error) {
+                        toast.error("Failed to edit comment");
+                        onClose();
+                      }
                     }}
                   >
                     DONE

@@ -24,7 +24,7 @@ const getSingleUser = createAsyncThunk(
     try {
       const {
         data: { user },
-      } = await getSingleUserService(id);
+      } = await getSingleUserService();
       return user;
     } catch (error) {
       return rejectWithValue(error);
@@ -34,11 +34,11 @@ const getSingleUser = createAsyncThunk(
 
 const getUserPosts = createAsyncThunk(
   "user/getUserPosts",
-  async (username, { rejectWithValue }) => {
+  async (userId, { rejectWithValue }) => {
     try {
       const {
-        data: { posts },
-      } = await getUserPostsService(username);
+        data: { posts }
+      } = await getUserPostsService(userId);
       return posts;
     } catch (error) {
       return rejectWithValue(error);

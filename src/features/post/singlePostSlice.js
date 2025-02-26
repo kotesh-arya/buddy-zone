@@ -6,6 +6,7 @@ import { editCommentService } from "../../services/CommentServices/editCommentSe
 import { getPostCommentsService } from "../../services/CommentServices/getPostCommentsService";
 import { upVoteCommentService } from "../../services/CommentServices/upVoteCommentService";
 import { getSinglePostService } from "../../services/PostServices/getSinglePostService";
+import { deleteCommentsofPostService } from "../../services/CommentServices/deleteCommentsofPostService";
 
 const initialState = {
   post: null,
@@ -22,9 +23,9 @@ const getSinglePost = createAsyncThunk(
   async (postId, { rejectWithValue }) => {
     try {
       const {
-        data: { post },
+        data
       } = await getSinglePostService(postId);
-      return post;
+      return data;
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -36,9 +37,9 @@ const getSinglePostComments = createAsyncThunk(
   async (postId, { rejectWithValue }) => {
     try {
       const {
-        data: { comments },
+        data
       } = await getPostCommentsService(postId);
-      return comments;
+      return data;
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -47,9 +48,9 @@ const getSinglePostComments = createAsyncThunk(
 
 const addComment = createAsyncThunk(
   "singlePost/addComment",
-  async ({ postId, commentData, token }, { rejectWithValue }) => {
+  async ({ postId, text }, { rejectWithValue }) => {
     try {
-      const { data } = await addCommentService(postId, commentData, token);
+      const { data } = await addCommentService(postId, text);
       return data;
     } catch (error) {
       return rejectWithValue("Error occurred while adding the comment");
@@ -59,13 +60,11 @@ const addComment = createAsyncThunk(
 
 const editComment = createAsyncThunk(
   "singlePost/editComment",
-  async ({ postId, commentId, commentData, token }, { rejectWithValue }) => {
+  async ({ text, commentId }, { rejectWithValue }) => {
     try {
       const { data } = await editCommentService(
-        postId,
+        text,
         commentId,
-        commentData,
-        token
       );
       return data;
     } catch (error) {
@@ -76,21 +75,33 @@ const editComment = createAsyncThunk(
 
 const deleteComment = createAsyncThunk(
   "singlePost/deleteComment",
-  async ({ postId, commentId, token }, { rejectWithValue }) => {
+  async ({ commentId }, { rejectWithValue }) => {
     try {
-      const { data } = await deleteCommentService(postId, commentId, token);
+      const { data } = await deleteCommentService(commentId);
       return data;
     } catch (error) {
       return rejectWithValue("Error occurred while deleting the comment");
     }
   }
 );
+const deleteCommentsOfPost = createAsyncThunk(
+  "singlePost/deleteCommentsOfPost",
+  async ({ postId }, { rejectWithValue }) => {
+    try {
+      await deleteCommentsofPostService(postId);
+      return [];
+    } catch (error) {
+      return rejectWithValue(error.message || "Error deleting all the comments of a post");
+    }
+  }
+);
+
 
 const upVoteComment = createAsyncThunk(
   "singlePost/upVoteComment",
-  async ({ postId, commentId, token }, { rejectWithValue }) => {
+  async ({ commentId, token }, { rejectWithValue }) => {
     try {
-      const { data } = await upVoteCommentService(postId, commentId, token);
+      const { data } = await upVoteCommentService(commentId, token);
       return data;
     } catch (error) {
       return rejectWithValue("Error occurred while upvoting the comment");
@@ -102,7 +113,7 @@ const downVoteComment = createAsyncThunk(
   "singlePost/downVoteComment",
   async ({ postId, commentId, token }, { rejectWithValue }) => {
     try {
-      const { data } = await downVoteCommentService(postId, commentId, token);
+      const { data } = await downVoteCommentService(commentId);
       return data;
     } catch (error) {
       return rejectWithValue("Error occurred while downvoting the comment");
@@ -159,6 +170,22 @@ const singlePostSlice = createSlice({
         state.comments.isLoading = false;
       })
 
+
+      .addCase(deleteCommentsOfPost.pending, (state) => {
+        state.comments.isLoading = true;
+      })
+      .addCase(deleteCommentsOfPost.fulfilled, (state, action) => {
+        state.comments.isLoading = false;
+        state.comments.postComments = action.payload;
+      })
+      .addCase(deleteCommentsOfPost.rejected, (state) => {
+        state.comments.isLoading = false;
+      })
+
+
+      .addCase(deleteComment.pending, (state) => {
+        state.comments.isLoading = true;
+      })
       .addCase(deleteComment.fulfilled, (state, action) => {
         state.comments.isLoading = false;
         state.comments.postComments = action.payload.comments;
@@ -167,6 +194,9 @@ const singlePostSlice = createSlice({
         state.comments.isLoading = false;
       })
 
+      .addCase(upVoteComment.pending, (state) => {
+        state.comments.isLoading = true;
+      })
       .addCase(upVoteComment.fulfilled, (state, action) => {
         state.comments.isLoading = false;
         state.comments.postComments = action.payload.comments;
@@ -194,6 +224,7 @@ export {
   addComment,
   editComment,
   deleteComment,
+  deleteCommentsOfPost,
   upVoteComment,
   downVoteComment,
 };
