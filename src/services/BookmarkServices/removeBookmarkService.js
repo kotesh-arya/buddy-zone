@@ -1,11 +1,18 @@
 import axios from "axios";
+const environment = process.env.NODE_ENV;
 
-export const removePostFromBookmarkService = async (postId, token) => {
 
-  const response = await axios.post(
-    `/api/users/remove-bookmark/${postId}`,
-    {},
-    { headers: { authorization: token } }
+export const removePostFromBookmarkService = async (postId, userId) => {
+  const API_BASE_URL =
+    environment === "development"
+      ? "http://localhost:3001/api/"
+      : "https://buddy-zone-backend.onrender.com/api/"; // Replace with your actual API URL
+
+  const response = await axios.delete(
+    `${API_BASE_URL}bookmarks/${userId}/${postId}`,
+    {
+      withCredentials: true, // ✅ Ensures cookies (token) are sent
+    }
   );
   return response;
 };

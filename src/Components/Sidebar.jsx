@@ -15,16 +15,13 @@ import { CgProfile } from "react-icons/cg";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../features/auth/authSlice";
-import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
 import { NewPostModal } from "./NewPostModal";
-import { getAllBookmarks } from "../features/bookmark/bookmarkSlice";
 import Logo from "../assets/buddy-zone-blue.png"
 function Sidebar() {
   const dispatch = useDispatch();
   const {
-    user: { userId, username },
+    user: { userId },
     user,
-    token,
   } = useSelector((store) => store.auth);
   const textColor = useColorModeValue("gray.700", "whiteAlpha.900");
   const activeBg = useColorModeValue("#08a0e9", "#3182ce");
@@ -95,16 +92,16 @@ function Sidebar() {
               to: "/bookmarks",
               label: "Bookmarks",
               icon: BsFillBookmarkHeartFill,
-              action: () => dispatch(getAllBookmarks(token))
+              // action: () => dispatch(getAllBookmarks(userId))
             },
             {
               to: `/user/${userId}`,
               label: "Profile",
               icon: CgProfile,
-              action: () => {
-                dispatch(getSingleUser(userId));
-                dispatch(getUserPosts(username));
-              }
+              // action: () => {
+              //   dispatch(getSingleUser(userId));
+              //   dispatch(getUserPosts(username));
+              // }
             },
           ].map(({ to, label, icon, action }) => (
             <Flex

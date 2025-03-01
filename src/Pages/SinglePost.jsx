@@ -43,7 +43,6 @@ function SinglePost() {
     username: user.username,
     text: "",
   });
-
   return (
     <Box display="flex" flexDirection="column" minH="100vh">
       <Navbar />
@@ -74,7 +73,7 @@ function SinglePost() {
             {isLoading ? (
               <Skeleton height="200px" width="100%" borderRadius="md" />
             ) : (
-              <PostCard {...post} fromSinglePostPage={true} />
+              <PostCard {...post} fromSinglePostPage={true} postComments={postComments} />
             )}
 
             {/* Comment Section */}

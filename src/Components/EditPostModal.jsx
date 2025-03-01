@@ -29,18 +29,18 @@ function EditPostModal({ id, content }) {
     content: content,
   });
   return (
-    <>
+    < >
       <Button bg={"#08a0e9"} onClick={onOpen}>
         Edit
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose}  >
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent >
           <ModalHeader>Editing Post</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            <form onSubmit={(e) => e.preventDefault()}>
+          <ModalBody >
+            <form onSubmit={(e) => e.preventDefault()} >
               <Box
                 alignItems={"center"}
                 display={"flex"}
@@ -62,6 +62,7 @@ function EditPostModal({ id, content }) {
                       });
                     }}
                     resize={"none"}
+                    height="12rem"
                   />{" "}
                   <Icon as={RiImageAddLine} />
                   <Button
