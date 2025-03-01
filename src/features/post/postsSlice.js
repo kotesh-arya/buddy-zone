@@ -62,29 +62,7 @@ const editPost = createAsyncThunk(
   }
 );
 
-const likePost = createAsyncThunk(
-  "posts/likePost",
-  async ({ postId, token }, { rejectWithValue }) => {
-    try {
-      const { data } = await likePostService(postId, token);
-      return data.posts;
-    } catch (error) {
-      return rejectWithValue(error.message || "Error liking the post");
-    }
-  }
-);
 
-const disLikePost = createAsyncThunk(
-  "posts/disLikePost",
-  async ({ postId, token }, { rejectWithValue }) => {
-    try {
-      const { data } = await disLikePostService(postId, token);
-      return data.posts;
-    } catch (error) {
-      return rejectWithValue(error.message || "Error disliking the post");
-    }
-  }
-);
 
 // Slice
 const postsSlice = createSlice({
@@ -126,18 +104,7 @@ const postsSlice = createSlice({
       .addCase(editPost.rejected, (state, { payload }) => {
         state.error = payload;
       })
-      .addCase(likePost.fulfilled, (state, { payload }) => {
-        state.posts = payload;
-      })
-      .addCase(likePost.rejected, (state, { payload }) => {
-        state.error = payload;
-      })
-      .addCase(disLikePost.fulfilled, (state, { payload }) => {
-        state.posts = payload;
-      })
-      .addCase(disLikePost.rejected, (state, { payload }) => {
-        state.error = payload;
-      });
+
   },
 });
 
@@ -149,6 +116,4 @@ export {
   createPost,
   deletePost,
   editPost,
-  likePost,
-  disLikePost,
 };

@@ -22,9 +22,9 @@ function Suggestionbar() {
     user: { userId },
   } = useSelector((store) => store.auth);
 
-  useEffect(() => {
-    dispatch(getUsers());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getUsers());
+  // }, [dispatch]);
 
   const usersList = users
     ?.filter((user) => user._id !== userId)

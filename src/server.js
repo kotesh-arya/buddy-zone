@@ -75,8 +75,8 @@ export function makeServer({ environment = "development" } = {}) {
       // this.post("/posts", createPostHandler.bind(this));
       // this.delete("/posts/:postId", deletePostHandler.bind(this));
       // this.post("/posts/edit/:postId", editPostHandler.bind(this));
-      this.post("/posts/like/:postId", likePostHandler.bind(this));
-      this.post("/posts/dislike/:postId", dislikePostHandler.bind(this));
+      // this.post("/posts/like/:postId", likePostHandler.bind(this));
+      // this.post("/posts/dislike/:postId", dislikePostHandler.bind(this));
 
       //post comments routes (public)
       // this.get("/comments/:postId", getPostCommentsHandler.bind(this));
@@ -105,12 +105,16 @@ export function makeServer({ environment = "development" } = {}) {
 
       // user routes (private)
       this.post("users/edit", editUserHandler.bind(this));
-      this.get("/users/bookmark", getBookmarkPostsHandler.bind(this));
-      this.post("/users/bookmark/:postId/", bookmarkPostHandler.bind(this));
-      this.post(
-        "/users/remove-bookmark/:postId/",
-        removePostFromBookmarkHandler.bind(this)
-      );
+
+      // Bookmark
+      // this.get("/users/bookmark", getBookmarkPostsHandler.bind(this));
+      // this.post("/users/bookmark/:postId/", bookmarkPostHandler.bind(this));
+      // this.post(
+      //   "/users/remove-bookmark/:postId/",
+      //   removePostFromBookmarkHandler.bind(this)
+      // );
+
+      // Follow and unfollow users
       this.post("/users/follow/:followUserId/", followUserHandler.bind(this));
       this.post(
         "/users/unfollow/:followUserId/",

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Button,
@@ -8,20 +8,42 @@ import {
   useColorModeValue,
   Heading,
   Image,
+  Skeleton,
+  SkeletonText,
 } from "@chakra-ui/react";
 import { AiOutlineArrowUp, AiOutlineArrowDown } from "react-icons/ai";
 import { Navbar } from "../Components/Navbar";
 import { Sidebar } from "../Components/Sidebar";
 import { Suggestionbar } from "../Components/Suggestionbar";
 import { PostCard } from "../Components/PostCard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { BottomNavigation } from "../Components/BottomNavigation";
 import EmptyIcon from "../assets/empty-inbox.png";
+import { getAllBookmarks } from "../features/bookmark/bookmarkSlice";
 
 function Bookmarks() {
+  const dispatch = useDispatch();
   const bgColor = useColorModeValue("rgba(255, 255, 255, 0.05)", "rgba(0, 0, 0, 0.3)");
+  const {
+    user: { userId },
+  } = useSelector((store) => store.auth);
 
-  const { bookmarks } = useSelector((store) => store.bookmark);
+  const { bookmarks, isLoading } = useSelector((store) => store.bookmark);
+
+  // useEffect(() => {
+  //   let isMounted = true;
+
+  //   if (userId && isMounted) {
+  //   }
+
+  //   return () => {
+  //     isMounted = false;
+  //   };
+  // }, [userId, dispatch]);
+  // useEffect(() => {
+  //   dispatch(getAllBookmarks(userId));
+  // }, [userId])
+
 
   return (
     <Box bg={useColorModeValue("gray.50", "gray.900")} minH="100vh">
@@ -47,7 +69,6 @@ function Bookmarks() {
           <Flex
             position="fixed"
             top="0"
-            // width="50%"
             maxW={{ base: "600px", md: "700px" }}
             justifyContent="space-between"
             bg="rgba(255, 255, 255, 0.1)"
@@ -81,8 +102,17 @@ function Bookmarks() {
 
           {/* Bookmarks List */}
           <VStack mt="7rem" spacing={6} width="100%" maxW="600px">
-            {bookmarks.length > 0 ? (
-              bookmarks.map((post) => <PostCard key={post.id} {...post} />)
+            {isLoading ? (
+              // Skeleton Loader
+              [...Array(3)].map((_, index) => (
+                <Box key={index} p="4" w="full" borderRadius="md" boxShadow="sm" bg="gray.800">
+                  <Skeleton height="20px" width="60%" mb="4" />
+                  <SkeletonText noOfLines={3} spacing="4" />
+                  <Skeleton height="150px" mt="4" />
+                </Box>
+              ))
+            ) : bookmarks?.length > 0 ? (
+              bookmarks?.map((post) => <PostCard key={post.id} {...post} />)
             ) : (
               <Flex direction="column" alignItems="center" justifyContent="center" minH="50vh" textAlign="center">
                 <Image src={EmptyIcon} alt="empty-box" boxSize="50%" mb={4} />

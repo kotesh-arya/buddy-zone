@@ -24,14 +24,14 @@ import { BottomNavigation } from "../Components/BottomNavigation";
 import { getAllPosts } from "../features/post/postsSlice";
 
 function Home() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { posts, isLoading } = useSelector((store) => store.posts);
   const bgColor = useColorModeValue("rgba(255, 255, 255, 0.05)", "rgba(0, 0, 0, 0.3)");
   const [sortOrder, setSortOrder] = useState("newest"); // Default sorting order
 
-  useEffect(() => {
-    dispatch(getAllPosts());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getAllPosts());
+  // }, [dispatch]);
 
 
   // Sorting function
@@ -142,13 +142,11 @@ function Home() {
               {sortedPosts?.length > 0 ? (
                 sortedPosts?.map((post) => (
                   <Flex
-                    as={NavLink}
-                    to={`/post/${post.id}`}
+                    // as={NavLink}
+                    // to={`/post/${post.id}`}
                     key={post.id}
                     // border="2px solid green"
                     width="100%"
-                  // _hover={{ background: "rgba(255, 255, 255, 0.1)", transform: "scale(1.02)" }}
-                  // transition="all 0.2s ease-in-out"
                   >
                     <PostCard key={post.id} {...post} />
                   </Flex>

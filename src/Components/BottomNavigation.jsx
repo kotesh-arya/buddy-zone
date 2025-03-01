@@ -11,7 +11,6 @@ import { IoLogOut } from "react-icons/io5";
 import { BsFillBookmarkHeartFill } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllBookmarks } from "../features/bookmark/bookmarkSlice";
 import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
 import { NewPostModal } from "./NewPostModal";
 import { logOut } from "../features/auth/authSlice";
@@ -24,8 +23,7 @@ function BottomNavigation() {
   });
   const dispatch = useDispatch();
   const {
-    user: { id, username },
-    token,
+    user: { userId, username },
   } = useSelector((store) => store.auth);
   return (
     <div>
@@ -68,9 +66,9 @@ function BottomNavigation() {
         <Box
           as={NavLink}
           to="/bookmarks"
-          onClick={() => {
-            dispatch(getAllBookmarks(token));
-          }}
+          // onClick={() => {
+          //   dispatch(getAllBookmarks(userId));
+          // }}
           padding="10px"
           borderRadius={4}
           style={getActiveStyle}
@@ -79,9 +77,9 @@ function BottomNavigation() {
         </Box>
         <Box
           as={NavLink}
-          to={`/user/${id}`}
+          to={`/user/${userId}`}
           onClick={() => {
-            dispatch(getSingleUser(id));
+            dispatch(getSingleUser());
             dispatch(getUserPosts(username));
           }}
           padding="10px"
