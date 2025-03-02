@@ -31,18 +31,22 @@ function SinglePost() {
   const bgColor = useColorModeValue("gray.50", "gray.900");
   const {
     post,
-    comments: { postComments, isLoading: commentsLoading },
+    comments: { postsComments, isLoading: commentsLoading },
     isLoading, // Assuming you have a isLoading state in Redux
   } = useSelector((store) => store.singlePost);
   useEffect(() => {
     dispatch(getSinglePost(postId));
-    dispatch(getSinglePostComments(postId));
+    // dispatch(getSinglePostComments(postId));
   }, [dispatch, postId]);
 
   const [comment, setComment] = useState({
     username: user.username,
     text: "",
   });
+  const postComments = [...(postsComments[postId] || [])].sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
+  
   return (
     <Box display="flex" flexDirection="column" minH="100vh">
       <Navbar />
@@ -73,7 +77,9 @@ function SinglePost() {
             {isLoading ? (
               <Skeleton height="200px" width="100%" borderRadius="md" />
             ) : (
-              <PostCard {...post} fromSinglePostPage={true} postComments={postComments} />
+              <PostCard {...post} fromSinglePostPage={true}
+              //  postComments={postComments}
+              />
             )}
 
             {/* Comment Section */}

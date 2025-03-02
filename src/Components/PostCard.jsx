@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -63,14 +63,22 @@ function PostCard({
   lastName,
   likes,
   fromSinglePostPage,
-  postComments,
+  // postComments,
 }) {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [loadingPostId, setLoadingPostId] = useState(null);
+  const [commetingPostId, setCommetingPostId] = useState(null);
+
 
   const { user: { userId, email } } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const { userBookmarks, allBookmarks } = useSelector((store) => store.bookmark);
+  const {
+    post,
+    comments: { postsComments, isLoading: commentsLoading },
+    isLoading, // Assuming you have a isLoading state in Redux
+  } = useSelector((store) => store.singlePost);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [comment, setComment] = useState({
@@ -89,6 +97,10 @@ function PostCard({
     allPostBookmarkCount[postId] = (allPostBookmarkCount[postId] || 0) + 1;
   });
   const postBookmarkCount = allPostBookmarkCount[id];
+  const postComments = postsComments[id] || [];
+  useEffect(() => {
+    dispatch(getSinglePostComments(id));
+  }, [id])
   return (
     <Box
       bg={cardBg}
@@ -205,7 +217,9 @@ function PostCard({
             e.stopPropagation();
             onOpen();
           }}>
-          <Icon as={FaRegCommentAlt} boxSize={5} color="gray.500" />
+          {
+            (commentsLoading && commetingPostId === id)  ? <Spinner size="sm" color="white.900" /> : <Icon as={FaRegCommentAlt} boxSize={5} color="gray.500" />
+          }
           <Text ml="2" fontWeight="bold" fontSize="sm" color="gray.500">{postComments?.length || 0}</Text>
         </Box>
         <Modal isOpen={isOpen} onClose={onClose} size="xl">
@@ -245,6 +259,7 @@ function PostCard({
                       type="submit"
                       disabled={!comment.text}
                       onClick={async () => {
+                        setCommetingPostId(id);
                         try {
                           await dispatch(addComment({ postId: id, text: comment.text })).unwrap();
                           setComment((prev) => ({ ...prev, text: "" }));
@@ -253,6 +268,8 @@ function PostCard({
                         } catch (error) {
                           toast.error("Failed to Add comment");
                           onClose();
+                        } finally {
+                          setCommetingPostId(null);
                         }
                       }}
                     >

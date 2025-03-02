@@ -14,7 +14,7 @@ const initialState = {
   post: null,
   isLoading: false,
   comments: {
-    postComments: [],
+    postsComments: {},
     isLoading: false,
   },
   error: "",
@@ -74,7 +74,7 @@ const getSinglePostComments = createAsyncThunk(
       const {
         data
       } = await getPostCommentsService(postId);
-      return data;
+      return { postId, data };
     } catch (error) {
       return rejectWithValue(error);
     }
@@ -86,7 +86,7 @@ const addComment = createAsyncThunk(
   async ({ postId, text }, { rejectWithValue }) => {
     try {
       const { data } = await addCommentService(postId, text);
-      return data;
+      return { postId, data };
     } catch (error) {
       return rejectWithValue("Error occurred while adding the comment");
     }
@@ -125,7 +125,7 @@ const deleteCommentsOfPost = createAsyncThunk(
   async ({ postId }, { rejectWithValue }) => {
     try {
       await deleteCommentsofPostService(postId);
-      return [];
+      return {};
     } catch (error) {
       return rejectWithValue(error.message || "Error deleting all the comments of a post");
     }
@@ -206,7 +206,8 @@ const singlePostSlice = createSlice({
       })
       .addCase(getSinglePostComments.fulfilled, (state, action) => {
         state.comments.isLoading = false;
-        state.comments.postComments = action.payload;
+        const { postId, data } = action.payload;
+        state.comments.postsComments[postId] = data;
       })
       .addCase(getSinglePostComments.rejected, (state) => {
         state.comments.isLoading = false;
@@ -217,7 +218,8 @@ const singlePostSlice = createSlice({
       })
       .addCase(addComment.fulfilled, (state, action) => {
         state.comments.isLoading = false;
-        state.comments.postComments = action.payload.comments;
+        const { postId, data } = action.payload;
+        state.comments.postsComments[postId] = [...state.comments.postsComments[postId], data];
       })
       .addCase(addComment.rejected, (state) => {
         state.comments.isLoading = false;
@@ -228,31 +230,32 @@ const singlePostSlice = createSlice({
       })
       .addCase(editComment.fulfilled, (state, action) => {
         state.comments.isLoading = false;
-        state.comments.postComments = action.payload.comments;
+        // const { postId, comments } = action.payload;
+        // state.comments.postsComments[postId] = comments;
       })
       .addCase(editComment.rejected, (state) => {
         state.comments.isLoading = false;
       })
 
-
+      // delete all comments of a post
       .addCase(deleteCommentsOfPost.pending, (state) => {
         state.comments.isLoading = true;
       })
       .addCase(deleteCommentsOfPost.fulfilled, (state, action) => {
         state.comments.isLoading = false;
-        state.comments.postComments = action.payload;
+        state.comments.postsComments = action.payload;
       })
       .addCase(deleteCommentsOfPost.rejected, (state) => {
         state.comments.isLoading = false;
       })
 
-
+      // delete single comment of a post
       .addCase(deleteComment.pending, (state) => {
         state.comments.isLoading = true;
       })
       .addCase(deleteComment.fulfilled, (state, action) => {
         state.comments.isLoading = false;
-        state.comments.postComments = action.payload.comments;
+        // state.comments.postsComments = action.payload.comments;
       })
       .addCase(deleteComment.rejected, (state) => {
         state.comments.isLoading = false;
@@ -263,7 +266,7 @@ const singlePostSlice = createSlice({
       })
       .addCase(upVoteComment.fulfilled, (state, action) => {
         state.comments.isLoading = false;
-        state.comments.postComments = action.payload.comments;
+        // state.comments.postsComments = action.payload.comments;
       })
       .addCase(upVoteComment.rejected, (state) => {
         state.comments.isLoading = false;
@@ -271,7 +274,7 @@ const singlePostSlice = createSlice({
 
       .addCase(downVoteComment.fulfilled, (state, action) => {
         state.comments.isLoading = false;
-        state.comments.postComments = action.payload.comments;
+        // state.comments.postsComments = action.payload.comments;
       })
       .addCase(downVoteComment.rejected, (state) => {
         state.comments.isLoading = false;

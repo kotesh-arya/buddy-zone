@@ -24,14 +24,10 @@ import { BottomNavigation } from "../Components/BottomNavigation";
 import { getAllPosts } from "../features/post/postsSlice";
 
 function Home() {
-  // const dispatch = useDispatch();
   const { posts, isLoading } = useSelector((store) => store.posts);
   const bgColor = useColorModeValue("rgba(255, 255, 255, 0.05)", "rgba(0, 0, 0, 0.3)");
   const [sortOrder, setSortOrder] = useState("newest"); // Default sorting order
 
-  // useEffect(() => {
-  //   dispatch(getAllPosts());
-  // }, [dispatch]);
 
 
   // Sorting function
