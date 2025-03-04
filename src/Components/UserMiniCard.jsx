@@ -1,15 +1,19 @@
-import React from "react";
-import { Flex, Box, Avatar, Text, Button } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { Flex, Box, Avatar, Text, Button, Spinner } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
+import { followUser, getSingleUser, getUserPosts, unfollowUser } from "../features/users/singleUserSlice";
 
 import { Link } from "react-router-dom";
-import { followUser, unfollowUser } from "../features/users/usersSlice";
 
-function UserMiniCard({ id, firstName, lastName, username, userImage }) {
+function UserMiniCard({ _id, firstName, lastName, username, userImage }) {
+  const [actionUserId, setActionUserId] = useState("")
   const dispatch = useDispatch();
   const { token } = useSelector((store) => store.auth);
-  const { followedUsers } = useSelector((store) => store.users);
+  const {
+    profile: { following, isLoading }
+  } = useSelector((store) => store.singleUser);
+
+
   return (
     <Flex
       display={"flex"}
@@ -17,20 +21,20 @@ function UserMiniCard({ id, firstName, lastName, username, userImage }) {
       justifyContent={"space-between"}
       alignItems={"center"}
       width={"full"}
-      // border={"3px solid red"}
+    // border={"3px solid red"}
     >
       <Box
         as={Link}
-        to={`/user/${id}`}
+        to={`/user/${_id}`}
         onClick={() => {
-          dispatch(getSingleUser(id));
+          dispatch(getSingleUser(_id));
           dispatch(getUserPosts(username));
         }}
         width={"60%"}
         display={"flex"}
         alignItems={"center"}
-        // border={"3px solid green"}
-        // background={{ base: "red", md: "orange", lg: "green" }}
+      // border={"3px solid green"}
+      // background={{ base: "red", md: "orange", lg: "green" }}
       >
         <Avatar
           marginRight={{ base: "5px", md: "8px", lg: "5px" }}
@@ -43,14 +47,21 @@ function UserMiniCard({ id, firstName, lastName, username, userImage }) {
         </Text>
       </Box>
       <Button
-        onClick={() => {
-          followedUsers?.find((user) => user.id === id)
-            ? dispatch(unfollowUser({ followUserId: id, token }))
-            : dispatch(followUser({ followUserId: id, token }));
+        onClick={async () => {
+          setActionUserId(_id);
+          if (following?.find((userId) => userId === _id)) {
+            await dispatch(unfollowUser({ userId: _id, token })).unwrap();
+            setActionUserId("");
+          } else {
+            await dispatch(followUser({ userId: _id, token })).unwrap();
+            setActionUserId("");
+          }
         }}
-        bg={"#08a0e9"}
+        bg={following?.find((userId) => userId === _id) ? "" : "#08a0e9"}
+        border={` ${following?.find((userId) => userId === _id) ? " 1px solid #08a0e9" : ""} `}
+        width="6rem"
       >
-        {followedUsers.find((user) => user.id === id) ? "Unfollow" : "Follow +"}
+        {(isLoading && actionUserId === _id) ? <Spinner size="sm" color="white.900" /> : following?.find((userId) => userId === _id) ? "Unfollow" : "Follow +"}
       </Button>
     </Flex>
   );

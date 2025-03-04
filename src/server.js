@@ -115,11 +115,11 @@ export function makeServer({ environment = "development" } = {}) {
       // );
 
       // Follow and unfollow users
-      this.post("/users/follow/:followUserId/", followUserHandler.bind(this));
-      this.post(
-        "/users/unfollow/:followUserId/",
-        unfollowUserHandler.bind(this)
-      );
+      // this.post("/users/follow/:followUserId/", followUserHandler.bind(this));
+      // this.post(
+      //   "/users/unfollow/:followUserId/",
+      //   unfollowUserHandler.bind(this)
+      // );
     },
   });
 }
