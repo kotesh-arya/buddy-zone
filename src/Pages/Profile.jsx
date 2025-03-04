@@ -26,7 +26,7 @@ function Profile() {
   const { userId } = useParams();
 
   const {
-    posts: { userPosts },
+    posts: { userPosts }, profile: { following, followers }
   } = useSelector((store) => store.singleUser);
   const {
     user,
@@ -79,7 +79,7 @@ function Profile() {
           <VStack spacing={4} mt="50px" textAlign="center">
             <Heading>{user?.firstName} {user?.lastName}</Heading>
             <Text fontSize="lg" color="gray.600">@{user?.username}</Text>
-            <Text fontSize="md">{user?.following?.length} Following | {user?.followers?.length} Followers</Text>
+            <Text fontSize="md">{following.length} Following | {followers.length} Followers</Text>
             {user?.website && (
               <Text fontSize="md">
                 Website: <Link to={user.website} target="_blank" color="blue.500">{user.website}</Link>
