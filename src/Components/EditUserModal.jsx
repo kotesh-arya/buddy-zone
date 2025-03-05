@@ -13,14 +13,18 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
-  Textarea,
+  Textarea, Spinner
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { editUser } from "../features/users/singleUserSlice";
+import { toast } from "react-toastify";
 
 function EditUserModal({ firstName, lastName, bio, website }) {
-  const { token } = useSelector((store) => store.auth);
+  const { user } = useSelector((store) => store.auth);
+  const {
+    profile: { isLoading: userLoading }
+  } = useSelector((store) => store.singleUser);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
   const [profileData, setProfileData] = useState({
@@ -31,7 +35,13 @@ function EditUserModal({ firstName, lastName, bio, website }) {
   });
   const handleEditUserProfile = async (e) => {
     e.preventDefault();
-    await dispatch(editUser({ userData: profileData, token }));
+    try {
+      await dispatch(editUser({ userData: profileData, userId: user.userId })).unwrap();
+      onClose();
+      toast.success("User profile updated successfully");
+    } catch (error) {
+      toast.error("Cannot update user profile, try again");
+    }
   };
   return (
     <>
@@ -117,10 +127,11 @@ function EditUserModal({ firstName, lastName, bio, website }) {
                     marginBottom={"1rem"}
                     onClick={(e) => {
                       handleEditUserProfile(e);
-                      onClose();
                     }}
                   >
-                    save
+                    {
+                      userLoading ? <Spinner size="sm" color="white.900" /> : "Save"
+                    }
                   </Button>
                 </Box>
               </Box>

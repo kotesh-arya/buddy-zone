@@ -26,7 +26,7 @@ function Profile() {
   const { userId } = useParams();
 
   const {
-    posts: { userPosts }, profile: { following, followers }
+    posts: { userPosts }, profile: {userProfile, following, followers }
   } = useSelector((store) => store.singleUser);
   const {
     user,
@@ -37,7 +37,6 @@ function Profile() {
       dispatch(getUserPosts(userId));
     }
   }, [dispatch, userId]);
-
   return (
     <Box bg={useColorModeValue("gray.50", "gray.900")} minH="100vh">
       <Navbar />
@@ -77,19 +76,19 @@ function Profile() {
 
           {/* User Info */}
           <VStack spacing={4} mt="50px" textAlign="center">
-            <Heading>{user?.firstName} {user?.lastName}</Heading>
-            <Text fontSize="lg" color="gray.600">@{user?.username}</Text>
+            <Heading>{userProfile?.firstName} {userProfile?.lastName}</Heading>
+            <Text fontSize="lg" color="gray.600">@{userProfile?.username}</Text>
             <Text fontSize="md">{following.length} Following | {followers.length} Followers</Text>
-            {user?.website && (
+            {userProfile?.website && (
               <Text fontSize="md">
-                Website: <Link to={user.website} target="_blank" color="blue.500">{user.website}</Link>
+                Website: <Link to={userProfile.website} target="_blank" color="blue.500">{userProfile.website}</Link>
               </Text>
             )}
-            <Text fontSize="md">Bio: {user?.bio || "No bio available"}</Text>
+            <Text fontSize="md">Bio: {userProfile?.bio || "No bio available"}</Text>
 
-            {user?.userId === userId ? (
+            {userProfile?.userId === userId ? (
               <VStack >
-                <EditUserModal {...user} />
+                <EditUserModal {...userProfile} />
                 <Button
                   mt={2}
                   colorScheme="red"
@@ -112,7 +111,7 @@ function Profile() {
           <Box mt={8} width="100%" maxW="600px">
             <Heading size="lg" mb={4}>Recent Posts</Heading>
             {userPosts?.length > 0 ? (
-              userPosts.map((post) => <PostCard key={post._id} {...post} />)
+              userPosts.map((post) => <PostCard key={post.id} {...post} />)
             ) : (
               <Text textAlign="center" color="gray.500">No posts yet.</Text>
             )}
