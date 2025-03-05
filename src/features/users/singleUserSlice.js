@@ -54,9 +54,9 @@ const getUserPosts = createAsyncThunk(
 
 const editUser = createAsyncThunk(
   "user/editUser",
-  async ({ userData, token }, { rejectWithValue }) => {
+  async ({ userData, userId }, { rejectWithValue }) => {
     try {
-      const { data } = await editUserService(userData, token);
+      const { data } = await editUserService(userData, userId);
       return data;
     } catch (error) {
       return rejectWithValue(error);
