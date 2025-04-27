@@ -17,6 +17,7 @@ import { logIn } from "../features/auth/authSlice";
 import { useDispatch } from "react-redux";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { toast } from "react-toastify";
+import { Navbar } from "../Components/Navbar";
 
 function SignIn() {
   const bgColor = useColorModeValue("gray.50", "whiteAlpha.50");
@@ -67,7 +68,7 @@ function SignIn() {
 
   return (
     <Box height={"100vh"} backgroundColor={bgColor}>
-      {/* <Navbar /> */}
+      <Navbar />
       <Container maxW="container.xl" p={0}>
         <Flex
           h="90vh"

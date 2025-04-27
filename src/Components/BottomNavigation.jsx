@@ -78,10 +78,10 @@ function BottomNavigation() {
         <Box
           as={NavLink}
           to={`/user/${userId}`}
-          onClick={() => {
-            dispatch(getSingleUser());
-            dispatch(getUserPosts(username));
-          }}
+          // onClick={() => {
+          //   dispatch(getSingleUser());
+          //   dispatch(getUserPosts(username));
+          // }}
           padding="10px"
           borderRadius={4}
           style={getActiveStyle}

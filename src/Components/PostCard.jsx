@@ -100,7 +100,17 @@ function PostCard({
   const postComments = postsComments[id] || [];
   useEffect(() => {
     dispatch(getSinglePostComments(id));
-  }, [id])
+  }, [id]);
+
+
+  const sizes = ["xs", "sm", "md", "lg", "xl", "2xl"];
+  const [size, setSize] = useState(sizes[2]); // Default to "md"
+
+  useEffect(() => {
+    const width = window.innerWidth;
+    const index = Math.min(Math.floor(width / 320), sizes.length - 1);
+    setSize(sizes[index]);
+  }, []);
   return (
     <Box
       bg={cardBg}
@@ -123,6 +133,8 @@ function PostCard({
       <Flex alignItems="center" justifyContent="space-between">
         <Flex alignItems="center">
           <Avatar name={`${firstName} ${lastName}`} src={userImage} size="md" />
+          {/* <Avatar name={`${firstName} ${lastName}`} src={userImage} size={size} shape="square"/> */}
+
           <Box ml="3">
             <Text fontWeight="bold" fontSize="lg">{firstName} {lastName}</Text>
             <Text fontSize="sm" color="gray.500">
@@ -218,7 +230,7 @@ function PostCard({
             onOpen();
           }}>
           {
-            (commentsLoading && commetingPostId === id)  ? <Spinner size="sm" color="white.900" /> : <Icon as={FaRegCommentAlt} boxSize={5} color="gray.500" />
+            (commentsLoading && commetingPostId === id) ? <Spinner size="sm" color="white.900" /> : <Icon as={FaRegCommentAlt} boxSize={5} color="gray.500" />
           }
           <Text ml="2" fontWeight="bold" fontSize="sm" color="gray.500">{postComments?.length || 0}</Text>
         </Box>

@@ -13,6 +13,7 @@ import { getUsers } from "./features/users/usersSlice";
 import { useEffect } from "react";
 import { getAllPosts } from "./features/post/postsSlice";
 import { getAllBookmarks } from "./features/bookmark/bookmarkSlice";
+import { getSingleUser } from "./features/users/singleUserSlice";
 function App() {
   const { user } = useSelector((store) => store.auth);
 
@@ -26,6 +27,7 @@ function App() {
       dispatch(getUsers());
       dispatch(getAllPosts());
       dispatch(getAllBookmarks(userId));
+      dispatch(getSingleUser());
     }
   }, [dispatch, userId]); // Effect runs only when userId is defined or changes
 
