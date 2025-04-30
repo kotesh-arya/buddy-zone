@@ -1,8 +1,8 @@
 import "./App.css";
-import { SignIn } from "../src/Pages/SignIn";
+import { SignIn } from "./Pages/SignIn";
 import { SignUp } from "./Pages/SignUp";
 import { Routes, Route } from "react-router-dom";
-import { Home, Explore, Bookmarks, Profile, SinglePost } from "../src/Pages";
+import { Home, Explore, Bookmarks, Profile, SinglePost } from "./Pages";
 import { RequiresAuth } from "./RequiresAuth";
 import { ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import { getUsers } from "./features/users/usersSlice";
 import { useEffect } from "react";
 import { getAllPosts } from "./features/post/postsSlice";
 import { getAllBookmarks } from "./features/bookmark/bookmarkSlice";
+import { getSingleUser } from "./features/users/singleUserSlice";
 function App() {
   const { user } = useSelector((store) => store.auth);
 
@@ -26,6 +27,7 @@ function App() {
       dispatch(getUsers());
       dispatch(getAllPosts());
       dispatch(getAllBookmarks(userId));
+      dispatch(getSingleUser());
     }
   }, [dispatch, userId]); // Effect runs only when userId is defined or changes
 

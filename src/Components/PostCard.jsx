@@ -40,7 +40,8 @@ import {
   getSinglePostComments,
   likePost,
 } from "../features/post/singlePostSlice";
-import Moment from "react-moment";
+// import Moment from "moment";
+import { format } from 'date-fns';
 import { useNavigate } from "react-router-dom";
 import {
   deletePost,
@@ -74,9 +75,8 @@ function PostCard({
   const dispatch = useDispatch();
   const { userBookmarks, allBookmarks } = useSelector((store) => store.bookmark);
   const {
-    post,
+
     comments: { postsComments, isLoading: commentsLoading },
-    isLoading, // Assuming you have a isLoading state in Redux
   } = useSelector((store) => store.singlePost);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -100,7 +100,17 @@ function PostCard({
   const postComments = postsComments[id] || [];
   useEffect(() => {
     dispatch(getSinglePostComments(id));
-  }, [id])
+  }, [id, dispatch]);
+
+
+  const sizes = ["xs", "sm", "md", "lg", "xl", "2xl"];
+  const [size, setSize] = useState(sizes[2]); // Default to "md"
+  console.log(size);
+  useEffect(() => {
+    const width = window.innerWidth;
+    const index = Math.min(Math.floor(width / 320), sizes.length - 1);
+    setSize(sizes[index]);
+  }, [sizes]);
   return (
     <Box
       bg={cardBg}
@@ -123,10 +133,13 @@ function PostCard({
       <Flex alignItems="center" justifyContent="space-between">
         <Flex alignItems="center">
           <Avatar name={`${firstName} ${lastName}`} src={userImage} size="md" />
+          {/* <Avatar name={`${firstName} ${lastName}`} src={userImage} size={size} shape="square"/> */}
+
           <Box ml="3">
             <Text fontWeight="bold" fontSize="lg">{firstName} {lastName}</Text>
             <Text fontSize="sm" color="gray.500">
-              <Moment fromNow>{updatedAt}</Moment>
+              {/* <Moment fromNow>{updatedAt}</Moment> */}
+              {format(new Date(updatedAt), 'yyyy/MM/dd')}
             </Text>
           </Box>
         </Flex>
@@ -218,7 +231,7 @@ function PostCard({
             onOpen();
           }}>
           {
-            (commentsLoading && commetingPostId === id)  ? <Spinner size="sm" color="white.900" /> : <Icon as={FaRegCommentAlt} boxSize={5} color="gray.500" />
+            (commentsLoading && commetingPostId === id) ? <Spinner size="sm" color="white.900" /> : <Icon as={FaRegCommentAlt} boxSize={5} color="gray.500" />
           }
           <Text ml="2" fontWeight="bold" fontSize="sm" color="gray.500">{postComments?.length || 0}</Text>
         </Box>
@@ -233,7 +246,8 @@ function PostCard({
                 <Box ml="2">
                   <Text fontWeight="bold" fontSize="sm">{firstName} {lastName}</Text>
                   <Text fontSize="xs" color="gray.500">
-                    <Moment fromNow>{updatedAt}</Moment>
+                    {/* <Moment fromNow>{updatedAt}</Moment> */}
+                    {format(new Date(updatedAt), 'yyyy/MM/dd')}
                   </Text>
                 </Box>
               </Flex>
