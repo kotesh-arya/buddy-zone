@@ -162,7 +162,7 @@ function Sidebar() {
                 {/* Logout button container */}
                 {/* <Box
                 as={Link}
-                to="/"
+                to="signin/"
                 onClick={() => {
                   dispatch(logOut());
                   toast.success("Successfully signed out!");

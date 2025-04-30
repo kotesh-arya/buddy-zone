@@ -2,35 +2,37 @@
   "name": "buddy-zone",
   "version": "0.1.0",
   "private": true,
+  "type":"module",
   "dependencies": {
     "@chakra-ui/icons": "^2.2.4",
     "@chakra-ui/react": "^2.3.1",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@reduxjs/toolkit": "^1.8.5",
+    "@vitejs/plugin-react-swc": "^3.9.0",
     "axios": "^0.27.2",
+    "date-fns": "^4.1.0",
     "dayjs": "^1.11.5",
     "firebase": "^11.2.0",
     "jwt-decode": "^3.1.2",
     "jwt-encode": "^1.0.1",
     "mockman-js": "^1.1.5",
-    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",
-    "react-moment": "^1.1.2",
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
-    "react-scripts": "^5.0.1",
     "react-toastify": "^11.0.3",
     "redux-persist": "^6.0.0",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "vite-plugin-svgr": "^4.3.0",
+    "vite-tsconfig-paths": "^5.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "vite",
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -46,5 +48,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.4.1",
+    "vite": "^6.3.4"
   }
 }

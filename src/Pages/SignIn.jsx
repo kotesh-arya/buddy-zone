@@ -68,7 +68,7 @@ function SignIn() {
 
   return (
     <Box height={"100vh"} backgroundColor={bgColor}>
-      <Navbar />
+      {/* <Navbar /> */}
       <Container maxW="container.xl" p={0}>
         <Flex
           h="90vh"
