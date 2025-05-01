@@ -30,12 +30,19 @@ function CommentContainer({ postId, commentId, username, text, votes, firstName,
   const dispatch = useDispatch();
   return (
     <Box
-      bg={bgColor}
+      // bg={bgColor}
       display={"flex"}
       flexDirection={"row"}
       justifyContent={"flex-start"}
       alignItems={"flex-start"}
       marginBottom={"15px"}
+      
+      bg="whiteAlpha.50"
+      backdropFilter="blur(20px)"
+      borderRadius="2xl"
+      boxShadow="lg"
+      border={"1px solid gray"}
+
     >
       <Box display={"flex"} alignItems={"center"} flexDirection={"row"}>
         <Avatar src="" name={username} marginRight={"15px"} />

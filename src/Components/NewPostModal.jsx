@@ -62,8 +62,13 @@ function NewPostModal({ fromBottom }) {
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
+        <ModalOverlay bg={"blackAlpha.800"} />
+        <ModalContent 
+          bg="whiteAlpha.300"
+          backdropFilter="blur(20px)"
+          borderRadius="2xl"
+          boxShadow="lg"
+          border={"1px solid gray"} >
           <ModalHeader>New Post</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
@@ -80,6 +85,7 @@ function NewPostModal({ fromBottom }) {
                   display={"flex"}
                   flexDir={"column"}
                   alignItems={"flex-end"}
+                  gap={4}
                 >
                   <Textarea
                     onChange={(e) =>
@@ -90,7 +96,7 @@ function NewPostModal({ fromBottom }) {
                     }
                     resize={"none"}
                   />{" "}
-                  <Icon as={RiImageAddLine} />
+                  {/* <Icon as={RiImageAddLine} /> */}
                   <Button
                     bg={"#08a0e9"}
                     color="white"

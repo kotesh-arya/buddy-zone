@@ -29,9 +29,17 @@ function Suggestionbar() {
           flexDirection="column"
           width="20rem"
           p="1.5rem"
-          bg={bgColor}
+          // bg={bgColor}
           // boxShadow={boxShadow}
-          borderRadius="12px"
+          // borderRadius="12px"
+
+          bg="whiteAlpha.300"
+          backdropFilter="blur(20px)"
+          borderRadius="2xl"
+          boxShadow="lg"
+          border={"1px solid gray"}
+
+
         >
           <VStack spacing={3} align="stretch">
             <Flex justifyContent="space-between" alignItems="center">

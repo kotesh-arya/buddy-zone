@@ -113,13 +113,23 @@ function PostCard({
   }, [sizes]);
   return (
     <Box
-      bg={cardBg}
-      boxShadow="lg"
-      borderRadius="12px"
+      // bg={cardBg}
+      // boxShadow="lg"
+      // borderRadius="12px"
       padding="2rem"
       marginY="1rem"
       width="100%"
       maxW="600px"
+      cursor={fromSinglePostPage ? "" :"pointer"}
+
+
+      bg="whiteAlpha.300"
+      backdropFilter="blur(20px)"
+      borderRadius="2xl"
+      boxShadow="lg"
+      border={"1px solid gray"}
+
+
       // as={Link}
       // to={`/post/${id}`}
       // border="2px solid red"
@@ -139,7 +149,7 @@ function PostCard({
             <Text fontWeight="bold" fontSize="lg">{firstName} {lastName}</Text>
             <Text fontSize="sm" color="gray.500">
               {/* <Moment fromNow>{updatedAt}</Moment> */}
-              {format(new Date(updatedAt), 'yyyy/MM/dd')}
+              {/* {format(new Date(updatedAt), 'yyyy/MM/dd')} */}
             </Text>
           </Box>
         </Flex>
@@ -235,19 +245,26 @@ function PostCard({
           }
           <Text ml="2" fontWeight="bold" fontSize="sm" color="gray.500">{postComments?.length || 0}</Text>
         </Box>
-        <Modal isOpen={isOpen} onClose={onClose} size="xl">
-          <ModalOverlay />
-          <ModalContent width="45vw">
+        <Modal isOpen={isOpen} onClose={onClose} size="xl" >
+          <ModalOverlay bg={"blackAlpha.800"} />
+          <ModalContent width="45vw"
+            bg="whiteAlpha.300"
+            backdropFilter="blur(20px)"
+            borderRadius="2xl"
+            boxShadow="lg"
+            border={"1px solid gray"}
+
+          >
             <ModalHeader>Comments</ModalHeader>
             <ModalCloseButton />
-            <ModalBody paddingY="2rem" >
+            <ModalBody paddingY="2rem"  >
               <Flex alignItems="center" mb="3">
                 <Avatar name={`${firstName} ${lastName}`} src={userImage} size="sm" />
                 <Box ml="2">
                   <Text fontWeight="bold" fontSize="sm">{firstName} {lastName}</Text>
                   <Text fontSize="xs" color="gray.500">
                     {/* <Moment fromNow>{updatedAt}</Moment> */}
-                    {format(new Date(updatedAt), 'yyyy/MM/dd')}
+                    {/* {format(new Date(updatedAt), 'yyyy/MM/dd')} */}
                   </Text>
                 </Box>
               </Flex>

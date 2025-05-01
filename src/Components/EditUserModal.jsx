@@ -50,8 +50,14 @@ function EditUserModal({ firstName, lastName, bio, website }) {
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
+        <ModalOverlay  bg={"blackAlpha.800"}  />
+        <ModalContent 
+           bg="whiteAlpha.300"
+           backdropFilter="blur(20px)"
+           borderRadius="2xl"
+           boxShadow="lg"
+           border={"1px solid gray"}
+        >
           <ModalHeader>Editing Profile</ModalHeader>
           <ModalCloseButton />
           <ModalBody>

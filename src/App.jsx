@@ -7,78 +7,99 @@ import { RequiresAuth } from "./RequiresAuth";
 import { ToastContainer } from "react-toastify";
 import { useSelector } from "react-redux";
 
-// import { getAllUsers } from "../src/features/users/usersSlice";
 import { useDispatch } from "react-redux";
 import { getUsers } from "./features/users/usersSlice";
 import { useEffect } from "react";
 import { getAllPosts } from "./features/post/postsSlice";
 import { getAllBookmarks } from "./features/bookmark/bookmarkSlice";
 import { getSingleUser } from "./features/users/singleUserSlice";
-function App() {
-  const { user } = useSelector((store) => store.auth);
+import { Box, useColorModeValue } from "@chakra-ui/react";
+import { Navbar } from "./Components/Navbar";
 
-  const userId = user?.userId; // Ensure we handle cases where userId is undefined
+function App() {
+  const bgColor = useColorModeValue("gray.50", "whiteAlpha.50");
+
+  const { user } = useSelector((store) => store.auth);
+  const userId = user?.userId;
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (userId) {
-      // Only fetch data if the user is logged in
       dispatch(getUsers());
       dispatch(getAllPosts());
       dispatch(getAllBookmarks(userId));
       dispatch(getSingleUser());
     }
-  }, [dispatch, userId]); // Effect runs only when userId is defined or changes
+  }, [dispatch, userId]);
 
   return (
-    <div className="App">
-      <ToastContainer />
-      <Routes>
-        <Route path="/" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route
-          path="/home"
-          element={
-            <RequiresAuth>
-              <Home />
-            </RequiresAuth>
-          }
-        />
-        <Route
-          path="/explore"
-          element={
-            <RequiresAuth>
-              <Explore />
-            </RequiresAuth>
-          }
-        />
-        <Route
-          path="/bookmarks"
-          element={
-            <RequiresAuth>
-              <Bookmarks />
-            </RequiresAuth>
-          }
-        />
-        <Route
-          path="/user/:userId"
-          element={
-            <RequiresAuth>
-              <Profile />
-            </RequiresAuth>
-          }
-        />
-        <Route
-          path="/post/:postId"
-          element={
-            <RequiresAuth>
-              <SinglePost />
-            </RequiresAuth>
-          }
-        />
-      </Routes>
-    </div>
+    <>
+    {/* <Navbar/> */}
+      {/* Blurred Background Image */}
+      <Box
+        position="fixed"
+        top={0}
+        left={0}
+        w="100vw"
+        h="100vh"
+        zIndex={-1}
+        backgroundImage="url('https://images.unsplash.com/photo-1527018266815-926d51b81f9a?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')"
+        // bg={bgColor}
+        backgroundSize="cover"
+        backgroundPosition="center"
+        filter="blur(90px)"
+      />
+
+      {/* Foreground App Content */}
+      <Box className="App" minH="100vh" overflow="auto">
+        <ToastContainer />
+        <Routes>
+          <Route path="/" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route
+            path="/home"
+            element={
+              <RequiresAuth>
+                <Home />
+              </RequiresAuth>
+            }
+          />
+          <Route
+            path="/explore"
+            element={
+              <RequiresAuth>
+                <Explore />
+              </RequiresAuth>
+            }
+          />
+          <Route
+            path="/bookmarks"
+            element={
+              <RequiresAuth>
+                <Bookmarks />
+              </RequiresAuth>
+            }
+          />
+          <Route
+            path="/user/:userId"
+            element={
+              <RequiresAuth>
+                <Profile />
+              </RequiresAuth>
+            }
+          />
+          <Route
+            path="/post/:postId"
+            element={
+              <RequiresAuth>
+                <SinglePost />
+              </RequiresAuth>
+            }
+          />
+        </Routes>
+      </Box>
+    </>
   );
 }
 
