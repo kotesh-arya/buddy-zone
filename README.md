@@ -21,7 +21,8 @@ Buddy Zone
 ## Desktop View
 ![image](https://user-images.githubusercontent.com/69259490/229952569-b194edc1-9c72-4719-bfb2-2eafd4cfdcf0.png)
 
-![image](https://user-images.githubusercontent.com/69259490/210151237-80ac5565-6f3c-46b7-ab9a-c76484ebe90e.png)
+![image](https://github.com/user-attachments/assets/46ccad71-5c29-461d-a6b8-1bc5a1891dad)
+
 
 ## Mobile view
 
@@ -48,10 +49,10 @@ User Profile Page          |  Bookmarks Page
 * CHAKRA-UI for components and styling.
 * React JS
 * React Router v6
-* React Context API + useReducer
-* Backend setup using <a href="https://mockbee.netlify.app/" traget="_blank">MockBee</a>
+* React Context API + useReducer.
+* Custom Backend server and firestore Database.
 * Used Async Await and Axios for API Request Calls.
-* Netlify for Deployment
+* Netlify for Deployment.
 * React Toastify for alerts.
 
 
