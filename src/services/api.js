@@ -3,7 +3,7 @@ import axios from "axios";
 const environment = process.env.NODE_ENV;
 
 const API_BASE_URL =
-  environment !== "development"
+  environment === "development"
     ? "http://localhost:3001/api/"
     : "https://buddy-zone-backend.onrender.com/api/";
 
