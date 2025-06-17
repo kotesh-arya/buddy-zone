@@ -16,8 +16,7 @@ import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../features/auth/authSlice";
 import { NewPostModal } from "./NewPostModal";
-import Logo from "../assets/buddy-zone-blue.png";
-import{ getAllBookmarks} from "../features/bookmark/bookmarkSlice"
+import Logo from "../assets/buddy-zone-blue.png"
 function Sidebar() {
   const dispatch = useDispatch();
   const {

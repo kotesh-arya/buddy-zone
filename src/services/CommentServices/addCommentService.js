@@ -1,11 +1,19 @@
-import api from "../api";
+import axios from "axios";
+const environment = process.env.NODE_ENV;
 
 export const addCommentService = async (postId, text) => {
-  try {
-    const response = await api.post("/comments", { postId, text });
-    return response;
-  } catch (error) {
-    console.error("Error adding comment:", error.response?.data || error.message);
-    throw error;
-  }
+
+  const API_BASE_URL =
+    environment === "development"
+      ? "http://localhost:3001/api/"
+      : "https://buddy-zone-backend.onrender.com/api/"; // Replace with your actual API URL
+
+  const response = await axios.post(
+    `${API_BASE_URL}comments`,
+    { postId, text },
+    {
+      withCredentials: true, // ✅ Ensures cookies (token) are sent
+    }
+  );
+  return response;
 };
