@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -20,16 +20,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { BottomNavigation } from "../Components/BottomNavigation";
 import EmptyIcon from "../assets/empty-inbox.png";
 import { getAllBookmarks } from "../features/bookmark/bookmarkSlice";
+import { getSinglePost } from "../features/post/singlePostSlice";
 
 function Bookmarks() {
+  const [detailedPosts, setDetailedPosts] = useState([]);
   const dispatch = useDispatch();
   const bgColor = useColorModeValue("rgba(255, 255, 255, 0.05)", "rgba(0, 0, 0, 0.3)");
   const {
     user: { userId },
   } = useSelector((store) => store.auth);
 
-  const { bookmarks, isLoading } = useSelector((store) => store.bookmark);
-
+  const { userBookmarks, isLoading } = useSelector((store) => store.bookmark);
   // useEffect(() => {
   //   let isMounted = true;
 
@@ -40,15 +41,31 @@ function Bookmarks() {
   //     isMounted = false;
   //   };
   // }, [userId, dispatch]);
-  // useEffect(() => {
-  //   dispatch(getAllBookmarks(userId));
-  // }, [userId])
+  useEffect(() => {
+    dispatch(getAllBookmarks(userId));
+  }, [userId]);
+
+  useEffect(() => {
+    const fetchDetailedPosts = async () => {
+      if (userBookmarks.length === 0) return;
+
+      const promises = userBookmarks.map((bookmark) =>
+        dispatch(getSinglePost(bookmark.postId)).unwrap().catch(() => null)
+      );
+
+      const results = await Promise.all(promises);
+      const filteredResults = results.filter((post) => post !== null);
+      setDetailedPosts(filteredResults);
+    };
+
+    fetchDetailedPosts();
+  }, [userBookmarks, dispatch]);
 
 
   return (
-    <Box 
-    // bg={useColorModeValue("gray.50", "gray.900")} 
-    minH="100vh">
+    <Box
+      // bg={useColorModeValue("gray.50", "gray.900")} 
+      minH="100vh">
       {/* <Navbar /> */}
 
       <Flex width="100%" flexDirection={{ base: "column", md: "row" }}>
@@ -113,8 +130,8 @@ function Bookmarks() {
                   <Skeleton height="150px" mt="4" />
                 </Box>
               ))
-            ) : bookmarks?.length > 0 ? (
-              bookmarks?.map((post) => <PostCard key={post.id} {...post} />)
+            ) : userBookmarks?.length > 0 ? (
+              detailedPosts.map((post) => <PostCard key={post.id} {...post} />)
             ) : (
               <Flex direction="column" alignItems="center" justifyContent="center" minH="50vh" textAlign="center">
                 <Image src={EmptyIcon} alt="empty-box" boxSize="50%" mb={4} />
