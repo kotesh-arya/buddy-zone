@@ -123,6 +123,7 @@ const deleteComment = createAsyncThunk(
 const deleteCommentsOfPost = createAsyncThunk(
   "singlePost/deleteCommentsOfPost",
   async ({ postId }, { rejectWithValue }) => {
+    console.log("post-id of all comments to be deleted", postId);
     try {
       await deleteCommentsofPostService(postId);
       return {};

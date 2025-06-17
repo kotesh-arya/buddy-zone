@@ -50,6 +50,7 @@ import {
 import { EditPostModal } from "./EditPostModal";
 import {
   bookmarkPost,
+  getAllBookmarks,
   removePostFromBookmark,
 } from "../features/bookmark/bookmarkSlice";
 import { toast } from "react-toastify";
@@ -86,7 +87,6 @@ function PostCard({
     text: "",
   });
 
-
   const cardBg = useColorModeValue("white", "gray.700");
   const textColor = useColorModeValue("gray.700", "gray.200");
   const borderColor = useColorModeValue("gray.200", "gray.700");
@@ -99,13 +99,13 @@ function PostCard({
   const postBookmarkCount = allPostBookmarkCount[id];
   const postComments = postsComments[id] || [];
   useEffect(() => {
+    console.log("post id from the post component", id);
     dispatch(getSinglePostComments(id));
   }, [id, dispatch]);
 
 
   const sizes = ["xs", "sm", "md", "lg", "xl", "2xl"];
   const [size, setSize] = useState(sizes[2]); // Default to "md"
-  console.log(size);
   useEffect(() => {
     const width = window.innerWidth;
     const index = Math.min(Math.floor(width / 320), sizes.length - 1);
@@ -173,6 +173,7 @@ function PostCard({
                   onClick={async (e) => {
                     e.stopPropagation();
                     try {
+                      console.log("id of post to be deleted", id);
                       setDeleteLoading(true);
                       await dispatch(deletePost({ postId: id })).unwrap();
                       await dispatch(deleteCommentsOfPost({ postId: id })).unwrap();
@@ -338,6 +339,7 @@ function PostCard({
                   toast.success("Post Removed from bookmarks");
                 } else {
                   await dispatch(bookmarkPost({ postId: id, userId: userId })).unwrap();
+                  dispatch(getAllBookmarks(userId));
                   toast.success("Post Added to bookmarks");
                 }
               }

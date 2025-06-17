@@ -1,20 +1,6 @@
-import axios from "axios";
-const environment = process.env.NODE_ENV;
-
+import api from "../api"; // Adjust the import path as needed
 
 export const disLikePostService = async (postId, userId) => {
- 
-  const API_BASE_URL =
-    environment === "development"
-      ? "http://localhost:3001/api/"
-      : "https://buddy-zone-backend.onrender.com/api/"; // Replace with your actual API URL
-
-  const response = await axios.post(
-    `${API_BASE_URL}posts/${postId}/dislike`,
-    { userId },
-    {
-      withCredentials: true, // ✅ Ensures cookies (token) are sent
-    }
-  );
+  const response = await api.post(`posts/${postId}/dislike`, { userId });
   return response;
 };

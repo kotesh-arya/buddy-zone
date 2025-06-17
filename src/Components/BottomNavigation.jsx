@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 // import { getSingleUser, getUserPosts } from "../features/users/singleUserSlice";
 import { NewPostModal } from "./NewPostModal";
 import { logOut } from "../features/auth/authSlice";
+import { getAllBookmarks } from "../features/bookmark/bookmarkSlice";
 
 function BottomNavigation() {
   const bgColor = useColorModeValue("gray.50", "gray.900");
