@@ -50,6 +50,7 @@ import {
 import { EditPostModal } from "./EditPostModal";
 import {
   bookmarkPost,
+  getAllBookmarks,
   removePostFromBookmark,
 } from "../features/bookmark/bookmarkSlice";
 import { toast } from "react-toastify";
@@ -86,7 +87,6 @@ function PostCard({
     text: "",
   });
 
-
   const cardBg = useColorModeValue("white", "gray.700");
   const textColor = useColorModeValue("gray.700", "gray.200");
   const borderColor = useColorModeValue("gray.200", "gray.700");
@@ -99,13 +99,13 @@ function PostCard({
   const postBookmarkCount = allPostBookmarkCount[id];
   const postComments = postsComments[id] || [];
   useEffect(() => {
+    console.log("post id from the post component", id);
     dispatch(getSinglePostComments(id));
   }, [id, dispatch]);
 
 
   const sizes = ["xs", "sm", "md", "lg", "xl", "2xl"];
   const [size, setSize] = useState(sizes[2]); // Default to "md"
-  console.log(size);
   useEffect(() => {
     const width = window.innerWidth;
     const index = Math.min(Math.floor(width / 320), sizes.length - 1);
@@ -113,13 +113,23 @@ function PostCard({
   }, [sizes]);
   return (
     <Box
-      bg={cardBg}
-      boxShadow="lg"
-      borderRadius="12px"
+      // bg={cardBg}
+      // boxShadow="lg"
+      // borderRadius="12px"
       padding="2rem"
       marginY="1rem"
       width="100%"
       maxW="600px"
+      cursor={fromSinglePostPage ? "" :"pointer"}
+
+
+      bg="whiteAlpha.300"
+      backdropFilter="blur(20px)"
+      borderRadius="2xl"
+      boxShadow="lg"
+      border={"1px solid gray"}
+
+
       // as={Link}
       // to={`/post/${id}`}
       // border="2px solid red"
@@ -139,7 +149,7 @@ function PostCard({
             <Text fontWeight="bold" fontSize="lg">{firstName} {lastName}</Text>
             <Text fontSize="sm" color="gray.500">
               {/* <Moment fromNow>{updatedAt}</Moment> */}
-              {format(new Date(updatedAt), 'yyyy/MM/dd')}
+              {/* {format(new Date(updatedAt), 'yyyy/MM/dd')} */}
             </Text>
           </Box>
         </Flex>
@@ -163,6 +173,7 @@ function PostCard({
                   onClick={async (e) => {
                     e.stopPropagation();
                     try {
+                      console.log("id of post to be deleted", id);
                       setDeleteLoading(true);
                       await dispatch(deletePost({ postId: id })).unwrap();
                       await dispatch(deleteCommentsOfPost({ postId: id })).unwrap();
@@ -235,19 +246,26 @@ function PostCard({
           }
           <Text ml="2" fontWeight="bold" fontSize="sm" color="gray.500">{postComments?.length || 0}</Text>
         </Box>
-        <Modal isOpen={isOpen} onClose={onClose} size="xl">
-          <ModalOverlay />
-          <ModalContent width="45vw">
+        <Modal isOpen={isOpen} onClose={onClose} size="xl" >
+          <ModalOverlay bg={"blackAlpha.800"} />
+          <ModalContent width="45vw"
+            bg="whiteAlpha.300"
+            backdropFilter="blur(20px)"
+            borderRadius="2xl"
+            boxShadow="lg"
+            border={"1px solid gray"}
+
+          >
             <ModalHeader>Comments</ModalHeader>
             <ModalCloseButton />
-            <ModalBody paddingY="2rem" >
+            <ModalBody paddingY="2rem"  >
               <Flex alignItems="center" mb="3">
                 <Avatar name={`${firstName} ${lastName}`} src={userImage} size="sm" />
                 <Box ml="2">
                   <Text fontWeight="bold" fontSize="sm">{firstName} {lastName}</Text>
                   <Text fontSize="xs" color="gray.500">
                     {/* <Moment fromNow>{updatedAt}</Moment> */}
-                    {format(new Date(updatedAt), 'yyyy/MM/dd')}
+                    {/* {format(new Date(updatedAt), 'yyyy/MM/dd')} */}
                   </Text>
                 </Box>
               </Flex>
@@ -321,6 +339,7 @@ function PostCard({
                   toast.success("Post Removed from bookmarks");
                 } else {
                   await dispatch(bookmarkPost({ postId: id, userId: userId })).unwrap();
+                  dispatch(getAllBookmarks(userId));
                   toast.success("Post Added to bookmarks");
                 }
               }

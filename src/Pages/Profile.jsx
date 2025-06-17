@@ -38,8 +38,10 @@ function Profile() {
     }
   }, [dispatch, userId]);
   return (
-    <Box bg={useColorModeValue("gray.50", "gray.900")} minH="100vh">
-      <Navbar />
+    <Box 
+    // bg={useColorModeValue("gray.50", "gray.900")} 
+    minH="100vh">
+      {/* <Navbar /> */}
 
       <Flex width="100%" flexDirection={{ base: "column", md: "row" }} justifyContent={{ md: "center" }} maxW="1200px" mx="auto">
         {/* Sidebar */}
@@ -77,8 +79,8 @@ function Profile() {
           {/* User Info */}
           <VStack spacing={4} mt="50px" textAlign="center">
             <Heading>{userProfile?.firstName} {userProfile?.lastName}</Heading>
-            <Text fontSize="lg" color="gray.600">@{userProfile?.username}</Text>
-            <Text fontSize="md">{following.length} Following | {followers.length} Followers</Text>
+            <Text fontSize="lg" color="gray.400">@{userProfile?.username}</Text>
+            <Text fontSize="md">{following?.length} Following | {followers?.length} Followers</Text>
             {userProfile?.website && (
               <Text fontSize="md">
                 Website: <Link to={userProfile.website} target="_blank" color="blue.500">{userProfile.website}</Link>

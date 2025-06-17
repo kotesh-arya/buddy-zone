@@ -25,8 +25,10 @@ function Explore() {
   const { posts, isLoading } = useSelector((store) => store.posts);
 
   return (
-    <Box bg={useColorModeValue("gray.50", "gray.900")} minH="100vh">
-      <Navbar />
+    <Box 
+    // bg={useColorModeValue("gray.50", "gray.900")} 
+    minH="100vh">
+      {/* <Navbar /> */}
 
       <Flex width="100%" flexDirection={{ base: "column", md: "row" }}>
         {/* Sidebar */}

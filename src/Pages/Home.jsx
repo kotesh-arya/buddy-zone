@@ -39,8 +39,10 @@ function Home() {
     }
   });
   return (
-    <Box bg={useColorModeValue("gray.50", "gray.900")} minH="100vh">
-      <Navbar />
+    <Box 
+    // bg={useColorModeValue("gray.50", "gray.900")} 
+    minH="100vh">
+      {/* <Navbar /> */}
 
       <Flex
         width="100%"

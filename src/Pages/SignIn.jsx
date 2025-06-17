@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  Container,
   Flex,
   Heading,
   FormControl,
@@ -10,17 +9,15 @@ import {
   Button,
   InputGroup,
   InputRightElement,
-  useColorModeValue,Spinner
+  Spinner
 } from "@chakra-ui/react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { logIn } from "../features/auth/authSlice";
 import { useDispatch } from "react-redux";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { toast } from "react-toastify";
-import { Navbar } from "../Components/Navbar";
 
 function SignIn() {
-  const bgColor = useColorModeValue("gray.50", "whiteAlpha.50");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -28,9 +25,7 @@ function SignIn() {
   const [user, setUser] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
 
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
-  };
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
   const userInputHandler = (e) => {
     const { name, value } = e.target;
@@ -56,7 +51,6 @@ function SignIn() {
         throw new Error("Invalid credentials! Please try again.");
       }
 
-      // No need to manually store data in localStorage; redux-persist handles it
       toast.success("Sign-in successful!");
       navigate(location.state?.from?.pathname || "/home");
     } catch (error) {
@@ -67,101 +61,112 @@ function SignIn() {
   };
 
   return (
-    <Box height={"100vh"} backgroundColor={bgColor}>
-      {/* <Navbar /> */}
-      <Container maxW="container.xl" p={0}>
-        <Flex
-          h="90vh"
-          paddingTop={"7rem"}
-          justifyContent="center"
-          alignItems={"center"}
-        >
-          <Flex
-            borderRadius={20}
-            w={{ base: "20rem", md: "25rem", lg: "28rem" }}
-            display={"flex"}
-            padding={"1rem 2rem"}
-            flexDirection={"column"}
-            alignItems="center"
-            bg="whiteAlpha.100"
-            backdropFilter="blur(20px)"
-            boxShadow="0 4px 15px rgba(0, 0, 0, 0.2)"
-          >
-            <Heading size="xl" marginX={"auto"} marginY="3">
-              Signin
-            </Heading>
-            <form onSubmit={(e) => e.preventDefault()}>
-              <Box
-                alignItems={"center"}
-                display={"flex"}
-                flexDirection={"column"}
-                width="100%"
-              >
-                <FormControl>
-                  <FormLabel>Email</FormLabel>
-                  <Input
-                    type="text"
-                    name="email"
-                    value={user.email}
-                    onChange={userInputHandler}
-                    placeholder="Enter your email"
-                  />
-                </FormControl>
+    <Flex
+      height="100vh"
+      justifyContent="center"
+      alignItems="center"
 
-                <FormControl>
-                  <FormLabel>Password</FormLabel>
-                  <InputGroup>
-                    <Input
-                      type={showPassword ? "text" : "password"}
-                      name="password"
-                      value={user.password}
-                      onChange={userInputHandler}
-                      placeholder="********"
-                    />
-                    <InputRightElement>
-                      <Button
-                        size="sm"
-                        onClick={togglePasswordVisibility}
-                        bg="transparent"
-                        _hover={{ bg: "transparent" }}
-                      >
-                        {showPassword ? <ViewOffIcon /> : <ViewIcon />}
-                      </Button>
-                    </InputRightElement>
-                  </InputGroup>
-                </FormControl>
+    >
 
-                <Box width={"100%"} padding={"1rem 0"} marginTop={"2rem"}>
+
+      {/* Optional dark overlay: makes the white text visible  */}
+      <Box
+        position="absolute"
+        top={0}
+        left={0}
+        w="100%"
+        h="100%"
+        bg="blackAlpha.600"
+        zIndex={-1}
+      />
+
+      {/* Glassmorphic form box */}
+      <Flex
+        w={{ base: "20rem", md: "25rem", lg: "28rem" }}
+        flexDirection="column"
+        alignItems="center"
+        p="2rem"
+        borderRadius="2xl"
+        bg="whiteAlpha.300"
+        backdropFilter="blur(20px)"
+        boxShadow="0 4px 30px rgba(0, 0, 0, 0.3)"
+        border={"1px solid gray"}
+      >
+        <Heading size="xl" mb="6" color="white">
+          Sign in
+        </Heading>
+        <form onSubmit={(e) => e.preventDefault()} style={{ width: "100%" }}>
+          <Box display="flex" flexDirection="column" gap="4">
+            <FormControl>
+              <FormLabel color="white">Email</FormLabel>
+              <Input
+                type="text"
+                name="email"
+                value={user.email}
+                onChange={userInputHandler}
+                placeholder="Enter your email"
+              />
+            </FormControl>
+
+            <FormControl>
+              <FormLabel color="white">Password</FormLabel>
+              <InputGroup>
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={user.password}
+                  onChange={userInputHandler}
+                  placeholder="********"
+                />
+                <InputRightElement>
                   <Button
-                    bg={loginLoading ? "gray.500" : "#08a0e9"}
-                    _hover={{ bg: loginLoading ? "gray.500" : "#08a0e9" }}
-                    color="white"
-                    width={"100%"}
-                    marginBottom={"1rem"}
-                    onClick={() => loginHandler(user)}
-                    isDisabled={loginLoading}
+                    size="sm"
+                    onClick={togglePasswordVisibility}
+                    bg="transparent"
+                    _hover={{ bg: "transparent" }}
                   >
-                    {loginLoading ?  <Spinner size="lg" color="white.900" />
- : "Signin"}
+                    {showPassword ? <ViewOffIcon /> : <ViewIcon />}
                   </Button>
+                </InputRightElement>
+              </InputGroup>
+            </FormControl>
 
-                  <Button
-                    as={Link}
-                    to="/signup"
-                    outline={"1px #08a0e9"}
-                    variant="outline"
-                    color="#08a0e9"
-                    width={"100%"}
-                  >
-                    Don't have an Account? Signup
-                  </Button>
-                </Box>
-              </Box>
-            </form>
-          </Flex>
-        </Flex>
-      </Container>
-    </Box>
+            <Button
+              bgGradient="linear(to-r, #08a0e9, #00c9ff)"
+              _hover={{
+                boxShadow: "0 0 5px #08a0e9, 0 0 10px #00c9ff",
+                transform: "scale(1.02)",
+              }}
+              _active={{
+                boxShadow: "0 0 25px #08a0e9, 0 0 50px #00c9ff",
+              }}
+              color="white"
+              width="100%"
+              mt="6"
+              onClick={() => loginHandler(user)}
+              isDisabled={loginLoading}
+              transition="all 0.3s ease-in-out"
+            >
+              {loginLoading ? <Spinner size="lg" color="white.900" /> : "Sign in"}
+            </Button>
+
+
+            <Button
+              as={Link}
+              to="/signup"
+              variant="outline"
+              color="#08a0e9"
+              borderColor="#08a0e9"
+              width="100%"
+              _hover={{ bg: "blue.50" }}
+
+            >
+              Don't have an Account? Signup
+            </Button>
+          </Box>
+        </form>
+      </Flex>
+    </Flex>
   );
 }
 

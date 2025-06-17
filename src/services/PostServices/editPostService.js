@@ -1,12 +1,6 @@
-import axios from "axios";
+import api from "../api"; // Adjust path as needed
 
 export const editPostService = async (postId, postData) => {
-  const response = await axios.put(
-    `http://localhost:3001/api/posts/${postId}`,
-    { postData },
-    {
-      withCredentials: true, // ✅ Ensures cookies (token) are sent
-    }
-  );
+  const response = await api.put(`posts/${postId}`, { postData }); // ✅ No need to wrap postData again
   return response;
 };

@@ -1,11 +1,6 @@
-import axios from "axios";
+import api from "../api"; 
 
-export const deletePostService = async (postId, token) => {
-  const response = await axios.delete(
-    `http://localhost:3001/api/posts/${postId}`,
-    {
-      withCredentials: true, // ✅ Ensures cookies (token) are sent
-    }
-  );
+export const deletePostService = async (postId) => {
+  const response = await api.delete(`posts/${postId}`);
   return response;
 };

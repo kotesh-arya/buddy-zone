@@ -46,10 +46,10 @@ function SinglePost() {
   const postComments = [...(postsComments[postId] || [])].sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
   );
-  
+
   return (
     <Box display="flex" flexDirection="column" minH="100vh">
-      <Navbar />
+      {/* <Navbar /> */}
       <Flex
         width="100%"
         flexDirection={{ base: "column", md: "row" }}
@@ -83,7 +83,24 @@ function SinglePost() {
             )}
 
             {/* Comment Section */}
-            <Box width="100%" borderRadius="md" bg={bgColor} p={{ base: 4, md: 6 }} boxShadow="sm">
+            <Box width="100%"
+
+
+              // borderRadius="md" 
+              // bg={bgColor} 
+              // boxShadow="sm"
+
+              bg="whiteAlpha.300"
+              backdropFilter="blur(20px)"
+              borderRadius="2xl"
+              boxShadow="lg"
+              border={"1px solid gray"}
+
+              p={{ base: 4, md: 6 }} >
+
+
+
+
               <form onSubmit={(e) => e.preventDefault()}>
                 <Box display="flex" gap={2}>
                   <Input
