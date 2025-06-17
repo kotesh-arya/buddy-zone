@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Flex,
   Heading,
@@ -13,11 +13,12 @@ import {
 } from "@chakra-ui/react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { logIn } from "../features/auth/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { toast } from "react-toastify";
 
 function SignIn() {
+  const { isLoggedIn } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -59,6 +60,17 @@ function SignIn() {
       setLoginLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/home", { replace: true }); // 👈 Replaces history to block back navigation
+    }
+  }, [isLoggedIn, navigate]);
+
+
+  if (isLoggedIn) {
+    return null; // Already redirected
+  }
 
   return (
     <Flex
